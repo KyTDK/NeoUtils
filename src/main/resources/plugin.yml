@@ -1,0 +1,8 @@
+name: NeoUtils
+version: '${project.version}'
+main: com.neomechanical.neoutils.NeoUtils
+authors: [ NeoDevs ]
+description: Tools for developers and server owners
+website: https://neomechanical.com
+api-version: 1.13
+default-permission: op
