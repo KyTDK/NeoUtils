@@ -17,7 +17,6 @@ public class CommandManager implements CommandExecutor, TabCompleter{
     private String errorNoPermission = "You do not have permission to use this command!";
     private String errorCommandNotFound = "Command not found!";
     @SuppressWarnings("unused")
-
     public CommandManager(SubCommand... subcommandsPass) {
         Collections.addAll(this.subcommands, subcommandsPass);
     }
