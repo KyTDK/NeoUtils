@@ -1,6 +1,7 @@
 package com.neomechanical.neoutils.commandManager;
 
 import com.neomechanical.neoutils.messages.MessageUtil;
+import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -16,6 +17,7 @@ public class CommandManager implements CommandExecutor, TabCompleter{
     private String errorNotPlayer = "You must be a player to use this command!";
     private String errorNoPermission = "You do not have permission to use this command!";
     private String errorCommandNotFound = "Command not found!";
+    private BukkitAudiences adventure;
     @SuppressWarnings("unused")
     public CommandManager(SubCommand... subcommandsPass) {
         Collections.addAll(this.subcommands, subcommandsPass);
@@ -40,36 +42,40 @@ public class CommandManager implements CommandExecutor, TabCompleter{
     public void registerSubCommand(SubCommand subcommand) {
         subcommands.add(subcommand);
     }
+    @SuppressWarnings("unused")
+    public void setAudiences(BukkitAudiences adventure) {
+        this.adventure = adventure;
+    }
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
             if (args.length > 0) {
                     for (int i = 0; i < getSubcommands().size(); i++) {
                         if (args[0].equalsIgnoreCase(getSubcommands().get(i).getName())) {
                             if (getSubcommands().get(i).playerOnly() && !(sender instanceof Player)) {
-                                MessageUtil.sendMM(sender, errorNotPlayer);
+                                MessageUtil.sendMM(adventure, sender, errorNotPlayer);
                                 return true;
                             }
                             if (sender.hasPermission(getSubcommands().get(i).getPermission())) {
                                 getSubcommands().get(i).perform(sender, args);
                             } else {
-                                MessageUtil.sendMM(sender, errorNoPermission);
+                                MessageUtil.sendMM(adventure, sender, errorNoPermission);
                             }
                             return true;
                         }
                     }
                     //If the command is not found, send a message to the player
-                MessageUtil.sendMM(sender, errorCommandNotFound);
+                MessageUtil.sendMM(adventure, sender, errorCommandNotFound);
                     return true;
                 }
                 else {
                 if (mainCommand.playerOnly() && !(sender instanceof Player)) {
-                    MessageUtil.sendMM(sender, errorNotPlayer);
+                    MessageUtil.sendMM(adventure, sender, errorNotPlayer);
                     return true;
                 }
                 if (sender.hasPermission(mainCommand.getPermission())) {
                     mainCommand.perform(sender, args);
                 } else {
-                    MessageUtil.sendMM(sender, errorNoPermission);
+                    MessageUtil.sendMM(adventure, sender, errorNoPermission);
                 }
             }
 

@@ -2,6 +2,7 @@ package com.neomechanical.neoutils.messages;
 
 import com.neomechanical.neoutils.NeoUtils;
 import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -48,10 +49,10 @@ public final class MessageUtil {
         player.sendMessage(parsed);
     }
 
-    public static void sendMM(CommandSender sendTo, String msg) {
+    public static void sendMM(BukkitAudiences adventure, CommandSender sendTo, String msg) {
         var mm = MiniMessage.miniMessage();
         Component parsed = mm.deserialize(msg);
-        Audience player = NeoUtils.adventure().sender(sendTo);
+        Audience player = adventure.sender(sendTo);
         player.sendMessage(parsed);
     }
 
