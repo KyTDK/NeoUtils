@@ -7,6 +7,7 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -14,7 +15,7 @@ import java.util.List;
 public class InventoryGUI implements NInventory {
     private @NotNull final Inventory inventory;
     private @NotNull final String key;
-    private @NotNull final List<InventoryItem> inventoryItems;
+    private final List<InventoryItem> inventoryItems = new ArrayList<>();
 
     @Override
     public int getSize() {
