@@ -2,7 +2,6 @@ package com.neomechanical.neoutils.inventory.managers;
 
 import com.neomechanical.neoutils.inventory.managers.data.InventoryGUI;
 import com.neomechanical.neoutils.inventory.managers.data.InventoryItem;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -19,7 +18,7 @@ public class InventoryManager {
     @Nullable
     public InventoryItem getMenuItem(InventoryGUI inventoryGUI, @NotNull ItemStack item) {
         for (InventoryItem menuItem : inventoryGUI.getInventoryItems()) {
-            if (menuItem.getItem().isSimilar(item)) {
+            if (menuItem.getItem()==item) {
                 return menuItem;
             }
         }
