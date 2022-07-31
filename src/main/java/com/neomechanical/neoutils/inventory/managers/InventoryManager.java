@@ -7,12 +7,10 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 public class InventoryManager {
-    private final Map<String, InventoryGUI> stringGuiMap = new HashMap<>();
     private final Map<Inventory, InventoryGUI> inventoryGuiMap = new HashMap<>();
 
     @Nullable
@@ -27,33 +25,19 @@ public class InventoryManager {
     public boolean isGUI(Inventory inventory) {
         return inventoryGuiMap.containsKey(inventory);
     }
-
-    @Nullable
-    public String getKey(@Nullable Inventory inventory) {
-        if (inventory == null) {
-            return null;
-        }
-        InventoryGUI gui = this.getInventoryGUI(inventory);
-        return gui == null ? null : gui.getKey();
-    }
     /**
      * Get the inventory GUI from an id.
      *
-     * @param inventoryId the inventory id
+     * @param inventory the inventory
      * @return the shop GUI
      */
-    @Nullable
-    public InventoryGUI getInventoryGUI(@NotNull String inventoryId) {
-        return stringGuiMap.get(inventoryId);
-    }
 
     @Nullable
     public InventoryGUI getInventoryGUI(@NotNull Inventory inventory) {
         return inventoryGuiMap.get(inventory);
     }
 
-    public void put(@NotNull String menuId, @NotNull InventoryGUI gui) {
-        stringGuiMap.put(menuId, gui);
+    public void put(@NotNull InventoryGUI gui) {
         inventoryGuiMap.put(gui.getInventory(), gui);
     }
 }

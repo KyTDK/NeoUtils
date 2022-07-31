@@ -18,18 +18,18 @@ public class InventoryUtil {
     public static void setInventoryManager(InventoryManager inventoryManager) {
         InventoryUtil.inventoryManager = inventoryManager;
     }
-    public static void registerGUI(String inventoryId, InventoryGUI inventoryGUI) {
-        inventoryManager.put(inventoryId, inventoryGUI);
+    public static void registerGUI(InventoryGUI inventoryGUI) {
+        inventoryManager.put(inventoryGUI);
     }
     public static void init(JavaPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(new InventoryFunctionality(), plugin);
         setInventoryManager(new InventoryManager());
     }
-    public static InventoryGUI createInventoryGUI(@Nullable InventoryHolder owner, String inventoryId, int rows) {
-        return new InventoryGUI(Bukkit.createInventory(owner, rows), inventoryId);
+    public static InventoryGUI createInventoryGUI(@Nullable InventoryHolder owner, int rows) {
+        return new InventoryGUI(Bukkit.createInventory(owner, rows));
     }
-    public static InventoryGUI createInventoryGUI(@Nullable InventoryHolder owner, String inventoryId, int rows, String title) {
-        return new InventoryGUI(Bukkit.createInventory(owner, rows, title), inventoryId);
+    public static InventoryGUI createInventoryGUI(@Nullable InventoryHolder owner, int rows, String title) {
+        return new InventoryGUI(Bukkit.createInventory(owner, rows, title));
     }
     public static void openInventory(Player player, InventoryGUI inventoryGUI) {
         player.openInventory(inventoryGUI.getInventory());
