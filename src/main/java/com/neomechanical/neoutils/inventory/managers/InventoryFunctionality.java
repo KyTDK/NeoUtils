@@ -15,7 +15,7 @@ public class InventoryFunctionality implements Listener {
         Inventory inventory = event.getInventory();
         Player player = (Player) event.getWhoClicked();
         InventoryManager inventoryManager = InventoryUtil.getInventoryManager();
-        if (inventoryManager.isGUI(inventory)) {
+        if (!inventoryManager.isGUI(inventory)) {
             return;
         }
         event.setCancelled(true);
