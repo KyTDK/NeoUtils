@@ -28,6 +28,9 @@ public class InventoryUtil {
     public static InventoryGUI createInventoryGUI(@Nullable InventoryHolder owner, String inventoryId, int rows) {
         return new InventoryGUI(Bukkit.createInventory(owner, rows), inventoryId);
     }
+    public static InventoryGUI createInventoryGUI(@Nullable InventoryHolder owner, String inventoryId, int rows, String title) {
+        return new InventoryGUI(Bukkit.createInventory(owner, rows, title), inventoryId);
+    }
     public static void openInventory(Player player, InventoryGUI inventoryGUI) {
         player.openInventory(inventoryGUI.getInventory());
     }
