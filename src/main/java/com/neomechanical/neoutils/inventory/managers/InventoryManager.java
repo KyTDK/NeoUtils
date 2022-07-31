@@ -18,7 +18,7 @@ public class InventoryManager {
     @Nullable
     public InventoryItem getMenuItem(InventoryGUI inventoryGUI, @NotNull ItemStack item) {
         for (InventoryItem menuItem : inventoryGUI.getInventoryItems()) {
-            if (menuItem.getItem()==item) {
+            if (menuItem.getItem().equals(item)) {
                 return menuItem;
             }
         }
