@@ -13,7 +13,6 @@ public class InventoryFunctionality implements Listener {
     @EventHandler
     public void onClick(InventoryClickEvent event) {
         Inventory inventory = event.getInventory();
-        Player player = (Player) event.getWhoClicked();
         InventoryManager inventoryManager = InventoryUtil.getInventoryManager();
         if (!inventoryManager.isGUI(inventory)) {
             return;
@@ -33,12 +32,6 @@ public class InventoryFunctionality implements Listener {
         }
         if (menuItem.getAction() != null) {
             menuItem.getAction().action((Player) event.getWhoClicked());
-        }
-        if (menuItem.getOpens() != null) {
-            InventoryGUI inventoryToOpen = inventoryManager.getInventoryGUI(menuItem.getOpens());
-            if (inventoryToOpen != null) {
-                player.openInventory(inventoryToOpen.getInventory());
-            }
         }
     }
 }
