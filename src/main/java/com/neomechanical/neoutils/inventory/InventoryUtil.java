@@ -25,11 +25,8 @@ public class InventoryUtil {
         plugin.getServer().getPluginManager().registerEvents(new InventoryFunctionality(), plugin);
         setInventoryManager(new InventoryManager());
     }
-    public static InventoryGUI createInventoryGUI(@Nullable InventoryHolder owner, int rows) {
-        return new InventoryGUI(Bukkit.createInventory(owner, rows));
-    }
     public static InventoryGUI createInventoryGUI(@Nullable InventoryHolder owner, int rows, String title) {
-        return new InventoryGUI(Bukkit.createInventory(owner, rows, title));
+        return new InventoryGUI(Bukkit.createInventory(owner, rows, title), title);
     }
     public static void openInventory(Player player, InventoryGUI inventoryGUI) {
         player.openInventory(inventoryGUI.getInventory());
