@@ -40,9 +40,11 @@ public class InventoryGUI implements NInventory {
     @Override
     public void addItem(@NotNull InventoryItem... items) throws IllegalArgumentException {
         for (InventoryItem item : items) {
+            inventoryItems.add(item);
+            inventory.addItem(item.getItem());
             if (getContents().length+1 > getSize()) {
-                inventory.setItem(48, ItemUtil.createItem(Material.DARK_OAK_BUTTON, ChatColor.GREEN + "Left"));
-                inventory.setItem(50, ItemUtil.createItem(Material.DARK_OAK_BUTTON, ChatColor.GREEN + "Right"));
+                inventory.setItem(getSize()-10, ItemUtil.createItem(Material.DARK_OAK_BUTTON, ChatColor.GREEN + "Left"));
+                inventory.setItem(getSize()-1, ItemUtil.createItem(Material.DARK_OAK_BUTTON, ChatColor.GREEN + "Right"));
                 List<InventoryItem> carryOver = new ArrayList<>();
                 for (int i = 0; i < getSize()-8; i++) {
                     carryOver.add(getItem(i));
@@ -52,8 +54,6 @@ public class InventoryGUI implements NInventory {
                     newPage.setItem(i, carryOver.get(i));
                 }
             }
-            inventoryItems.add(item);
-            inventory.addItem(item.getItem());
         }
     }
 
