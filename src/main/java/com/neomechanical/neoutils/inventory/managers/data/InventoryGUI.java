@@ -1,6 +1,5 @@
 package com.neomechanical.neoutils.inventory.managers.data;
 
-import com.neomechanical.neoutils.inventory.InventoryUtil;
 import com.neomechanical.neoutils.inventory.NInventory;
 import lombok.Data;
 import org.bukkit.inventory.Inventory;
@@ -14,7 +13,6 @@ import java.util.List;
 @Data
 public class InventoryGUI implements NInventory {
     private @NotNull final Inventory inventory;
-    private @NotNull final List<InventoryGUI> pages = new ArrayList<>();
     private final List<InventoryItem> inventoryItems = new ArrayList<>();
 
     @Override
@@ -37,11 +35,6 @@ public class InventoryGUI implements NInventory {
     @Override
     public void addItem(@NotNull InventoryItem... items) throws IllegalArgumentException {
         for (InventoryItem item : items) {
-            // Page is full, automatically create a new page.
-            if (inventoryItems.size() == 54) {
-                pages.add(new InventoryGUI(InventoryUtil.createInventoryGUI(null, 54)));
-                inventoryItems.clear();
-            }
             inventoryItems.add(item);
             inventory.addItem(item.getItem());
         }
