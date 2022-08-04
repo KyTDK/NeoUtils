@@ -49,7 +49,10 @@ public class InventoryGUI implements NInventory {
                 inventory.setItem(getSize()-1, ItemUtil.createItem(Material.DARK_OAK_BUTTON, ChatColor.GREEN + "Right"));
                 List<InventoryItem> carryOver = new ArrayList<>();
                 for (int i = 0; i < getSize()-8; i++) {
-                    carryOver.add(getItem(i));
+                    ItemStack itemCO = inventory.getItem(i);
+                    if (itemCO != null) {
+                        carryOver.add(InventoryUtil.getInventoryManager().getMenuItem(this, itemCO));
+                    }
                 }
                 InventoryGUI newPage = InventoryUtil.createInventoryGUI(null, getSize(), title);
                 for (int i = 0; i < carryOver.size(); i++) {
