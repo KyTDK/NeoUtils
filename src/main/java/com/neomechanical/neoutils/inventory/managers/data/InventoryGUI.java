@@ -56,7 +56,9 @@ public class InventoryGUI implements NInventory {
                 InventoryGUI newPage = InventoryUtil.createInventoryGUI(null, getSize(), title);
                 pages.add(newPage);
                 for (InventoryItem itemCO : carryOver) {
-                    newPage.addItem(itemCO);
+                    if (itemCO != null) {
+                        newPage.addItem(itemCO);
+                    }
                 }
                 InventoryUtil.registerGUI(newPage);
                 if (pages.size() > 1) {
