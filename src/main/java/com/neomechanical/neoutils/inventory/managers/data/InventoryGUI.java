@@ -44,10 +44,9 @@ public class InventoryGUI implements NInventory {
     @Override
     public void addItem(@NotNull InventoryItem... items) throws IllegalArgumentException {
         for (InventoryItem item : items) {
-            inventoryItems.add(item);
-            inventory.addItem(item.getItem());
             if (Size.amountOfFiledSlots(inventory)+1 > getSize()) {
                 List<InventoryItem> carryOver = new ArrayList<>();
+                carryOver.add(item);
                 for (int i = getSize()-8; i < getSize(); i++) {
                     ItemStack itemCO = inventory.getItem(i);
                     if (itemCO != null) {
@@ -78,7 +77,10 @@ public class InventoryGUI implements NInventory {
                 }
                 setItem(getSize()-1, new InventoryItem(ItemUtil.createItem(Material.DARK_OAK_BUTTON, ChatColor.GREEN + "Right"),
                         new OpenInventory(newPage), InventoryItemType.NAVIGATION));
+                continue;
             }
+            inventoryItems.add(item);
+            inventory.addItem(item.getItem());
         }
     }
 
