@@ -2,10 +2,10 @@ package com.neomechanical.neoutils.inventory.managers.data;
 
 import com.neomechanical.neoutils.inventory.InventoryUtil;
 import com.neomechanical.neoutils.inventory.NInventory;
+import com.neomechanical.neoutils.inventory.actions.OpenInventory;
 import com.neomechanical.neoutils.items.ItemUtil;
 import lombok.Data;
 import net.md_5.bungee.api.ChatColor;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -18,6 +18,7 @@ import java.util.List;
 @Data
 public class InventoryGUI implements NInventory {
     private @NotNull final Inventory inventory;
+    private @NotNull final List<InventoryGUI> pages = new ArrayList<>();
     private final List<InventoryItem> inventoryItems = new ArrayList<>();
     private @NotNull final String title;
 
@@ -43,10 +44,7 @@ public class InventoryGUI implements NInventory {
         for (InventoryItem item : items) {
             inventoryItems.add(item);
             inventory.addItem(item.getItem());
-            Bukkit.broadcastMessage(getContents().length +" "+getSize());
             if (getContents().length+1 > getSize()) {
-                inventory.setItem(getSize()-9, ItemUtil.createItem(Material.DARK_OAK_BUTTON, ChatColor.GREEN + "Left"));
-                inventory.setItem(getSize()-1, ItemUtil.createItem(Material.DARK_OAK_BUTTON, ChatColor.GREEN + "Right"));
                 List<InventoryItem> carryOver = new ArrayList<>();
                 for (int i = getSize()-8; i < getSize(); i++) {
                     ItemStack itemCO = inventory.getItem(i);
@@ -56,9 +54,18 @@ public class InventoryGUI implements NInventory {
                     }
                 }
                 InventoryGUI newPage = InventoryUtil.createInventoryGUI(null, getSize(), title);
+                pages.add(newPage);
                 for (int i = 0; i < carryOver.size(); i++) {
                     newPage.setItem(i, carryOver.get(i));
                 }
+                if (pages.get(pages.size()-2)!=null) {
+                    InventoryItem navItem = new InventoryItem(ItemUtil.createItem(Material.DARK_OAK_BUTTON, ChatColor.GREEN + "Left"),
+                            new OpenInventory(pages.get(pages.size()-2)));
+                    setItem(getSize()-9, navItem);
+                }
+                InventoryItem navItem = new InventoryItem(ItemUtil.createItem(Material.DARK_OAK_BUTTON, ChatColor.GREEN + "Right"),
+                        new OpenInventory(newPage));
+                setItem(getSize()-1, navItem);
             }
         }
     }
