@@ -3,6 +3,7 @@ package com.neomechanical.neoutils.inventory.managers.data;
 import com.neomechanical.neoutils.inventory.InventoryUtil;
 import com.neomechanical.neoutils.inventory.NInventory;
 import com.neomechanical.neoutils.inventory.actions.OpenInventory;
+import com.neomechanical.neoutils.inventory.items.InventoryItemType;
 import com.neomechanical.neoutils.items.ItemUtil;
 import lombok.Data;
 import net.md_5.bungee.api.ChatColor;
@@ -49,13 +50,20 @@ public class InventoryGUI implements NInventory {
                 for (int i = getSize()-8; i < getSize(); i++) {
                     ItemStack itemCO = inventory.getItem(i);
                     if (itemCO != null) {
-                        carryOver.add(InventoryUtil.getInventoryManager().getMenuItem(this, itemCO));
+                        InventoryItem itemCOI = InventoryUtil.getInventoryManager().getMenuItem(this, itemCO);
+                        if (itemCOI ==null) {
+                            continue;
+                        }
+                        if (itemCOI.getType()!=null&&itemCOI.getType().equals(InventoryItemType.NAVIGATION)) {
+                            continue;
+                        }
+                        carryOver.add(itemCOI);
                         inventory.remove(itemCO);
                     }
                 }
                 InventoryGUI newPage = InventoryUtil.createInventoryGUI(null, getSize(), title);
                 newPage.setItem(getSize()-9, new InventoryItem(ItemUtil.createItem(Material.DARK_OAK_BUTTON, ChatColor.GREEN + "Left"),
-                        new OpenInventory(this)));
+                        new OpenInventory(this), InventoryItemType.NAVIGATION));
                 pages.add(newPage);
                 for (InventoryItem itemCO : carryOver) {
                     if (itemCO != null) {
@@ -64,13 +72,11 @@ public class InventoryGUI implements NInventory {
                 }
                 InventoryUtil.registerGUI(newPage);
                 if (pages.size() > 1) {
-                    InventoryItem navItem = new InventoryItem(ItemUtil.createItem(Material.DARK_OAK_BUTTON, ChatColor.GREEN + "Left"),
-                            new OpenInventory(pages.get(pages.size()-2)));
-                    setItem(getSize()-9, navItem);
+                    setItem(getSize()-9, new InventoryItem(ItemUtil.createItem(Material.DARK_OAK_BUTTON, ChatColor.GREEN + "Left"),
+                            new OpenInventory(pages.get(pages.size()-2)), InventoryItemType.NAVIGATION));
                 }
-                InventoryItem navItem = new InventoryItem(ItemUtil.createItem(Material.DARK_OAK_BUTTON, ChatColor.GREEN + "Right"),
-                        new OpenInventory(newPage));
-                setItem(getSize()-1, navItem);
+                setItem(getSize()-1, new InventoryItem(ItemUtil.createItem(Material.DARK_OAK_BUTTON, ChatColor.GREEN + "Right"),
+                        new OpenInventory(newPage), InventoryItemType.NAVIGATION));
             }
         }
     }
