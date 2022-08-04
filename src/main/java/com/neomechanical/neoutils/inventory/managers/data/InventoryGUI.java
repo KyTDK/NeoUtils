@@ -71,7 +71,7 @@ public class InventoryGUI implements NInventory {
                     }
                 }
                 InventoryUtil.registerGUI(newPage);
-                if (pages.indexOf(this) != 0) {
+                if (pages.contains(this))  {
                     setItem(getSize()-9, new InventoryItem(ItemUtil.createItem(Material.DARK_OAK_BUTTON, ChatColor.GREEN + "Left"),
                             new OpenInventory(pages.get(pages.size()-2)), InventoryItemType.NAVIGATION));
                 }
