@@ -4,6 +4,7 @@ import com.neomechanical.neoutils.inventory.InventoryUtil;
 import com.neomechanical.neoutils.inventory.NInventory;
 import com.neomechanical.neoutils.inventory.actions.OpenInventory;
 import com.neomechanical.neoutils.inventory.items.InventoryItemType;
+import com.neomechanical.neoutils.inventory.utils.Size;
 import com.neomechanical.neoutils.items.ItemUtil;
 import lombok.Data;
 import net.md_5.bungee.api.ChatColor;
@@ -45,7 +46,7 @@ public class InventoryGUI implements NInventory {
         for (InventoryItem item : items) {
             inventoryItems.add(item);
             inventory.addItem(item.getItem());
-            if (getContents().length+1 > getSize()) {
+            if (Size.amountOfFiledSlots(inventory)+1 > getSize()) {
                 List<InventoryItem> carryOver = new ArrayList<>();
                 for (int i = getSize()-8; i < getSize(); i++) {
                     ItemStack itemCO = inventory.getItem(i);
