@@ -44,6 +44,10 @@ public class InventoryGUI implements NInventory {
     @Override
     public void addItem(@NotNull InventoryItem... items) throws IllegalArgumentException {
         for (InventoryItem item : items) {
+            if (!pages.isEmpty()) {
+                pages.get(pages.size() - 1).addItem(item);
+                return;
+            }
             if (Size.amountOfFiledSlots(inventory)+1 > getSize()) {
                 List<InventoryItem> carryOver = new ArrayList<>();
                 carryOver.add(item);
