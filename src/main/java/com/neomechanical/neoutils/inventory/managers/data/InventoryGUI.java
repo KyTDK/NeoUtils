@@ -45,13 +45,14 @@ public class InventoryGUI implements NInventory {
             inventory.addItem(item.getItem());
             Bukkit.broadcastMessage(getContents().length +" "+getSize());
             if (getContents().length+1 > getSize()) {
-                inventory.setItem(getSize()-10, ItemUtil.createItem(Material.DARK_OAK_BUTTON, ChatColor.GREEN + "Left"));
+                inventory.setItem(getSize()-9, ItemUtil.createItem(Material.DARK_OAK_BUTTON, ChatColor.GREEN + "Left"));
                 inventory.setItem(getSize()-1, ItemUtil.createItem(Material.DARK_OAK_BUTTON, ChatColor.GREEN + "Right"));
                 List<InventoryItem> carryOver = new ArrayList<>();
                 for (int i = 0; i < getSize()-8; i++) {
                     ItemStack itemCO = inventory.getItem(i);
                     if (itemCO != null) {
                         carryOver.add(InventoryUtil.getInventoryManager().getMenuItem(this, itemCO));
+                        inventory.remove(itemCO);
                     }
                 }
                 InventoryGUI newPage = InventoryUtil.createInventoryGUI(null, getSize(), title);
