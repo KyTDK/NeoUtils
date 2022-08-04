@@ -48,7 +48,7 @@ public class InventoryGUI implements NInventory {
                 inventory.setItem(getSize()-9, ItemUtil.createItem(Material.DARK_OAK_BUTTON, ChatColor.GREEN + "Left"));
                 inventory.setItem(getSize()-1, ItemUtil.createItem(Material.DARK_OAK_BUTTON, ChatColor.GREEN + "Right"));
                 List<InventoryItem> carryOver = new ArrayList<>();
-                for (int i = 0; i < getSize()-8; i++) {
+                for (int i = getSize()-8; i < getSize(); i++) {
                     ItemStack itemCO = inventory.getItem(i);
                     if (itemCO != null) {
                         carryOver.add(InventoryUtil.getInventoryManager().getMenuItem(this, itemCO));
