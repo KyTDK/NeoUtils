@@ -54,7 +54,7 @@ public class InventoryGUI implements NInventory {
                     }
                 }
                 InventoryGUI newPage = InventoryUtil.createInventoryGUI(null, getSize(), title);
-                newPage.addItem(new InventoryItem(ItemUtil.createItem(Material.DARK_OAK_BUTTON, ChatColor.GREEN + "Left"),
+                newPage.setItem(getSize()-9, new InventoryItem(ItemUtil.createItem(Material.DARK_OAK_BUTTON, ChatColor.GREEN + "Left"),
                         new OpenInventory(this)));
                 pages.add(newPage);
                 for (InventoryItem itemCO : carryOver) {
