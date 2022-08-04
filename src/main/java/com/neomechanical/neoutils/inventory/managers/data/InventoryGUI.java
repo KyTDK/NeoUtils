@@ -70,7 +70,7 @@ public class InventoryGUI implements NInventory {
     @NotNull
     @Override
     public ItemStack[] getContents() {
-        return new ItemStack[0];
+        return inventory.getContents();
     }
 
     @Override
