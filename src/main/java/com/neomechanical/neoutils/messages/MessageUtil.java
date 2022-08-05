@@ -17,10 +17,14 @@ import java.util.List;
 
 public final class MessageUtil {
 
+    private static BukkitAudiences adventure;
+
     /**
      * A utility class for handling Bukkit messages.
      */
-    public MessageUtil() {}
+    public MessageUtil(BukkitAudiences adventure) {
+        MessageUtil.adventure = adventure;
+    }
 
         /**
          * Translate an uncolored message.
@@ -49,7 +53,7 @@ public final class MessageUtil {
         player.sendMessage(parsed);
     }
 
-    public static void sendMM(BukkitAudiences adventure, CommandSender sendTo, String msg) {
+    public static void sendMM(CommandSender sendTo, String msg) {
         var mm = MiniMessage.miniMessage();
         Component parsed = mm.deserialize(msg);
         Audience player = adventure.sender(sendTo);
@@ -83,5 +87,14 @@ public final class MessageUtil {
 
     public MessageUtil neoComponentMessage() {
         return this;
+    }
+    
+    public void sendNeoComponentMessage(CommandSender player, String prefix, String suffix) {
+        player.sendMessage(color(prefix));
+        for (Component msg : neoComponentArray) {
+            sendMM(player, msg);
+        }
+        player.sendMessage(color(suffix));
+        neoComponentArray.clear();
     }
 }
