@@ -43,7 +43,7 @@ public final class MessageUtil {
         player.sendMessage(color(message));
     }
 
-    public static void sendMM(CommandSender sendTo, Component parsed) {
+    public void sendMM(CommandSender sendTo, Component parsed) {
         Audience player = NeoUtils.adventure().sender(sendTo);
         player.sendMessage(parsed);
     }
@@ -53,7 +53,7 @@ public final class MessageUtil {
         player.sendMessage(parsed);
     }
 
-    public static void sendMM(CommandSender sendTo, String msg) {
+    public void sendMM(CommandSender sendTo, String msg) {
         var mm = MiniMessage.miniMessage();
         Component parsed = mm.deserialize(msg);
         Audience player = adventure.sender(sendTo);
