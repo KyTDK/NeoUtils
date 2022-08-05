@@ -46,19 +46,16 @@ public class InventoryGUI implements NInventory {
         for (InventoryItem item : items) {
             if (!pages.isEmpty()) {
                 pages.get(pages.size() - 1).addItem(item);
-                return;
+                continue;
             }
             if (Size.amountOfFiledSlots(inventory)+1 > getSize()) {
                 List<InventoryItem> carryOver = new ArrayList<>();
                 carryOver.add(item);
-                for (int i = getSize()-8; i < getSize(); i++) {
+                for (int i = getSize()-9; i < getSize(); i++) {
                     ItemStack itemCO = inventory.getItem(i);
                     if (itemCO != null) {
                         InventoryItem itemCOI = InventoryUtil.getInventoryManager().getMenuItem(this, itemCO);
-                        if (itemCOI ==null) {
-                            continue;
-                        }
-                        if (itemCOI.getType()!=null&&itemCOI.getType().equals(InventoryItemType.NAVIGATION)) {
+                        if (itemCOI!=null&&itemCOI.getType()!=null&&itemCOI.getType().equals(InventoryItemType.NAVIGATION)) {
                             continue;
                         }
                         carryOver.add(itemCOI);

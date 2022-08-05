@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -107,7 +108,11 @@ public class CommandManager implements CommandExecutor, TabCompleter{
                     }
                 }
             }
-        return list;
+            List<String> completions = new ArrayList<>();
+        StringUtil.copyPartialMatches(args[0], list, completions);
+        //sort the list
+        Collections.sort(completions);
+        return completions;
     }
     public void init(JavaPlugin plugin, String parentCommand){
         Objects.requireNonNull(plugin.getCommand(parentCommand)).setExecutor(this);
