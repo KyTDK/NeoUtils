@@ -23,6 +23,7 @@ public class InventoryGUI implements NInventory {
     private @NotNull final List<InventoryGUI> pages = new ArrayList<>();
     private final List<InventoryItem> inventoryItems = new ArrayList<>();
     private @NotNull final String title;
+    private @Nullable InventoryGUI openOnClose = null;
 
     @Override
     public int getSize() {
@@ -105,5 +106,10 @@ public class InventoryGUI implements NInventory {
             inventoryItems.add(item);
             inventory.addItem(item.getItem());
         }
+    }
+
+    @Override
+    public void setOpenOnClose(@NotNull InventoryGUI inventory) {
+        this.openOnClose = inventory;
     }
 }

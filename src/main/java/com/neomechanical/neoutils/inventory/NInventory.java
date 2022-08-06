@@ -1,5 +1,6 @@
 package com.neomechanical.neoutils.inventory;
 
+import com.neomechanical.neoutils.inventory.managers.data.InventoryGUI;
 import com.neomechanical.neoutils.inventory.managers.data.InventoryItem;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -91,4 +92,11 @@ public interface NInventory {
      *     inventory.
      */
     void setContents(@NotNull InventoryItem[] items) throws IllegalArgumentException;
+    /**
+     * Set the inventory to open the given inventory when closed
+     *
+     * @param inventory the inventory to open when closed
+     */
+    void setOpenOnClose(@NotNull InventoryGUI inventory);
+
 }

@@ -4,6 +4,7 @@ import com.neomechanical.neoutils.inventory.GUIAction;
 import com.neomechanical.neoutils.inventory.InventoryUtil;
 import com.neomechanical.neoutils.inventory.managers.data.InventoryGUI;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 
 public class OpenInventory extends GUIAction {
     private final InventoryGUI inventoryGUI;
@@ -12,8 +13,9 @@ public class OpenInventory extends GUIAction {
         this.inventoryGUI = inventoryGUI;
     }
     @Override
-    public void action(Player player) {
+    public void action(InventoryClickEvent event) {
         if (inventoryGUI != null) {
+            Player player = (Player) event.getWhoClicked();
             InventoryUtil.openInventory(player, inventoryGUI);
             return;
         }

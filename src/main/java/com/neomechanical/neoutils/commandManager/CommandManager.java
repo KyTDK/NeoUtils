@@ -49,35 +49,34 @@ public class CommandManager implements CommandExecutor, TabCompleter{
     }
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
-        MessageUtil messageUtil = new MessageUtil(adventure);
         if (args.length > 0) {
                     for (int i = 0; i < getSubcommands().size(); i++) {
                         if (args[0].equalsIgnoreCase(getSubcommands().get(i).getName())) {
                             if (getSubcommands().get(i).playerOnly() && !(sender instanceof Player)) {
-                                messageUtil.sendMM(sender, errorNotPlayer);
+                                MessageUtil.sendMM(sender, errorNotPlayer);
                                 return true;
                             }
                             if (sender.hasPermission(getSubcommands().get(i).getPermission())) {
                                 getSubcommands().get(i).perform(sender, args);
                             } else {
-                                messageUtil.sendMM(sender, errorNoPermission);
+                                MessageUtil.sendMM(sender, errorNoPermission);
                             }
                             return true;
                         }
                     }
                     //If the command is not found, send a message to the player
-                messageUtil.sendMM(sender, errorCommandNotFound);
+            MessageUtil.sendMM(sender, errorCommandNotFound);
                     return true;
                 }
                 else {
                 if (mainCommand.playerOnly() && !(sender instanceof Player)) {
-                    messageUtil.sendMM(sender, errorNotPlayer);
+                    MessageUtil.sendMM(sender, errorNotPlayer);
                     return true;
                 }
                 if (sender.hasPermission(mainCommand.getPermission())) {
                     mainCommand.perform(sender, args);
                 } else {
-                    messageUtil.sendMM(sender, errorNoPermission);
+                    MessageUtil.sendMM(sender, errorNoPermission);
                 }
             }
 

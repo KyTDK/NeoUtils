@@ -17,14 +17,12 @@ import java.util.List;
 
 public final class MessageUtil {
 
-    private static BukkitAudiences adventure;
+    private static final BukkitAudiences adventure = NeoUtils.adventure();
 
     /**
      * A utility class for handling Bukkit messages.
      */
-    public MessageUtil(BukkitAudiences adventure) {
-        MessageUtil.adventure = adventure;
-    }
+    public MessageUtil() {}
 
         /**
          * Translate an uncolored message.
@@ -43,31 +41,31 @@ public final class MessageUtil {
         player.sendMessage(color(message));
     }
 
-    public void sendMM(CommandSender sendTo, Component parsed) {
+    public static void sendMM(CommandSender sendTo, Component parsed) {
         Audience player = adventure.sender(sendTo);
         player.sendMessage(parsed);
     }
 
-    public void sendMM(Player sendTo, TextComponent parsed) {
+    public static void sendMM(Player sendTo, TextComponent parsed) {
         Audience player = adventure.player(sendTo);
         player.sendMessage(parsed);
     }
 
-    public void sendMM(CommandSender sendTo, String msg) {
+    public static void sendMM(CommandSender sendTo, String msg) {
         var mm = MiniMessage.miniMessage();
         Component parsed = mm.deserialize(msg);
         Audience player = adventure.sender(sendTo);
         player.sendMessage(parsed);
     }
 
-    public void sendMMAll(String string) {
+    public static void sendMMAll(String string) {
         Audience player = NeoUtils.adventure().all();
         var mm = MiniMessage.miniMessage();
         Component parsed = mm.deserialize(string);
         player.sendMessage(parsed);
     }
 
-    public void sendMMAdmins(String string) {
+    public static void sendMMAdmins(String string) {
         var mm = MiniMessage.miniMessage();
         Component parsed = mm.deserialize(string);
         for (Player player : Bukkit.getOnlinePlayers()) {
@@ -89,7 +87,7 @@ public final class MessageUtil {
         return this;
     }
     
-    public void sendNeoComponentMessage(CommandSender player, String prefix, String suffix) {
+    public static void sendNeoComponentMessage(CommandSender player, String prefix, String suffix) {
         player.sendMessage(color(prefix));
         for (Component msg : neoComponentArray) {
             sendMM(player, msg);
