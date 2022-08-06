@@ -2,6 +2,7 @@ package com.neomechanical.neoutils.commandManager;
 
 import com.neomechanical.neoutils.messages.MessageUtil;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -104,6 +105,7 @@ public class CommandManager implements CommandExecutor, TabCompleter{
                         if (mapSuggestions != null && mapSuggestions.containsKey(currentArg)) {
                             list.addAll(mapSuggestions.get(currentArg));
                         } else if (suggestions != null) {
+                            Bukkit.broadcastMessage(suggestions + " " + args.length);
                             list.addAll(suggestions);
                         } else {
                             return null;
