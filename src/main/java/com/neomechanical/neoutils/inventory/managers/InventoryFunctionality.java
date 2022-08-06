@@ -1,7 +1,6 @@
 package com.neomechanical.neoutils.inventory.managers;
 
 import com.neomechanical.neoutils.NeoUtils;
-import com.neomechanical.neoutils.inventory.GUIAction;
 import com.neomechanical.neoutils.inventory.InventoryUtil;
 import com.neomechanical.neoutils.inventory.managers.data.InventoryGUI;
 import com.neomechanical.neoutils.inventory.managers.data.InventoryItem;
@@ -56,6 +55,8 @@ public class InventoryFunctionality implements Listener {
         if (menuItem == null) {
             return;
         }
-        menuItem.getAction().action(event);
+        if (menuItem.getAction() != null) {
+            menuItem.getAction().action(event);
+        }
     }
 }
