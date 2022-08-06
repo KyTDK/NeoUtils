@@ -9,6 +9,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -31,7 +32,8 @@ public class InventoryFunctionality implements Listener {
                 @Override
                 public void run() {
                     //Make sure it wasn't just another inventory being opened.
-                    if (!InventoryUtil.getInventoryManager().isGUI(player.getOpenInventory().getTopInventory())) {
+                    if (!InventoryUtil.getInventoryManager().isGUI(player.getOpenInventory().getTopInventory()) &&
+                            player.getOpenInventory().getType().equals(InventoryType.CHEST)) {
                         player.openInventory(gui.getOpenOnClose().getInventory());
                     }
                 }
