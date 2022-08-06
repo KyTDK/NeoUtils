@@ -87,7 +87,7 @@ public final class MessageUtil {
         return this;
     }
     
-    public static void sendNeoComponentMessage(CommandSender player, String prefix, String suffix) {
+    public void sendNeoComponentMessage(CommandSender player, String prefix, String suffix) {
         player.sendMessage(color(prefix));
         for (Component msg : neoComponentArray) {
             sendMM(player, msg);
