@@ -15,7 +15,7 @@ public class OpenInventory extends GUIAction {
     public void action(InventoryClickEvent event) {
         if (inventoryGUI != null) {
             Player player = (Player) event.getWhoClicked();
-            player.getOpenInventory().getTopInventory().setContents(inventoryGUI.getInventory().getContents());
+            player.openInventory(inventoryGUI.getInventory());
             return;
         }
         throw new IllegalArgumentException("Inventory GUI does not exist.");

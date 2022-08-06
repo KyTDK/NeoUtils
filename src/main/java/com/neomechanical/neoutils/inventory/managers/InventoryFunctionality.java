@@ -30,7 +30,10 @@ public class InventoryFunctionality implements Listener {
             new BukkitRunnable() {
                 @Override
                 public void run() {
-                    player.openInventory(gui.getOpenOnClose().getInventory());
+                    //Make sure it wasn't just another inventory being opened.
+                    if (!InventoryUtil.getInventoryManager().isGUI(player.getOpenInventory().getTopInventory())) {
+                        player.openInventory(gui.getOpenOnClose().getInventory());
+                    }
                 }
             }.runTaskLater(NeoUtils.getInstance(), 1L);
         }
