@@ -4,6 +4,7 @@ import com.neomechanical.neoutils.NeoUtils;
 import com.neomechanical.neoutils.inventory.InventoryUtil;
 import com.neomechanical.neoutils.inventory.managers.data.InventoryGUI;
 import com.neomechanical.neoutils.inventory.managers.data.InventoryItem;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -32,8 +33,8 @@ public class InventoryFunctionality implements Listener {
                 @Override
                 public void run() {
                     //Make sure it wasn't just another inventory being opened.
-                    if (!InventoryUtil.getInventoryManager().isGUI(player.getOpenInventory().getTopInventory()) &&
-                            player.getOpenInventory().getType().equals(InventoryType.CHEST)) {
+                    if (!InventoryUtil.getInventoryManager().isGUI(player.getOpenInventory().getTopInventory())
+                    && player.getOpenInventory().getTopInventory().getType() == InventoryType.CRAFTING) {
                         player.openInventory(gui.getOpenOnClose().getInventory());
                     }
                 }
