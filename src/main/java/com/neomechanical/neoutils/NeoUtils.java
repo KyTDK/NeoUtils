@@ -14,6 +14,9 @@ public final class NeoUtils extends JavaPlugin {
         return adventure;
     }
     public static JavaPlugin getInstance() {
+        if (instance == null) {
+            throw new IllegalStateException("Tried to access instance when the plugin was disabled, please make sure you call NeoUtils.init(this) in onEnable()!");
+        }
         return instance;
     }
     public static void init(@NonNull JavaPlugin plugin) {
