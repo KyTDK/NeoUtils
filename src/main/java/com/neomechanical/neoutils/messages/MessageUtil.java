@@ -44,12 +44,12 @@ public final class MessageUtil {
     }
 
     public void sendMM(CommandSender sendTo, Component parsed) {
-        Audience player = NeoUtils.adventure().sender(sendTo);
+        Audience player = adventure.sender(sendTo);
         player.sendMessage(parsed);
     }
 
-    public static void sendMM(Player sendTo, TextComponent parsed) {
-        Audience player = NeoUtils.adventure().player(sendTo);
+    public void sendMM(Player sendTo, TextComponent parsed) {
+        Audience player = adventure.player(sendTo);
         player.sendMessage(parsed);
     }
 
@@ -60,19 +60,19 @@ public final class MessageUtil {
         player.sendMessage(parsed);
     }
 
-    public static void sendMMAll(String string) {
+    public void sendMMAll(String string) {
         Audience player = NeoUtils.adventure().all();
         var mm = MiniMessage.miniMessage();
         Component parsed = mm.deserialize(string);
         player.sendMessage(parsed);
     }
 
-    public static void sendMMAdmins(String string) {
+    public void sendMMAdmins(String string) {
         var mm = MiniMessage.miniMessage();
         Component parsed = mm.deserialize(string);
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (player.isOp()) {
-                Audience audience = NeoUtils.adventure().player(player);
+                Audience audience = adventure.player(player);
                 audience.sendMessage(parsed);
             }
         }
