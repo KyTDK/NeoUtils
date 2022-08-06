@@ -86,13 +86,15 @@ public class CommandManager implements CommandExecutor, TabCompleter{
     }
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String alias, @NotNull String[] args) {
         List<String> list = new ArrayList<>();
-            for (int i = 0; i < getSubcommands().size(); i++) {
+        List<String> completions = new ArrayList<>();
+        for (int i = 0; i < getSubcommands().size(); i++) {
                 SubCommand subCommand = getSubcommands().get(i);
                 if (!sender.hasPermission(subCommand.getPermission())) {
                     return null;
                 }
                 if (args.length == 1) {
                     list.add(subCommand.getName());
+                    StringUtil.copyPartialMatches(args[0], list, completions);
                 } else if (args.length >= 2) {
                     if (args[0].equalsIgnoreCase(getSubcommands().get(i).getName())) {
                         List<String> suggestions = getSubcommands().get(i).tabSuggestions();
@@ -106,11 +108,10 @@ public class CommandManager implements CommandExecutor, TabCompleter{
                         } else {
                             return null;
                         }
+                        StringUtil.copyPartialMatches(args[1], list, completions);
                     }
                 }
             }
-            List<String> completions = new ArrayList<>();
-        StringUtil.copyPartialMatches(args[0], list, completions);
         //sort the list
         Collections.sort(completions);
         return completions;
