@@ -3,6 +3,7 @@ package com.neomechanical.neoutils;
 import com.neomechanical.neoutils.api.Api;
 import com.neomechanical.neoutils.inventory.InventoryUtil;
 import com.neomechanical.neoutils.inventory.managers.InventoryFunctionality;
+import com.neomechanical.neoutils.languages.LanguageManager;
 import lombok.NonNull;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -22,10 +23,16 @@ public abstract class NeoUtils extends JavaPlugin implements Api {
         }
         return instance;
     }
+    private static LanguageManager languageManager;
+    public static LanguageManager getLanguageManager() {
+        return languageManager;
+    }
+
     @Override
     public void onEnable() {
         instance = this;
         adventure = BukkitAudiences.create(this);
+        languageManager = new LanguageManager(this);
         getServer().getPluginManager().registerEvents(new InventoryFunctionality(), this);
         this.onPluginEnable();
     }
