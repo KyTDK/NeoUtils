@@ -1,7 +1,6 @@
 package com.neomechanical.neoutils.commandManager;
 
 import com.neomechanical.neoutils.messages.MessageUtil;
-import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -18,10 +17,10 @@ public class CommandManager implements CommandExecutor, TabCompleter{
     private String errorNotPlayer = "You must be a player to use this command!";
     private String errorNoPermission = "You do not have permission to use this command!";
     private String errorCommandNotFound = "Command not found!";
-    private BukkitAudiences adventure;
     @SuppressWarnings("unused")
-    public CommandManager(SubCommand... subcommandsPass) {
+    public CommandManager(JavaPlugin plugin, String parentCommand, SubCommand... subcommandsPass) {
         Collections.addAll(this.subcommands, subcommandsPass);
+        Objects.requireNonNull(plugin.getCommand(parentCommand)).setExecutor(this);
     }
     @SuppressWarnings("unused")
     public void registerMainCommand(Command command) {
@@ -44,9 +43,6 @@ public class CommandManager implements CommandExecutor, TabCompleter{
         subcommands.add(subcommand);
     }
     @SuppressWarnings("unused")
-    public void setAudiences(BukkitAudiences adventure) {
-        this.adventure = adventure;
-    }
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
         if (args.length > 0) {
@@ -113,9 +109,6 @@ public class CommandManager implements CommandExecutor, TabCompleter{
         //sort the list
         Collections.sort(completions);
         return completions;
-    }
-    public void init(JavaPlugin plugin, String parentCommand){
-        Objects.requireNonNull(plugin.getCommand(parentCommand)).setExecutor(this);
     }
     public ArrayList<SubCommand> getSubcommands(){
         return subcommands;

@@ -1,5 +1,7 @@
 package com.neomechanical.neoutils;
 
+import com.neomechanical.neoutils.commandManager.CommandManager;
+import com.neomechanical.neoutils.inventory.InventoryUtil;
 import lombok.NonNull;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -19,18 +21,18 @@ public final class NeoUtils extends JavaPlugin {
         }
         return instance;
     }
-    public static void init(@NonNull JavaPlugin plugin) {
-        instance = plugin;
-        adventure = BukkitAudiences.create(plugin);
-    }
     @Override
     public void onEnable() {
-        // Plugin startup logic
-
+        instance = this;
+        adventure = BukkitAudiences.create(this);
+        InventoryUtil.init(this);
     }
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        if (adventure != null) {
+            adventure.close();
+            adventure = null;
+        }
     }
 }
