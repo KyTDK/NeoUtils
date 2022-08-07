@@ -24,6 +24,7 @@ public class InventoryGUI implements NInventory {
     private final List<InventoryItem> inventoryItems = new ArrayList<>();
     private @NotNull final String title;
     private @Nullable InventoryGUI openOnClose = null;
+    private boolean unregisterOnClose = true;
 
     @Override
     public int getSize() {
@@ -111,5 +112,10 @@ public class InventoryGUI implements NInventory {
     @Override
     public void setOpenOnClose(@NotNull InventoryGUI inventory) {
         this.openOnClose = inventory;
+    }
+
+    @Override
+    public void setUnregisterOnClose(boolean unregister) {
+        this.unregisterOnClose = unregister;
     }
 }

@@ -98,5 +98,5 @@ public interface NInventory {
      * @param inventory the inventory to open when closed
      */
     void setOpenOnClose(@NotNull InventoryGUI inventory);
-
+    void setUnregisterOnClose(boolean unregister);
 }

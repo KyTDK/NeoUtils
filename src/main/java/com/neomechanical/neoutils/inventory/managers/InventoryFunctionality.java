@@ -38,7 +38,9 @@ public class InventoryFunctionality implements Listener {
                         player.openInventory(gui.getOpenOnClose().getInventory());
                         return;
                     }
-                    InventoryUtil.unregisterGUI(gui);
+                    if (gui.isUnregisterOnClose()) {
+                        InventoryUtil.unregisterGUI(gui);
+                    }
                 }
             }.runTaskLater(NeoUtils.getInstance(), 1L);
         }
