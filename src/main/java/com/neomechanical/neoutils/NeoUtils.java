@@ -2,6 +2,7 @@ package com.neomechanical.neoutils;
 
 import com.neomechanical.neoutils.api.Api;
 import com.neomechanical.neoutils.inventory.InventoryUtil;
+import com.neomechanical.neoutils.inventory.managers.InventoryFunctionality;
 import lombok.NonNull;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -25,7 +26,7 @@ public abstract class NeoUtils extends JavaPlugin implements Api {
     public void onEnable() {
         instance = this;
         adventure = BukkitAudiences.create(this);
-        InventoryUtil.init(this);
+        getServer().getPluginManager().registerEvents(new InventoryFunctionality(), this);
         this.onPluginEnable();
     }
 

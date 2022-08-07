@@ -40,4 +40,8 @@ public class InventoryManager {
     public void put(@NotNull InventoryGUI gui) {
         inventoryGuiMap.put(gui.getInventory(), gui);
     }
+    public void remove(@NotNull InventoryGUI gui) {
+        inventoryGuiMap.remove(gui.getInventory(), gui);
+    }
+
 }

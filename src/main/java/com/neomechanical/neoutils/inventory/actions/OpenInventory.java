@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
 public class OpenInventory extends GUIAction {
-    private final InventoryGUI inventoryGUI;
+    public final InventoryGUI inventoryGUI;
 
     public OpenInventory(InventoryGUI inventoryGUI) {
         this.inventoryGUI = inventoryGUI;
