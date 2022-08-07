@@ -27,22 +27,21 @@ public class InventoryFunctionality implements Listener {
             return;
         }
         Player player = (Player) event.getPlayer();
-        if (gui.getOpenOnClose()!=null) {
             new BukkitRunnable() {
                 @Override
                 public void run() {
                     //Make sure it wasn't just another inventory being opened.
                     if (!InventoryUtil.getInventoryManager().isGUI(player.getOpenInventory().getTopInventory())
                     && player.getOpenInventory().getTopInventory().getType() == InventoryType.CRAFTING) {
-                        player.openInventory(gui.getOpenOnClose().getInventory());
-                        return;
-                    }
-                    if (gui.isUnregisterOnClose()) {
-                        InventoryUtil.unregisterGUI(gui);
+                        if (gui.getOpenOnClose() != null) {
+                            player.openInventory(gui.getOpenOnClose().getInventory());
+                        }
+                        if (gui.isUnregisterOnClose()) {
+                            InventoryUtil.unregisterGUI(gui);
+                        }
                     }
                 }
             }.runTaskLater(NeoUtils.getInstance(), 1L);
-        }
     }
     @EventHandler
     public void onClick(InventoryClickEvent event) {
