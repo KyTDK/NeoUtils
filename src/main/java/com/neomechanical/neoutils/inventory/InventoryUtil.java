@@ -21,7 +21,7 @@ public class InventoryUtil {
     public static void unregisterGUI(InventoryGUI inventoryGUI) {
         inventoryManager.remove(inventoryGUI);
         for (InventoryItem inventoryItem : inventoryGUI.getInventoryItems()) {
-            if (inventoryItem.getAction() instanceof OpenInventory) {
+            if (inventoryItem.getAction()!=null && inventoryItem.getAction() instanceof OpenInventory) {
                 unregisterGUI(((OpenInventory) inventoryItem.getAction()).inventoryGUI);
             }
         }

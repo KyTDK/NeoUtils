@@ -14,27 +14,36 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import javax.annotation.Nullable;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
+
+import static com.neomechanical.neoutils.NeoUtils.setLanguageManager;
 
 public class LanguageManager {
     final Map<String, String> internalPlaceholderReplacements;
     private final JavaPlugin main;
-    private static String languageCode = null;
     File languageFolder = null;
     private File languageConfigFile = null;
     private FileConfiguration languageConfig;
-    private String currentLanguage = "en";
+    private static String currentLanguage = "en";
+    private static String languageCode = "en-US";
+
     private FileConfiguration defaultLanguageConfig = null;
     private Map<String, Function<Player, String>> internalPlaceholders;
     private static final ArrayList<String> languageFiles = new ArrayList<>();
 
-    public LanguageManager(final JavaPlugin main) {
+
+    /**
+     * Create a new LanguageManager for the given plugin.
+     *
+     * @param main the main class
+     * @param files the language files to load, ensure you add the .yml extension
+     */
+    public LanguageManager(final JavaPlugin main, String... files) {
         this.main = main;
         internalPlaceholderReplacements = new HashMap<>();
+        languageFiles.addAll(Arrays.asList(files));
+        setLanguageManager(this);
     }
 
     public static void setLanguage(String languageCode) {
@@ -52,15 +61,6 @@ public class LanguageManager {
             if (!languageFolder.mkdirs()) {
                 Logger.warn("There was an error creating the languages folder.");
                 return;
-            }
-        }
-
-        File[] files = languageFolder.listFiles();
-        if (files != null) {
-            for (File file : files) {
-                if (file.isFile()) {
-                    languageFiles.add(file.getName());
-                }
             }
         }
 
@@ -162,6 +162,10 @@ public class LanguageManager {
 
             languageConfigFile = new File(languageFolder, languageCode + ".yml");
             try {
+                if (!languageConfigFile.exists()) {
+                    Logger.warn("There was an error getting the " + languageCode + " language file. (1)");
+                    return;
+                }
                 ConfigUpdater.update(main, "translations/" + languageCode + ".yml", languageConfigFile, List.of(""));
             } catch (IOException e) {
                 e.printStackTrace();

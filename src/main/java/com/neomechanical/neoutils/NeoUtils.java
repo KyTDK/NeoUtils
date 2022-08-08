@@ -1,7 +1,6 @@
 package com.neomechanical.neoutils;
 
 import com.neomechanical.neoutils.api.Api;
-import com.neomechanical.neoutils.inventory.InventoryUtil;
 import com.neomechanical.neoutils.inventory.managers.InventoryFunctionality;
 import com.neomechanical.neoutils.languages.LanguageManager;
 import lombok.NonNull;
@@ -25,14 +24,18 @@ public abstract class NeoUtils extends JavaPlugin implements Api {
     }
     private static LanguageManager languageManager;
     public static LanguageManager getLanguageManager() {
+        if (languageManager == null) {
+            throw new IllegalStateException("Tried to access languageManager, but its not set!");
+        }
         return languageManager;
     }
-
+    public static void setLanguageManager(LanguageManager languageManager) {
+        NeoUtils.languageManager = languageManager;
+    }
     @Override
     public void onEnable() {
         instance = this;
         adventure = BukkitAudiences.create(this);
-        languageManager = new LanguageManager(this);
         getServer().getPluginManager().registerEvents(new InventoryFunctionality(), this);
         this.onPluginEnable();
     }
