@@ -49,8 +49,8 @@ public class LanguageManager {
     public static void setLanguage(String languageCode) {
         LanguageManager.languageCode = languageCode;
     }
-    public static void addLanguage(String languageCode) {
-        LanguageManager.languageFiles.add(languageCode);
+    public static void addLanguage(String... languageCode) {
+        LanguageManager.languageFiles.addAll(Arrays.asList(languageCode));
     }
     private void loadMissingDefaultLanguageFiles() {
         //Create the Language Data Folder if it does not exist yet (the NotQuests/languages folder)
