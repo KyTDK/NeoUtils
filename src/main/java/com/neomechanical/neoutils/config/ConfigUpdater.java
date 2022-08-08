@@ -39,8 +39,8 @@ public class ConfigUpdater {
         String value = writer.toString(); // config contents
 
         Path toUpdatePath = toUpdate.toPath();
-        if (!value.equals(new String(Files.readAllBytes(toUpdatePath), StandardCharsets.UTF_8))) { // if updated contents are not the same as current file contents, update
-            Files.write(toUpdatePath, value.getBytes(StandardCharsets.UTF_8));
+        if (!value.equals(Files.readString(toUpdatePath))) { // if updated contents are not the same as current file contents, update
+            Files.writeString(toUpdatePath, value);
         }
     }
 
@@ -103,7 +103,11 @@ public class ConfigUpdater {
 
     //Returns a map of key comment pairs. If a key doesn't have any comments it won't be included in the map.
     private static Map<String, String> parseComments(Plugin plugin, String resourceName, FileConfiguration defaultConfig) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(plugin.getResource(resourceName)));
+        InputStream resourceInputStream = plugin.getResource(resourceName);
+        if (resourceInputStream==null) {
+            throw new IllegalStateException("Resource is null in config updater");
+        }
+        BufferedReader reader = new BufferedReader(new InputStreamReader(resourceInputStream));
         Map<String, String> comments = new LinkedHashMap<>();
         StringBuilder commentBuilder = new StringBuilder();
         KeyBuilder keyBuilder = new KeyBuilder(defaultConfig, SEPARATOR);
