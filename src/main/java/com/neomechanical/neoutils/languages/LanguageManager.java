@@ -11,6 +11,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.io.*;
@@ -30,7 +31,7 @@ public class LanguageManager {
 
     private FileConfiguration defaultLanguageConfig = null;
     private Map<String, Function<Player, String>> internalPlaceholders;
-    private static final ArrayList<String> languageFiles = new ArrayList<>();
+    private @NotNull static final ArrayList<String> languageFiles = new ArrayList<>();
 
 
     /**
