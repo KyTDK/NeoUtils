@@ -43,8 +43,8 @@ public class LanguageManager {
         this.main = main;
         internalPlaceholderReplacements = new HashMap<>();
     }
-    public LanguageManager setInternalPlaceholders(Map<String, Function<Player, String>> placeholders) {
-        this.internalPlaceholders = placeholders;
+    public LanguageManager addInternalPlaceholder(String placeholder, Function<Player, String> placeholderFunction) {
+        this.internalPlaceholders.put(placeholder, placeholderFunction);
         return this;
     }
     public LanguageManager setLanguageCode(String languageCode) {
@@ -65,6 +65,9 @@ public class LanguageManager {
      */
     public void set() {
         setLanguageManager(this);
+    }
+    public String getLanguageCode() {
+        return languageCode;
     }
     private void loadMissingDefaultLanguageFiles() {
         //Create the Language Data Folder if it does not exist yet (the NotQuests/languages folder)
