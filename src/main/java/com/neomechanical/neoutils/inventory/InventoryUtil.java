@@ -19,16 +19,20 @@ public class InventoryUtil {
         inventoryManager.put(inventoryGUI);
     }
     public static void unregisterGUI(InventoryGUI inventoryGUI) {
-        inventoryManager.remove(inventoryGUI);
-        for (InventoryItem inventoryItem : inventoryGUI.getInventoryItems()) {
-            if (inventoryItem.getAction()!=null && inventoryItem.getAction() instanceof OpenInventory) {
-                unregisterGUI(((OpenInventory) inventoryItem.getAction()).inventoryGUI);
+        if (inventoryGUI != null) {
+            for (InventoryItem inventoryItem : inventoryGUI.getInventoryItems()) {
+                if (inventoryItem.getAction() != null && inventoryItem.getAction() instanceof OpenInventory) {
+                    if (((OpenInventory) inventoryItem.getAction()).inventoryGUI != inventoryGUI) {
+                        unregisterGUI(((OpenInventory) inventoryItem.getAction()).inventoryGUI);
+                    }
+                }
             }
-        }
-        if (!inventoryGUI.getPages().isEmpty()) {
-            for (InventoryGUI page : inventoryGUI.getPages()) {
-                unregisterGUI(page);
+            if (!inventoryGUI.getPages().isEmpty()) {
+                for (InventoryGUI page : inventoryGUI.getPages()) {
+                    unregisterGUI(page);
+                }
             }
+            inventoryManager.remove(inventoryGUI);
         }
     }
     public static InventoryGUI createInventoryGUI(@Nullable InventoryHolder owner, int rows, String title) {

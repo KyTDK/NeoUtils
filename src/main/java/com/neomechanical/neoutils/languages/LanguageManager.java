@@ -30,7 +30,7 @@ public class LanguageManager {
     private static String languageCode = "en-US";
 
     private FileConfiguration defaultLanguageConfig = null;
-    private Map<String, Function<Player, String>> internalPlaceholders;
+    private Map<String, Function<Player, String>> internalPlaceholders = new HashMap<>();
     private @NotNull static final ArrayList<String> languageFiles = new ArrayList<>();
 
 
@@ -38,29 +38,41 @@ public class LanguageManager {
      * Create a new LanguageManager for the given plugin.
      *
      * @param main the main class
-     * @param files the language files to load, ensure you add the .yml extension
      */
-    public LanguageManager(final JavaPlugin main, String... files) {
+    public LanguageManager(final JavaPlugin main) {
         this.main = main;
         internalPlaceholderReplacements = new HashMap<>();
-        languageFiles.addAll(Arrays.asList(files));
-        setLanguageManager(this);
     }
-
-    public static void setLanguage(String languageCode) {
+    public LanguageManager setInternalPlaceholders(Map<String, Function<Player, String>> placeholders) {
+        this.internalPlaceholders = placeholders;
+        return this;
+    }
+    public LanguageManager setLanguageCode(String languageCode) {
         LanguageManager.languageCode = languageCode;
+        return this;
     }
-    public static void addLanguage(String... languageCode) {
+    public LanguageManager setLanguageFile( @NotNull String... files) {
+        languageFiles.clear();
+        languageFiles.addAll(Arrays.asList(files));
+        return this;
+    }
+    public LanguageManager addLanguageFile(String... languageCode) {
         LanguageManager.languageFiles.addAll(Arrays.asList(languageCode));
+        return this;
+    }
+    /**
+     * Set the manager instance
+     */
+    public void set() {
+        setLanguageManager(this);
     }
     private void loadMissingDefaultLanguageFiles() {
         //Create the Language Data Folder if it does not exist yet (the NotQuests/languages folder)
         languageFolder = new File(main.getDataFolder().getPath() + "/languages/");
 
-
         if (!languageFolder.exists()) {
             if (!languageFolder.mkdirs()) {
-                Logger.warn("There was an error creating the languages folder.");
+                Logger.fatal("There was an error creating the languages folder.");
                 return;
             }
         }
@@ -71,7 +83,7 @@ public class LanguageManager {
 
                 if (!file.exists()) {
                     if (!file.createNewFile()) {
-                        Logger.warn("There was an error creating the " + fileName + " language file. (3)");
+                        Logger.fatal("There was an error creating the " + fileName + " language file. (3)");
                         return;
                     }
 
@@ -81,7 +93,7 @@ public class LanguageManager {
                         try (OutputStream outputStream = new FileOutputStream(file)) {
                             IOUtils.copy(inputStream, outputStream);
                         } catch (Exception e) {
-                            Logger.warn("There was an error creating the " + fileName + " language file. (4)");
+                            Logger.fatal("There was an error creating the " + fileName + " language file. (4)");
                             return;
                         }
 
@@ -102,18 +114,18 @@ public class LanguageManager {
                             //Put into fileConfiguration
 
                             if (!defaultFile.exists()) {
-                                Logger.warn("There was an error reading the default.yml language file. (5)");
+                                Logger.fatal("There was an error reading the default.yml language file. (5)");
                                 return;
                             }
                             defaultLanguageConfig = new YamlConfiguration();
                             defaultLanguageConfig.load(defaultFile);
 
                         } catch (Exception e) {
-                            Logger.warn("There was an error creating the default.yml language file. (6)");
+                            Logger.fatal("There was an error creating the default.yml language file. (6)");
                             return;
                         }
                     } else {
-                        Logger.warn("There was an error creating the default.yml language file. (7)");
+                        Logger.fatal("There was an error creating the default.yml language file. (7)");
                         return;
                     }
 
@@ -122,7 +134,7 @@ public class LanguageManager {
 
 
             } catch (IOException ioException) {
-                Logger.warn("There was an error creating the " + fileName + " language file. (3)");
+                Logger.fatal("There was an error creating the " + fileName + " language file. (3)");
                 return;
             }
         }
@@ -135,9 +147,6 @@ public class LanguageManager {
      * Load language configs
      */
     public final void loadLanguageConfig() {
-        if (languageCode==null) {
-            throw new IllegalStateException("Language code is not set");
-        }
         loadMissingDefaultLanguageFiles();
 
         /*
@@ -163,10 +172,6 @@ public class LanguageManager {
 
             languageConfigFile = new File(languageFolder, languageCode + ".yml");
             try {
-                if (!languageConfigFile.exists()) {
-                    Logger.warn("There was an error getting the " + languageCode + " language file. (1)");
-                    return;
-                }
                 ConfigUpdater.update(main, "translations/" + languageCode + ".yml", languageConfigFile, List.of(""));
             } catch (IOException e) {
                 e.printStackTrace();
@@ -209,7 +214,7 @@ public class LanguageManager {
         //Set default values
 
         if (defaultLanguageConfig == null) {
-            Logger.warn("There was an error reading the default.yml language configuration.");
+            Logger.fatal("There was an error reading the default.yml language configuration.");
             return false;
         }
 
@@ -255,10 +260,6 @@ public class LanguageManager {
             }
             return applySpecial(ChatColor.translateAlternateColorCodes('&', applyInternalPlaceholders(translatedString, player)));
         }
-    }
-    public LanguageManager setInternalPlaceholders(Map<String, Function<Player, String>> placeholders) {
-        this.internalPlaceholders = placeholders;
-        return this;
     }
     private String applyInternalPlaceholders(String initialMessage, @Nullable Player player) {
         internalPlaceholderReplacements.clear();

@@ -4,7 +4,7 @@ import com.neomechanical.neoutils.NeoUtils;
 import org.bukkit.Bukkit;
 
 public class Logger {
-    static String prefix = "["+ NeoUtils.getInstance().getName()+"] ";
+    static String prefix = "["+NeoUtils.getInstance().getName()+"] ";
     public static void setPrefix(String prefix) {
         Logger.prefix = prefix;
     }
