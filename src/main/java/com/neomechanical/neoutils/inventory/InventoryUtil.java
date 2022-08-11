@@ -24,19 +24,7 @@ public class InventoryUtil {
         return inventoryManager.contains(inventoryGUI);
     }
     public static void unregisterGUI(InventoryGUI inventoryGUI) {
-        if (inventoryGUI != null) {
-            for (InventoryItem inventoryItem : inventoryGUI.getInventoryItems()) {
-                if (inventoryItem.getAction() != null && inventoryItem.getAction() instanceof OpenInventory) {
-                    if (((OpenInventory) inventoryItem.getAction()).inventoryGUI != inventoryGUI) {
-                        unregisterGUI(((OpenInventory) inventoryItem.getAction()).inventoryGUI);
-                    }
-                }
-            }
-            if (!inventoryGUI.getPages().isEmpty()) {
-                for (InventoryGUI page : inventoryGUI.getPages()) {
-                    unregisterGUI(page);
-                }
-            }
+        if (isRegistered(inventoryGUI)) {
             inventoryManager.remove(inventoryGUI);
         }
     }

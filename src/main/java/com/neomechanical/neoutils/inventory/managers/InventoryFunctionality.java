@@ -34,12 +34,12 @@ public class InventoryFunctionality implements Listener {
                     if (!InventoryUtil.getInventoryManager().isGUI(player.getOpenInventory().getTopInventory())
                     && player.getOpenInventory().getTopInventory().getType() == InventoryType.CRAFTING) {
                         if (gui.getOpenOnClose() != null) {
-                            player.openInventory(gui.getOpenOnClose().getInventory());
+                            InventoryUtil.openInventory(player, gui.getOpenOnClose());
                             return;
                         }
-                        if (gui.isUnregisterOnClose()) {
-                            InventoryUtil.unregisterGUI(gui);
-                        }
+                    }
+                    if (gui.isUnregisterOnClose()) {
+                        InventoryUtil.unregisterGUI(gui);
                     }
                 }
             }.runTaskLater(NeoUtils.getInstance(), 1L);
