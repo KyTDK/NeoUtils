@@ -43,5 +43,7 @@ public class InventoryManager {
     public void remove(@NotNull InventoryGUI gui) {
         inventoryGuiMap.remove(gui.getInventory(), gui);
     }
-
+    public boolean contains(@NotNull InventoryGUI gui) {
+        return inventoryGuiMap.containsKey(gui.getInventory());
+    }
 }

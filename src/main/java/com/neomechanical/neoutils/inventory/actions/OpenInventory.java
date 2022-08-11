@@ -1,6 +1,7 @@
 package com.neomechanical.neoutils.inventory.actions;
 
 import com.neomechanical.neoutils.inventory.GUIAction;
+import com.neomechanical.neoutils.inventory.InventoryUtil;
 import com.neomechanical.neoutils.inventory.managers.data.InventoryGUI;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -14,6 +15,7 @@ public class OpenInventory extends GUIAction {
     @Override
     public void action(InventoryClickEvent event) {
         if (inventoryGUI != null) {
+            InventoryUtil.registerGUI(inventoryGUI);
             Player player = (Player) event.getWhoClicked();
             player.openInventory(inventoryGUI.getInventory());
             return;
