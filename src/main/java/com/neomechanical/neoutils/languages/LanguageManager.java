@@ -17,6 +17,7 @@ import javax.annotation.Nullable;
 import java.io.*;
 import java.util.*;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import static com.neomechanical.neoutils.NeoUtils.setLanguageManager;
 
@@ -28,9 +29,10 @@ public class LanguageManager {
     private FileConfiguration languageConfig;
     private static String currentLanguage = "en";
     private static String languageCode = "en-US";
+    private static Supplier<String> languageChangeConsumer;
 
     private FileConfiguration defaultLanguageConfig = null;
-    private Map<String, Function<Player, String>> internalPlaceholders = new HashMap<>();
+    private final Map<String, Function<Player, String>> internalPlaceholders = new HashMap<>();
     private @NotNull static final ArrayList<String> languageFiles = new ArrayList<>();
 
 
@@ -47,8 +49,8 @@ public class LanguageManager {
         this.internalPlaceholders.put(placeholder, placeholderFunction);
         return this;
     }
-    public LanguageManager setLanguageCode(String languageCode) {
-        LanguageManager.languageCode = languageCode;
+    public LanguageManager setLanguageCode(Supplier<String> languageCode) {
+        LanguageManager.languageChangeConsumer = languageCode;
         return this;
     }
     public LanguageManager setLanguageFile( @NotNull String... files) {
@@ -141,8 +143,6 @@ public class LanguageManager {
                 return;
             }
         }
-
-
     }
 
 
@@ -151,7 +151,9 @@ public class LanguageManager {
      */
     public final void loadLanguageConfig() {
         loadMissingDefaultLanguageFiles();
-
+        if (languageChangeConsumer != null) {
+            languageCode = languageChangeConsumer.get();
+        }
         /*
          * If the generalConfigFile Object doesn't exist yet, this will load the file
          * or create a new general.yml file if it does not exist yet and load it into the
@@ -159,7 +161,7 @@ public class LanguageManager {
          */
         if (languageConfigFile == null || !currentLanguage.equals(languageCode)) {
 
-            //Create the Data Folder if it does not exist yet (the NotQuests folder)
+            //Create the Data Folder if it does not exist yet
 
             if (languageFolder == null) {
                 languageFolder = new File(main.getDataFolder().getPath() + "/languages/");

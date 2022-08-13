@@ -1,11 +1,15 @@
 package com.neomechanical.neoutils;
 
 import com.neomechanical.neoutils.api.Api;
+import com.neomechanical.neoutils.config.ConfigManager;
 import com.neomechanical.neoutils.inventory.managers.InventoryFunctionality;
 import com.neomechanical.neoutils.languages.LanguageManager;
 import lombok.NonNull;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class NeoUtils extends JavaPlugin implements Api {
     private static BukkitAudiences adventure;
@@ -29,8 +33,21 @@ public abstract class NeoUtils extends JavaPlugin implements Api {
         }
         return languageManager;
     }
+    private static final Map<String, ConfigManager> configManager = new HashMap<>();
+    public static ConfigManager getConfigManager(String configName) {
+        if (configManager.get(configName) == null) {
+            throw new IllegalStateException("Tried to access " + configName +" in configManager, but its not set!");
+        }
+        return configManager.get(configName);
+    }
+    public static Map<String, ConfigManager> getConfigs() {
+        return configManager;
+    }
     public static void setLanguageManager(LanguageManager languageManager) {
         NeoUtils.languageManager = languageManager;
+    }
+    public static void setConfigManager(ConfigManager configManager, String configName) {
+        NeoUtils.configManager.put(configName, configManager);
     }
     @Override
     public void onEnable() {
