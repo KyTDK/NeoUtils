@@ -28,6 +28,13 @@
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.3.0</version>
                 <configuration>
+                    <relocations>
+                        <relocation>
+                            <pattern>net.kyori</pattern>
+                            <shadedPattern>com.neomechanical.neoconfig.kyori
+                            </shadedPattern> <!-- Replace [YOUR_PLUGIN_PACKAGE] with your namespace -->
+                        </relocation>
+                    </relocations>
                     <artifactSet>
                         <includes>
                             <include>net.kyori</include>
