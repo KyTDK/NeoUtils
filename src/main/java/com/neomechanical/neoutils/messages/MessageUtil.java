@@ -89,12 +89,24 @@ public final class MessageUtil {
         neoComponentArray.add(parsed);
         return this;
     }
+    public MessageUtil addComponent(TextComponent msg) {
+        neoComponentArray.add(msg);
+        return this;
+    }
 
     public MessageUtil neoComponentMessage() {
         return this;
     }
     
     public void sendNeoComponentMessage(CommandSender player, String prefix, String suffix) {
+        player.sendMessage(color(prefix));
+        for (Component msg : neoComponentArray) {
+            sendMM(player, msg);
+        }
+        player.sendMessage(color(suffix));
+        neoComponentArray.clear();
+    }
+    public void sendNeoComponentMessage(Player player, String prefix, String suffix) {
         player.sendMessage(color(prefix));
         for (Component msg : neoComponentArray) {
             sendMM(player, msg);
