@@ -3,7 +3,6 @@ package com.neomechanical.neoutils.config;
 import com.neomechanical.neoutils.NeoUtils;
 import com.neomechanical.neoutils.messages.Logger;
 import org.apache.commons.io.IOUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -84,13 +83,11 @@ public class ConfigManager {
     }
     private void saveDefaultConfig() {
         try {
-            configFile = new File(plugin.getDataFolder(), configFilePath);
+            if (configFile == null) {
+                configFile = new File(plugin.getDataFolder(), configFilePath);
+            }
             if (!configFile.exists()) {
-                if (!configFile.createNewFile()) {
-                    Logger.fatal("There was an error creating the " + configFilePath + " config file. (3)");
-                    return;
-                }
-
+                plugin.saveResource(configFilePath, false);
                 InputStream inputStream = plugin.getResource(configFilePath);
                 //Instead of creating a new language file, we will copy the one from inside the plugin jar into the plugin folder:
                 if (inputStream != null) {
