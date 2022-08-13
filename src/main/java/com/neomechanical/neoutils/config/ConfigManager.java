@@ -3,6 +3,7 @@ package com.neomechanical.neoutils.config;
 import com.neomechanical.neoutils.NeoUtils;
 import com.neomechanical.neoutils.messages.Logger;
 import org.apache.commons.io.IOUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -25,6 +26,7 @@ public class ConfigManager {
 
     public ConfigManager(String configFilePath) {
         this.configFilePath = configFilePath;
+        loadConfiguration();
         NeoUtils.setConfigManager(this, configFilePath);
     }
 
@@ -37,11 +39,6 @@ public class ConfigManager {
             return;
         }
         config = YamlConfiguration.loadConfiguration(configFile);
-        try {
-            ConfigUpdater.update(plugin, configFile.getPath(), configFile, List.of(""));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         if (!configFile.exists()) {
             //Does not work yet, since comments are overridden if something is saved
             //saveDefaultConfig();
@@ -60,6 +57,7 @@ public class ConfigManager {
         }
         config = new YamlConfiguration();
         try {
+
             config.load(configFile);
         } catch (IOException | InvalidConfigurationException e) {
             e.printStackTrace();
@@ -101,9 +99,9 @@ public class ConfigManager {
                     } catch (Exception e) {
                         Logger.fatal("There was an error creating the " + configFilePath + " config file. (4)");
                     }
-
                 }
             }
+            ConfigUpdater.update(plugin, configFilePath, configFile, List.of(""));
         } catch (IOException ioException) {
             Logger.fatal("There was an error creating the " + configFilePath + " config file. (3)");
         }

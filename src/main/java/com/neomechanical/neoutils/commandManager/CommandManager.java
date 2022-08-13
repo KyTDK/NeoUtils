@@ -10,13 +10,14 @@ import org.bukkit.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
+import java.util.function.Supplier;
 
 public class CommandManager implements CommandExecutor, TabCompleter{
     private final ArrayList<SubCommand> subcommands = new ArrayList<>();
     private Command mainCommand;
-    private String errorNotPlayer = "You must be a player to use this command!";
-    private String errorNoPermission = "You do not have permission to use this command!";
-    private String errorCommandNotFound = "Command not found!";
+    private Supplier<String> errorNotPlayer = () -> "You must be a player to use this command";
+    private Supplier<String> errorNoPermission = () -> "You do not have permission to use this command!";
+    private Supplier<String> errorCommandNotFound = () -> "Command not found!";
     @SuppressWarnings("unused")
     public CommandManager(JavaPlugin plugin, String parentCommand, SubCommand... subcommandsPass) {
         Collections.addAll(this.subcommands, subcommandsPass);
@@ -27,16 +28,16 @@ public class CommandManager implements CommandExecutor, TabCompleter{
         mainCommand = command;
     }
     @SuppressWarnings("unused")
-    public void setErrorNotPlayer(String errorNotPlayer) {
-        this.errorNotPlayer = errorNotPlayer;
+    public void setErrorNotPlayer(Supplier<String> messageSupplier) {
+        this.errorNotPlayer = messageSupplier;
     }
     @SuppressWarnings("unused")
-    public void setErrorNoPermission(String errorNoPermission) {
-        this.errorNoPermission = errorNoPermission;
+    public void setErrorNoPermission(Supplier<String> messageSupplier) {
+        this.errorNoPermission = messageSupplier;
     }
     @SuppressWarnings("unused")
-    public void setErrorCommandNotFound(String errorCommandNotFound) {
-        this.errorCommandNotFound = errorCommandNotFound;
+    public void setErrorCommandNotFound(Supplier<String> messageSupplier) {
+        this.errorCommandNotFound = messageSupplier;
     }
     @SuppressWarnings("unused")
     public void registerSubCommand(SubCommand subcommand) {
@@ -49,30 +50,30 @@ public class CommandManager implements CommandExecutor, TabCompleter{
                     for (int i = 0; i < getSubcommands().size(); i++) {
                         if (args[0].equalsIgnoreCase(getSubcommands().get(i).getName())) {
                             if (getSubcommands().get(i).playerOnly() && !(sender instanceof Player)) {
-                                MessageUtil.sendMM(sender, errorNotPlayer);
+                                MessageUtil.sendMM(sender, errorNotPlayer.get());
                                 return true;
                             }
                             if (sender.hasPermission(getSubcommands().get(i).getPermission())) {
                                 getSubcommands().get(i).perform(sender, args);
                             } else {
-                                MessageUtil.sendMM(sender, errorNoPermission);
+                                MessageUtil.sendMM(sender, errorNoPermission.get());
                             }
                             return true;
                         }
                     }
                     //If the command is not found, send a message to the player
-            MessageUtil.sendMM(sender, errorCommandNotFound);
+            MessageUtil.sendMM(sender, errorCommandNotFound.get());
                     return true;
                 }
                 else {
                 if (mainCommand.playerOnly() && !(sender instanceof Player)) {
-                    MessageUtil.sendMM(sender, errorNotPlayer);
+                    MessageUtil.sendMM(sender, errorNotPlayer.get());
                     return true;
                 }
                 if (sender.hasPermission(mainCommand.getPermission())) {
                     mainCommand.perform(sender, args);
                 } else {
-                    MessageUtil.sendMM(sender, errorNoPermission);
+                    MessageUtil.sendMM(sender, errorNoPermission.get());
                 }
             }
 
