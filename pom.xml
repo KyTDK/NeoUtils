@@ -31,7 +31,7 @@
                     <relocations>
                         <relocation>
                             <pattern>net.kyori</pattern>
-                            <shadedPattern>com.neomechanical.neoconfig.kyori
+                            <shadedPattern>com.neomechanical.kyori
                             </shadedPattern> <!-- Replace [YOUR_PLUGIN_PACKAGE] with your namespace -->
                         </relocation>
                     </relocations>
