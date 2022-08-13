@@ -50,7 +50,10 @@ public final class MessageUtil {
         Audience player = adventure.player(sendTo);
         player.sendMessage(parsed);
     }
-
+    public static void sendMM(CommandSender sendTo, TextComponent parsed) {
+        Audience player = adventure.sender(sendTo);
+        player.sendMessage(parsed);
+    }
     public static void sendMM(CommandSender sendTo, String msg) {
         var mm = MiniMessage.miniMessage();
         Component parsed = mm.deserialize(msg);
