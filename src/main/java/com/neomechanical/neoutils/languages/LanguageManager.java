@@ -43,6 +43,7 @@ public class LanguageManager {
      */
     public LanguageManager(final JavaPlugin main) {
         this.main = main;
+        loadLanguageConfig();
         internalPlaceholderReplacements = new HashMap<>();
     }
     public LanguageManager addInternalPlaceholder(String placeholder, Function<Player, String> placeholderFunction) {
@@ -176,11 +177,6 @@ public class LanguageManager {
             }
 
             languageConfigFile = new File(languageFolder, languageCode + ".yml");
-            try {
-                ConfigUpdater.update(main, "translations/" + languageCode + ".yml", languageConfigFile, List.of(""));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
             if (!languageConfigFile.exists()) {
                 //Does not work yet, since comments are overridden if something is saved
                 //saveDefaultConfig();
@@ -195,6 +191,12 @@ public class LanguageManager {
                 } catch (IOException ioException) {
                     Logger.warn("There was an error creating the " + languageCode + ".yml language file.");
                     return;
+                }
+            } else {
+                try {
+                    ConfigUpdater.update(main, "translations/" + languageCode + ".yml", languageConfigFile, List.of(""));
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
             languageConfig = new YamlConfiguration();
