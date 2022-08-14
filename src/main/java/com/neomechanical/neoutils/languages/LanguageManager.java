@@ -43,7 +43,6 @@ public class LanguageManager {
      */
     public LanguageManager(final JavaPlugin main) {
         this.main = main;
-        loadLanguageConfig();
         internalPlaceholderReplacements = new HashMap<>();
     }
     public LanguageManager addInternalPlaceholder(String placeholder, Function<Player, String> placeholderFunction) {
