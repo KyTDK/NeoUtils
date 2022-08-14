@@ -25,7 +25,7 @@ public class InventoryGUI implements NInventory {
     private @NotNull final String title;
     private @Nullable InventoryGUI openOnClose = null;
     private boolean unregisterOnClose = true;
-    private boolean pagesInheritParentSettings;
+    private boolean pagesInheritParentSettings = true;
 
     @Override
     public int getSize() {
