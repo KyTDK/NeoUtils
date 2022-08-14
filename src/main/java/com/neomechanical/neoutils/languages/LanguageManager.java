@@ -172,6 +172,11 @@ public class LanguageManager {
 
             }
 
+            if (!languageFiles.contains(languageCode + ".yml")) {
+                Logger.warn("The language file " + languageCode + ".yml does not exist or is not supported." +
+                        " Please look at the languages folder for a list of supported languages. Using the primary language file instead.");
+                languageCode = "en-US";
+            }
             languageConfigFile = new File(languageFolder, languageCode + ".yml");
             if (!languageConfigFile.exists()) {
                 //Does not work yet, since comments are overridden if something is saved
