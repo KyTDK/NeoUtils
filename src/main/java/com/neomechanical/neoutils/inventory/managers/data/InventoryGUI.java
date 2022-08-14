@@ -25,6 +25,7 @@ public class InventoryGUI implements NInventory {
     private @NotNull final String title;
     private @Nullable InventoryGUI openOnClose = null;
     private boolean unregisterOnClose = true;
+    private boolean pagesInheritParentSettings;
 
     @Override
     public int getSize() {
@@ -65,6 +66,15 @@ public class InventoryGUI implements NInventory {
                     }
                 }
                 InventoryGUI newPage = InventoryUtil.createInventoryGUI(null, getSize(), title);
+                if (pagesInheritParentSettings) {
+                    newPage.setPagesInheritParentSettings(true);
+                    if (openOnClose != null) {
+                        newPage.setOpenOnClose(openOnClose);
+                    }
+                    if (unregisterOnClose) {
+                        newPage.setUnregisterOnClose(true);
+                    }
+                }
                 newPage.setItem(getSize()-9, new InventoryItem(ItemUtil.createItem(Material.DARK_OAK_BUTTON, ChatColor.GREEN + "Left"),
                         new OpenInventory(this), InventoryItemType.NAVIGATION));
                 pages.add(newPage);
@@ -116,5 +126,10 @@ public class InventoryGUI implements NInventory {
     @Override
     public void setUnregisterOnClose(boolean unregister) {
         this.unregisterOnClose = unregister;
+    }
+
+    @Override
+    public void setPagesInheritParentSettings(boolean inherit) {
+        this.pagesInheritParentSettings = inherit;
     }
 }

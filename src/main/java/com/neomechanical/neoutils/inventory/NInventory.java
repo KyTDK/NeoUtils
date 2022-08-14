@@ -99,4 +99,5 @@ public interface NInventory {
      */
     void setOpenOnClose(@NotNull InventoryGUI inventory);
     void setUnregisterOnClose(boolean unregister);
+    void setPagesInheritParentSettings(boolean inherit);
 }
