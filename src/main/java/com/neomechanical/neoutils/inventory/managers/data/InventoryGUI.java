@@ -17,6 +17,10 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Auto-pagination, feature rich inventory GUI.
+ * extends NInventory
+ */
 @Data
 public class InventoryGUI implements NInventory {
     private @NotNull final Inventory inventory;
