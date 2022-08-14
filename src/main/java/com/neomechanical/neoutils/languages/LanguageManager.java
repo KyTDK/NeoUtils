@@ -5,7 +5,6 @@ import com.neomechanical.neoutils.messages.Logger;
 import com.neomechanical.neoutils.utils.UtilManager;
 import org.apache.commons.io.IOUtils;
 import org.bukkit.ChatColor;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -101,7 +100,6 @@ public class LanguageManager {
                             Logger.fatal("There was an error creating the " + fileName + " language file. (4)");
                             return;
                         }
-
                     }
                 }
 
@@ -136,8 +134,7 @@ public class LanguageManager {
 
 
                 }
-
-
+                ConfigUpdater.update(main, "translations/" + fileName, file, List.of(""));
             } catch (IOException ioException) {
                 Logger.fatal("There was an error creating the " + fileName + " language file. (3)");
                 return;
@@ -207,42 +204,7 @@ public class LanguageManager {
         } else {
             languageConfig = YamlConfiguration.loadConfiguration(languageConfigFile);
         }
-
-
-        if (setupDefaultStrings()) {
-            saveLanguageConfig();
-        }
         currentLanguage = languageCode;
-
-    }
-
-    private boolean setupDefaultStrings() {
-        //Set default values
-
-        if (defaultLanguageConfig == null) {
-            Logger.fatal("There was an error reading the default.yml language configuration.");
-            return false;
-        }
-
-        boolean valueChanged = false;
-        final ConfigurationSection defaultConfigurationSection = defaultLanguageConfig.getConfigurationSection("");
-        if (defaultConfigurationSection != null) {
-            for (final String defaultString : defaultConfigurationSection.getKeys(true)) {
-
-                if (!defaultConfigurationSection.isString(defaultString)) {
-                    continue;
-                }
-
-                if (!getLanguageConfig().isString(defaultString)) {
-                    getLanguageConfig().set(defaultString, defaultConfigurationSection.getString(defaultString));
-                    valueChanged = true;
-                }
-            }
-        }
-
-
-        return valueChanged;
-
     }
 
 
