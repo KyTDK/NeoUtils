@@ -1,6 +1,7 @@
 package com.neomechanical.neoutils;
 
 import com.neomechanical.neoutils.api.Api;
+import com.neomechanical.neoutils.commandManager.CommandFunctionality;
 import com.neomechanical.neoutils.config.ConfigManager;
 import com.neomechanical.neoutils.inventory.managers.InventoryFunctionality;
 import com.neomechanical.neoutils.languages.LanguageManager;
@@ -14,6 +15,7 @@ import java.util.Map;
 public abstract class NeoUtils extends JavaPlugin implements Api {
     private static BukkitAudiences adventure;
     private static JavaPlugin instance;
+
     public static @NonNull BukkitAudiences adventure() {
         if (adventure == null) {
             throw new IllegalStateException("Tried to access Adventure when the plugin was disabled!");
@@ -49,6 +51,7 @@ public abstract class NeoUtils extends JavaPlugin implements Api {
     public static void setConfigManager(ConfigManager configManager, String configName) {
         NeoUtils.configManager.put(configName, configManager);
     }
+    private static CommandFunctionality commandFunctionality;
     @Override
     public void onEnable() {
         instance = this;
