@@ -59,12 +59,12 @@ public class CommandFunctionality implements CommandExecutor, TabCompleter{
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String alias, @NotNull String[] args) {
         List<String> list = new ArrayList<>();
             for (int i = 0; i < commandBuilder.getSubcommands().size(); i++) {
-                SubCommand subCommand = commandBuilder.getSubcommands().get(i);
-                if (!sender.hasPermission(subCommand.getPermission())) {
+                Command neoCommand = commandBuilder.getSubcommands().get(i);
+                if (!sender.hasPermission(neoCommand.getPermission())) {
                     return null;
                 }
                 if (args.length == 1) {
-                    list.add(subCommand.getName());
+                    list.add(neoCommand.getName());
                 } else if (args.length >= 2) {
                     if (args[0].equalsIgnoreCase(commandBuilder.getSubcommands().get(i).getName())) {
                         List<String> suggestions = commandBuilder.getSubcommands().get(i).tabSuggestions();

@@ -1,8 +1,8 @@
 package com.neomechanical.neoutils.commandManager.easyCommands;
 
 import com.neomechanical.neoutils.NeoUtils;
+import com.neomechanical.neoutils.commandManager.Command;
 import com.neomechanical.neoutils.commandManager.CommandFunctionality;
-import com.neomechanical.neoutils.commandManager.SubCommand;
 import com.neomechanical.neoutils.messages.MessageUtil;
 import com.neomechanical.neoutils.pages.Pagination;
 import org.bukkit.command.CommandSender;
@@ -10,7 +10,7 @@ import org.bukkit.command.CommandSender;
 import java.util.List;
 import java.util.Map;
 
-public class EasyHelpCommand extends SubCommand {
+public class EasyHelpCommand extends Command {
     private final String syntax;
     private final String description;
     private final String permission;
@@ -28,6 +28,11 @@ public class EasyHelpCommand extends SubCommand {
         this.playerOnly = playerOnly;
         this.prefix = prefix;
         this.suffix = suffix;
+    }
+
+    @Override
+    public List<Command> getSubcommands() {
+        return null;
     }
 
     @Override
@@ -67,12 +72,12 @@ public class EasyHelpCommand extends SubCommand {
             }
             page = Integer.getInteger(args[1]);
         }
-        List<SubCommand> pageList = Pagination.getPage(commandFunctionality.getSubcommands(), page, 10);
+        List<Command> pageList = Pagination.getPage(commandFunctionality.getSubcommands(), page, 10);
         if (pageList == null) {
             MessageUtil.sendMM(player, NeoUtils.getLanguageManager().getString("commandGeneric.errorInvalidSyntax", null));
             return;
         }
-        for (SubCommand subCommand : pageList) {
+        for (Command subCommand : pageList) {
             messageUtil.addComponent("  <gray><bold>" + subCommand.getSyntax() + "</bold> - " + subCommand.getDescription());
         }
         messageUtil.sendNeoComponentMessage(player, prefix, suffix);

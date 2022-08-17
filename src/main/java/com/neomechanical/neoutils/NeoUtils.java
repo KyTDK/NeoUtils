@@ -2,6 +2,7 @@ package com.neomechanical.neoutils;
 
 import com.neomechanical.neoutils.api.Api;
 import com.neomechanical.neoutils.commandManager.CommandFunctionality;
+import com.neomechanical.neoutils.commandManager.CommandManager;
 import com.neomechanical.neoutils.config.ConfigManager;
 import com.neomechanical.neoutils.inventory.managers.InventoryFunctionality;
 import com.neomechanical.neoutils.languages.LanguageManager;
@@ -51,11 +52,10 @@ public abstract class NeoUtils extends JavaPlugin implements Api {
     public static void setConfigManager(ConfigManager configManager, String configName) {
         NeoUtils.configManager.put(configName, configManager);
     }
-    private static CommandFunctionality commandFunctionality;
+    public static CommandManager commandManager;
     @Override
     public void onEnable() {
-        instance = this;
-        adventure = BukkitAudiences.create(this);
+        dependencyInjection();
         getServer().getPluginManager().registerEvents(new InventoryFunctionality(), this);
         this.onPluginEnable();
     }
@@ -67,5 +67,10 @@ public abstract class NeoUtils extends JavaPlugin implements Api {
             adventure = null;
         }
         this.onPluginDisable();
+    }
+    public void dependencyInjection() {
+        instance = this;
+        commandManager = new CommandManager();
+        adventure = BukkitAudiences.create(this);
     }
 }
