@@ -53,6 +53,9 @@ public abstract class NeoUtils extends JavaPlugin implements Api {
         NeoUtils.configManager.put(configName, configManager);
     }
     public static CommandManager commandManager;
+    public static CommandManager getCommandManager() {
+        return commandManager;
+    }
     @Override
     public void onEnable() {
         dependencyInjection();

@@ -1,5 +1,6 @@
 package com.neomechanical.neoutils.commandManager;
 
+import com.neomechanical.neoutils.NeoUtils;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.*;
@@ -11,15 +12,15 @@ public class CommandBuilder {
         this.parentCommand = parentCommand;
     }
     public Command mainCommand;
+    public JavaPlugin plugin = NeoUtils.getInstance();
     public Supplier<String> errorNotPlayer = () -> "You must be a player to use this command";
     public Supplier<String> errorNoPermission = () -> "You do not have permission to use this command!";
     public Supplier<String> errorCommandNotFound = () -> "Command not found!";
     CommandFunctionality functionality = new CommandFunctionality(this);
     @SuppressWarnings("unused")
-    public CommandBuilder(JavaPlugin plugin, Command mainCommand, Command... subcommandsPass) {
+    public CommandBuilder(Command mainCommand, Command... subcommandsPass) {
         this.mainCommand = mainCommand;
         mainCommand.addSubcommand(subcommandsPass);
-        Objects.requireNonNull(plugin.getCommand(mainCommand.getName())).setExecutor(functionality);
     }
     @SuppressWarnings("unused")
     public CommandBuilder setErrorNotPlayer(Supplier<String> messageSupplier) {
@@ -42,7 +43,11 @@ public class CommandBuilder {
         return this;
     }
     public void register() {
-
+        NeoUtils.getCommandManager().addCommand(mainCommand);
+        Objects.requireNonNull(plugin.getCommand(mainCommand.getName())).setExecutor(functionality);
+    }
+    public void unregister() {
+        NeoUtils.getCommandManager().removeCommand(parentCommand);
     }
     public ArrayList<Command> getSubcommands(){
         return new ArrayList<>(mainCommand.getSubcommands());
