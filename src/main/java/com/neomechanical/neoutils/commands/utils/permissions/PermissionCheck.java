@@ -3,7 +3,5 @@ package com.neomechanical.neoutils.commands.utils.permissions;
 import org.bukkit.Bukkit;
 
 public class PermissionCheck {
-    public static String getPermission(String command) {
-        Bukkit.getPluginManager().getPlugins().
-    }
+    //TODO Find a way to check if a player has permission to any command
 }
