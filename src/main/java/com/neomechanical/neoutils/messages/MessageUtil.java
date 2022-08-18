@@ -114,4 +114,16 @@ public final class MessageUtil {
         player.sendMessage(color(suffix));
         neoComponentArray.clear();
     }
+    public void sendNeoComponentMessage(Player player) {
+        for (Component msg : neoComponentArray) {
+            sendMM(player, msg);
+        }
+        neoComponentArray.clear();
+    }
+    public void sendNeoComponentMessage(CommandSender player) {
+        for (Component msg : neoComponentArray) {
+            sendMM(player, msg);
+        }
+        neoComponentArray.clear();
+    }
 }

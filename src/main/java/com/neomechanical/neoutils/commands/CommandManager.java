@@ -1,6 +1,7 @@
-package com.neomechanical.neoutils.commandManager;
+package com.neomechanical.neoutils.commands;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CommandManager {
@@ -13,5 +14,8 @@ public class CommandManager {
     }
     public void removeCommand(String command) {
         stringCommandBuilderMap.remove(command);
+    }
+    public List<Command> getSubcommands(String command) {
+        return stringCommandBuilderMap.get(command).getSubcommands();
     }
 }

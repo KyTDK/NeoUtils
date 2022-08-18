@@ -1,12 +1,16 @@
-package com.neomechanical.neoutils.commandManager;
+package com.neomechanical.neoutils.commands;
 
 import org.bukkit.command.CommandSender;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public abstract class Command {
-    public abstract List<Command> getSubcommands();
+    ArrayList<Command> subcommands = new ArrayList<>();
+    public List<Command> getSubcommands() {
+        return subcommands;
+    }
 
     public Command addSubcommand(Command... command) {
         getSubcommands().addAll(List.of(command));

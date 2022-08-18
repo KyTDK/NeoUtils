@@ -1,4 +1,4 @@
-package com.neomechanical.neoutils.commandManager;
+package com.neomechanical.neoutils.commands;
 
 import com.neomechanical.neoutils.messages.MessageUtil;
 import org.bukkit.command.CommandExecutor;
@@ -12,10 +12,6 @@ import java.util.*;
 
 public class CommandFunctionality implements CommandExecutor, TabCompleter{
     private final CommandBuilder commandBuilder;
-
-    public CommandBuilder createCommand(String parentCommand) {
-        return new CommandBuilder(parentCommand);
-    }
     public CommandFunctionality(CommandBuilder commandBuilder) {
         this.commandBuilder = commandBuilder;
     }

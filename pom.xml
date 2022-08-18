@@ -8,9 +8,11 @@
     <version>1.0-SNAPSHOT</version>
     <name>NeoUtils</name>
     <description>Tools for developers and server owners</description>
-
     <url>https://neomechanical.com</url>
-
+    <properties>
+        <java.version>17</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
     <build>
         <plugins>
             <plugin>
@@ -125,12 +127,4 @@
             <scope>compile</scope>
         </dependency>
     </dependencies>
-
-    <properties>
-        <java.version>17</java.version>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    </properties>
 </project>

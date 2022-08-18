@@ -1,6 +1,8 @@
 package com.neomechanical.neoutils.languages;
 
+import com.neomechanical.neoutils.NeoUtils;
 import com.neomechanical.neoutils.config.ConfigUpdater;
+import com.neomechanical.neoutils.manager.ManagerManager;
 import com.neomechanical.neoutils.messages.Logger;
 import com.neomechanical.neoutils.utils.UtilManager;
 import org.apache.commons.io.IOUtils;
@@ -17,8 +19,6 @@ import java.io.*;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
-
-import static com.neomechanical.neoutils.NeoUtils.setLanguageManager;
 
 public class LanguageManager {
     final Map<String, String> internalPlaceholderReplacements;
@@ -65,7 +65,7 @@ public class LanguageManager {
      * Set the manager instance
      */
     public void set() {
-        setLanguageManager(this);
+        NeoUtils.getManagers().setLanguageManager(this);
     }
     public String getLanguageCode() {
         return languageCode;

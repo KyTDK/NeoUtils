@@ -1,6 +1,7 @@
 package com.neomechanical.neoutils.config;
 
 import com.neomechanical.neoutils.NeoUtils;
+import com.neomechanical.neoutils.manager.ManagerManager;
 import com.neomechanical.neoutils.messages.Logger;
 import org.apache.commons.io.IOUtils;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -16,7 +17,7 @@ public class ConfigManager {
     private File configFile = null;
     private FileConfiguration config;
     private final JavaPlugin plugin = NeoUtils.getInstance();
-
+    private static final ManagerManager managers = NeoUtils.getManagers();
     public void reloadConfig() {
         loadConfiguration();
     }
@@ -26,7 +27,7 @@ public class ConfigManager {
     public ConfigManager(String configFilePath) {
         this.configFilePath = configFilePath;
         loadConfiguration();
-        NeoUtils.setConfigManager(this, configFilePath);
+        managers.setConfigManager(this, configFilePath);
     }
 
     private void loadConfiguration() {
@@ -104,6 +105,6 @@ public class ConfigManager {
         }
     }
     public static void reloadAllConfigs() {
-        NeoUtils.getConfigs().forEach((configFileName, configManager) -> configManager.reloadConfig());
+        managers.getConfigs().forEach((configFileName, configManager) -> configManager.reloadConfig());
     }
 }
