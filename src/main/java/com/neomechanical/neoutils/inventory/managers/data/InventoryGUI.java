@@ -54,6 +54,7 @@ public class InventoryGUI implements NInventory {
         }
     }
 
+
     @Override
     public void addItem(@NotNull InventoryItem... items) throws IllegalArgumentException {
         for (InventoryItem item : items) {
@@ -73,6 +74,7 @@ public class InventoryGUI implements NInventory {
                         }
                         carryOver.add(itemCOI);
                         inventory.remove(itemCO);
+                        inventoryItems.remove(i);
                     }
                 }
                 InventoryGUI newPage = InventoryUtil.createInventoryGUI(null, getSize(), title);
