@@ -56,10 +56,8 @@ public class InventoryGUI implements NInventory {
 
     @Override
     public void addItem(@NotNull InventoryItem... items) throws IllegalArgumentException {
-        int index = 0;
         for (InventoryItem item : items) {
             if (!pages.isEmpty()) {
-                index = InventoryOperations.addItem(inventory, item.getItem());
                 pages.get(pages.size() - 1).addItem(item);
                 continue;
             }
@@ -103,8 +101,7 @@ public class InventoryGUI implements NInventory {
                         (event) -> new OpenInventory(newPage).action(event), InventoryItemType.NAVIGATION));
                 continue;
             }
-            index = InventoryOperations.addItem(inventory, item.getItem());
-            inventoryItems.put(index, item);
+            inventoryItems.put(InventoryOperations.addItem(inventory, item.getItem()), item);
         }
     }
 
