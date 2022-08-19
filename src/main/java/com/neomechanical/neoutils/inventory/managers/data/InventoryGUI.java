@@ -5,6 +5,7 @@ import com.neomechanical.neoutils.inventory.InventoryUtil;
 import com.neomechanical.neoutils.inventory.NInventory;
 import com.neomechanical.neoutils.inventory.actions.OpenInventory;
 import com.neomechanical.neoutils.inventory.items.InventoryItemType;
+import com.neomechanical.neoutils.inventory.utils.InventoryOperations;
 import com.neomechanical.neoutils.inventory.utils.Size;
 import com.neomechanical.neoutils.items.ItemUtil;
 import lombok.Data;
@@ -54,9 +55,10 @@ public class InventoryGUI implements NInventory {
     @Override
     public void addItem(@NotNull InventoryItem... items) throws IllegalArgumentException {
         int inventoryOccupied = Size.amountOfFilledSlots(inventory);
-        int index = inventoryOccupied != 0 ? inventoryOccupied : inventory.getSize() - 1;
+        int index = 0;
         for (InventoryItem item : items) {
             if (!pages.isEmpty()) {
+                index = InventoryOperations.addItem(inventory, item.getItem());
                 pages.get(pages.size() - 1).setItem(index, item);
                 continue;
             }
@@ -100,8 +102,8 @@ public class InventoryGUI implements NInventory {
                         (event) -> new OpenInventory(newPage).action(event), InventoryItemType.NAVIGATION));
                 continue;
             }
-            inventory.setItem(index, item.getItem());
-            inventoryItems.put(inventory.getSize()-1, item);
+            InventoryOperations.addItem(inventory, item.getItem());
+            inventoryItems.put(index, item);
         }
     }
 
@@ -122,8 +124,7 @@ public class InventoryGUI implements NInventory {
     @Override
     public void setContents(@NotNull InventoryItem[] items) throws IllegalArgumentException {
         for (InventoryItem item : items) {
-            int inventoryOccupied = Size.amountOfFilledSlots(inventory);
-            int index = inventoryOccupied != 0 ? inventoryOccupied : inventory.getSize() - 1;
+            int index = InventoryOperations.addItem(inventory, item.getItem());
             inventoryItems.put(index, item);
             inventory.setItem(index, item.getItem());
             //get item index
