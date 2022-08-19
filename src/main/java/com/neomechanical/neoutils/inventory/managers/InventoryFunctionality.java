@@ -59,7 +59,7 @@ public class InventoryFunctionality implements Listener {
         if (item == null) {
             return;
         }
-        InventoryItem menuItem = inventoryManager.getMenuItem(gui, item);
+        InventoryItem menuItem = inventoryManager.getMenuItem(gui, event.getSlot());
         if (menuItem == null) {
             return;
         }
