@@ -54,7 +54,7 @@ public class InventoryGUI implements NInventory {
     @Override
     public void addItem(@NotNull InventoryItem... items) throws IllegalArgumentException {
         int inventoryOccupied = Size.amountOfFilledSlots(inventory);
-        int index = inventoryOccupied - 1;
+        int index = inventoryOccupied != 0 ? inventoryOccupied : inventory.getSize() - 1;
         for (InventoryItem item : items) {
             if (!pages.isEmpty()) {
                 pages.get(pages.size() - 1).setItem(index, item);
@@ -123,8 +123,9 @@ public class InventoryGUI implements NInventory {
     public void setContents(@NotNull InventoryItem[] items) throws IllegalArgumentException {
         for (InventoryItem item : items) {
             int inventoryOccupied = Size.amountOfFilledSlots(inventory);
-            inventoryItems.put(inventoryOccupied-1, item);
-            inventory.setItem(inventoryOccupied-1, item.getItem());
+            int index = inventoryOccupied != 0 ? inventoryOccupied : inventory.getSize() - 1;
+            inventoryItems.put(index, item);
+            inventory.setItem(index, item.getItem());
             //get item index
         }
     }
