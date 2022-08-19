@@ -54,6 +54,7 @@ public class CommandBuilder {
         Objects.requireNonNull(plugin.getCommand(mainCommand.getName())).setExecutor(functionality);
     }
     public void unregister() {
+        //TODO Unregister command from CommandMap
         manager.getCommandManager().removeCommand(parentCommand);
     }
     public ArrayList<Command> getSubcommands(){
