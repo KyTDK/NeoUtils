@@ -6,14 +6,22 @@ import org.bukkit.inventory.ItemStack;
 
 public class InventoryOperations {
     public static int addItem(Inventory inventory, ItemStack itemStack) {
-        int inventoryOccupied = Size.amountOfFilledSlots(inventory);
-        inventory.setItem(inventoryOccupied, itemStack);
-        return inventoryOccupied;
+        for(int i = 0; i < inventory.getSize(); i++){
+            if(inventory.getItem(i) == null){
+                inventory.setItem(i, itemStack);
+                return i;
+            }
+        }
+        return -1;
     }
     public static int addItem(InventoryGUI inventoryGUI, ItemStack itemStack) {
         Inventory inventory = inventoryGUI.getInventory();
-        int inventoryOccupied = Size.amountOfFilledSlots(inventory);
-        inventory.setItem(inventoryOccupied, itemStack);
-        return inventoryOccupied;
+        for(int i = 0; i < inventory.getSize(); i++){
+            if(inventory.getItem(i) == null){
+                inventory.setItem(i, itemStack);
+                return i;
+            }
+        }
+        return -1;
     }
 }
