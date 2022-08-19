@@ -48,27 +48,28 @@ public class InventoryGUI implements NInventory {
 
     @Override
     public void setItem(int index, @Nullable InventoryItem item) {
-        inventoryItems.put(index, item);
-        inventory.setItem(index, item == null ? null : item.getItem());
+        if (item !=null) {
+            inventoryItems.put(index, item);
+            inventory.setItem(index, item.getItem());
+        }
     }
 
     @Override
     public void addItem(@NotNull InventoryItem... items) throws IllegalArgumentException {
-        int inventoryOccupied = Size.amountOfFilledSlots(inventory);
         int index = 0;
         for (InventoryItem item : items) {
             if (!pages.isEmpty()) {
                 index = InventoryOperations.addItem(inventory, item.getItem());
-                pages.get(pages.size() - 1).setItem(index, item);
+                pages.get(pages.size() - 1).addItem(item);
                 continue;
             }
-            if (inventoryOccupied+1 > getSize()) {
+            if (Size.amountOfFilledSlots(inventory)+1 > getSize()) {
                 List<InventoryItem> carryOver = new ArrayList<>();
                 carryOver.add(item);
                 for (int i = getSize()-9; i < getSize(); i++) {
                     ItemStack itemCO = inventory.getItem(i);
                     if (itemCO != null) {
-                        InventoryItem itemCOI = NeoUtils.getManagers().getInventoryManager().getMenuItem(this, itemCO);
+                        InventoryItem itemCOI = NeoUtils.getManagers().getInventoryManager().getMenuItem(this, i);
                         if (itemCOI!=null&&itemCOI.getType()!=null&&itemCOI.getType().equals(InventoryItemType.NAVIGATION)) {
                             continue;
                         }
@@ -91,7 +92,7 @@ public class InventoryGUI implements NInventory {
                 pages.add(newPage);
                 for (InventoryItem itemCO : carryOver) {
                     if (itemCO != null) {
-                        newPage.setItem(index, itemCO);
+                        newPage.addItem(itemCO);
                     }
                 }
                 if (pages.contains(this))  {
@@ -102,7 +103,7 @@ public class InventoryGUI implements NInventory {
                         (event) -> new OpenInventory(newPage).action(event), InventoryItemType.NAVIGATION));
                 continue;
             }
-            InventoryOperations.addItem(inventory, item.getItem());
+            index = InventoryOperations.addItem(inventory, item.getItem());
             inventoryItems.put(index, item);
         }
     }
