@@ -15,10 +15,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class InventoryFunctionality implements Listener {
+    private final InventoryManager inventoryManager = NeoUtils.getManagers().getInventoryManager();
     @EventHandler
     public void onInventoryClose(InventoryCloseEvent event) {
         Inventory inventory = event.getInventory();
-        InventoryManager inventoryManager = InventoryUtil.getInventoryManager();
         if (!inventoryManager.isGUI(inventory)) {
             return;
         }
@@ -31,7 +31,7 @@ public class InventoryFunctionality implements Listener {
                 @Override
                 public void run() {
                     //Make sure it wasn't just another inventory being opened.
-                    if (!InventoryUtil.getInventoryManager().isGUI(player.getOpenInventory().getTopInventory())
+                    if (!inventoryManager.isGUI(player.getOpenInventory().getTopInventory())
                     && player.getOpenInventory().getTopInventory().getType() == InventoryType.CRAFTING) {
                         if (gui.getOpenOnClose() != null) {
                             InventoryUtil.openInventory(player, gui.getOpenOnClose());
@@ -47,7 +47,6 @@ public class InventoryFunctionality implements Listener {
     @EventHandler
     public void onClick(InventoryClickEvent event) {
         Inventory inventory = event.getInventory();
-        InventoryManager inventoryManager = InventoryUtil.getInventoryManager();
         if (!inventoryManager.isGUI(inventory)) {
             return;
         }
@@ -65,7 +64,7 @@ public class InventoryFunctionality implements Listener {
             return;
         }
         if (menuItem.getAction() != null) {
-            menuItem.getAction().action(event);
+            menuItem.getAction().accept(event);
         }
     }
 }

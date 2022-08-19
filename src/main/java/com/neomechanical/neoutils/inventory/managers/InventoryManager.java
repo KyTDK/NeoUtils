@@ -15,12 +15,16 @@ public class InventoryManager {
 
     @Nullable
     public InventoryItem getMenuItem(InventoryGUI inventoryGUI, @NotNull ItemStack item) {
-        for (InventoryItem menuItem : inventoryGUI.getInventoryItems()) {
+        for (InventoryItem menuItem : inventoryGUI.getInventoryItems().values()) {
             if (menuItem.getItem().equals(item)) {
                 return menuItem;
             }
         }
         return null;
+    }
+    @Nullable
+    public InventoryItem getMenuItem(InventoryGUI inventoryGUI, int index, @NotNull ItemStack item) {
+        return inventoryGUI.getInventoryItems().get(index);
     }
     public boolean isGUI(Inventory inventory) {
         return inventoryGuiMap.containsKey(inventory);

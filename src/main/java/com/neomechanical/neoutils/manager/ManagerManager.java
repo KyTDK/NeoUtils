@@ -3,6 +3,7 @@ package com.neomechanical.neoutils.manager;
 import com.neomechanical.neoutils.NeoUtils;
 import com.neomechanical.neoutils.commands.CommandManager;
 import com.neomechanical.neoutils.config.ConfigManager;
+import com.neomechanical.neoutils.inventory.managers.InventoryManager;
 import com.neomechanical.neoutils.languages.LanguageManager;
 
 import java.util.HashMap;
@@ -12,6 +13,7 @@ public class ManagerManager {
     private final Map<String, ConfigManager> configManager = new HashMap<>();
     private final CommandManager commandManager = new CommandManager();
     private LanguageManager languageManager = new LanguageManager(NeoUtils.getInstance());
+    private static final InventoryManager inventoryManager = new InventoryManager();
 
     public LanguageManager getLanguageManager() {
         if (languageManager == null) {
@@ -36,5 +38,8 @@ public class ManagerManager {
     }
     public CommandManager getCommandManager() {
         return commandManager;
+    }
+    public InventoryManager getInventoryManager() {
+        return inventoryManager;
     }
 }
