@@ -1,10 +1,7 @@
 package com.neomechanical.neoutils.manager;
 
 import com.neomechanical.neoutils.NeoUtils;
-import com.neomechanical.neoutils.commands.CommandManager;
-import com.neomechanical.neoutils.config.ConfigManager;
 import com.neomechanical.neoutils.inventory.managers.InventoryManager;
-import com.neomechanical.neoutils.languages.LanguageManager;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,10 +24,10 @@ public class ManagerHandler  {
         }
         return languageManager;
     }
-    public ConfigManager setNewConfigManager(String configName) {
+    public ConfigManager getConfigManager(String configName) {
         return configManager.get(configName);
     }
-    public ConfigManager getNewConfigManager(String configName) {
+    public ConfigManager createNewConfigManager(String configName) {
         return new ConfigManager(plugin, configName);
     }
     public Map<String, ConfigManager> getConfigs() {

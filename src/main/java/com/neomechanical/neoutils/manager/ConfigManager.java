@@ -1,6 +1,7 @@
-package com.neomechanical.neoutils.config;
+package com.neomechanical.neoutils.manager;
 
 import com.neomechanical.neoutils.NeoUtils;
+import com.neomechanical.neoutils.config.ConfigUpdater;
 import com.neomechanical.neoutils.manager.ManagerHandler;
 import org.apache.commons.io.IOUtils;
 import org.bukkit.configuration.InvalidConfigurationException;

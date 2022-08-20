@@ -1,8 +1,7 @@
-package com.neomechanical.neoutils.languages;
+package com.neomechanical.neoutils.manager;
 
 import com.neomechanical.neoutils.NeoUtils;
 import com.neomechanical.neoutils.config.ConfigUpdater;
-import com.neomechanical.neoutils.messages.Logger;
 import com.neomechanical.neoutils.utils.UtilManager;
 import org.apache.commons.io.IOUtils;
 import org.bukkit.ChatColor;
@@ -10,7 +9,6 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
