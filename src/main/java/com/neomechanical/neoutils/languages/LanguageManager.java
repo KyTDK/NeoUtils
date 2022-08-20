@@ -2,7 +2,6 @@ package com.neomechanical.neoutils.languages;
 
 import com.neomechanical.neoutils.NeoUtils;
 import com.neomechanical.neoutils.config.ConfigUpdater;
-import com.neomechanical.neoutils.manager.ManagerManager;
 import com.neomechanical.neoutils.messages.Logger;
 import com.neomechanical.neoutils.utils.UtilManager;
 import org.apache.commons.io.IOUtils;
@@ -22,7 +21,7 @@ import java.util.function.Supplier;
 
 public class LanguageManager {
     final Map<String, String> internalPlaceholderReplacements;
-    private final JavaPlugin main;
+    private final NeoUtils main;
     File languageFolder = null;
     private File languageConfigFile = null;
     private FileConfiguration languageConfig;
@@ -40,7 +39,7 @@ public class LanguageManager {
      *
      * @param main the main class
      */
-    public LanguageManager(final JavaPlugin main) {
+    public LanguageManager(final NeoUtils main) {
         this.main = main;
         internalPlaceholderReplacements = new HashMap<>();
     }
@@ -76,7 +75,7 @@ public class LanguageManager {
 
         if (!languageFolder.exists()) {
             if (!languageFolder.mkdirs()) {
-                Logger.fatal("There was an error creating the languages folder.");
+                main.getFancyLogger().fatal("There was an error creating the languages folder.");
                 return;
             }
         }
@@ -87,7 +86,7 @@ public class LanguageManager {
 
                 if (!file.exists()) {
                     if (!file.createNewFile()) {
-                        Logger.fatal("There was an error creating the " + fileName + " language file. (3)");
+                        main.getFancyLogger().fatal("There was an error creating the " + fileName + " language file. (3)");
                         return;
                     }
 
@@ -97,7 +96,7 @@ public class LanguageManager {
                         try (OutputStream outputStream = new FileOutputStream(file)) {
                             IOUtils.copy(inputStream, outputStream);
                         } catch (Exception e) {
-                            Logger.fatal("There was an error creating the " + fileName + " language file. (4)");
+                            main.getFancyLogger().fatal("There was an error creating the " + fileName + " language file. (4)");
                             return;
                         }
                     }
@@ -117,18 +116,18 @@ public class LanguageManager {
                             //Put into fileConfiguration
 
                             if (!defaultFile.exists()) {
-                                Logger.fatal("There was an error reading the default.yml language file. (5)");
+                                main.getFancyLogger().fatal("There was an error reading the default.yml language file. (5)");
                                 return;
                             }
                             defaultLanguageConfig = new YamlConfiguration();
                             defaultLanguageConfig.load(defaultFile);
 
                         } catch (Exception e) {
-                            Logger.fatal("There was an error creating the default.yml language file. (6)");
+                            main.getFancyLogger().fatal("There was an error creating the default.yml language file. (6)");
                             return;
                         }
                     } else {
-                        Logger.fatal("There was an error creating the default.yml language file. (7)");
+                        main.getFancyLogger().fatal("There was an error creating the default.yml language file. (7)");
                         return;
                     }
 
@@ -136,7 +135,7 @@ public class LanguageManager {
                 }
                 ConfigUpdater.update(main, "translations/" + fileName, file, List.of(""));
             } catch (IOException ioException) {
-                Logger.fatal("There was an error creating the " + fileName + " language file. (3)");
+                main.getFancyLogger().fatal("There was an error creating the " + fileName + " language file. (3)");
                 return;
             }
         }
@@ -166,14 +165,14 @@ public class LanguageManager {
 
             if (!languageFolder.exists()) {
                 if (!languageFolder.mkdirs()) {
-                    Logger.warn("There was an error creating the NeoPerformance languages folder.");
+                    main.getFancyLogger().warn("There was an error creating the NeoPerformance languages folder.");
                     return;
                 }
 
             }
 
             if (!languageFiles.contains(languageCode + ".yml")) {
-                Logger.warn("The language file " + languageCode + ".yml does not exist or is not supported." +
+                main.getFancyLogger().warn("The language file " + languageCode + ".yml does not exist or is not supported." +
                         " Please look at the languages folder for a list of supported languages. Using the primary language file instead.");
                 languageCode = "en-US";
             }
@@ -185,12 +184,12 @@ public class LanguageManager {
                     //Try to create the language.yml config file, and throw an error if it fails.
 
                     if (!languageConfigFile.createNewFile()) {
-                        Logger.warn("There was an error creating the " + languageCode + ".yml language file.");
+                        main.getFancyLogger().warn("There was an error creating the " + languageCode + ".yml language file.");
                         return;
 
                     }
                 } catch (IOException ioException) {
-                    Logger.warn("There was an error creating the " + languageCode + ".yml language file.");
+                    main.getFancyLogger().warn("There was an error creating the " + languageCode + ".yml language file.");
                     return;
                 }
             } else {
@@ -271,7 +270,7 @@ public class LanguageManager {
 
         } catch (IOException ioException) {
             ioException.printStackTrace();
-            Logger.severe("Language Config file could not be saved.");
+            main.getFancyLogger().severe("Language Config file could not be saved.");
         }
     }
 

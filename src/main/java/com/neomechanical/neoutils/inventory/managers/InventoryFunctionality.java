@@ -12,9 +12,14 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class InventoryFunctionality implements Listener {
+    JavaPlugin plugin;
+    public InventoryFunctionality(JavaPlugin plugin) {
+        this.plugin = plugin;
+    }
     private final InventoryManager inventoryManager = NeoUtils.getManagers().getInventoryManager();
     @EventHandler
     public void onInventoryClose(InventoryCloseEvent event) {
@@ -42,7 +47,7 @@ public class InventoryFunctionality implements Listener {
                         InventoryUtil.unregisterGUI(gui);
                     }
                 }
-            }.runTaskLater(NeoUtils.getInstance(), 1L);
+            }.runTaskLater(plugin, 1L);
     }
     @EventHandler
     public void onClick(InventoryClickEvent event) {

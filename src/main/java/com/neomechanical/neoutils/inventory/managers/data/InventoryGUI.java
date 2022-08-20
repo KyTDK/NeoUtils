@@ -151,4 +151,7 @@ public class InventoryGUI implements NInventory {
     public void setPagesInheritParentSettings(boolean inherit) {
         this.pagesInheritParentSettings = inherit;
     }
+    public List<InventoryGUI> getPages() {
+        return pages;
+    }
 }

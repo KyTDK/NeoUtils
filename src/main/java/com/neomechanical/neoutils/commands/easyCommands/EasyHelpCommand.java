@@ -2,7 +2,7 @@ package com.neomechanical.neoutils.commands.easyCommands;
 
 import com.neomechanical.neoutils.NeoUtils;
 import com.neomechanical.neoutils.commands.Command;
-import com.neomechanical.neoutils.manager.ManagerManager;
+import com.neomechanical.neoutils.manager.ManagerHandler;
 import com.neomechanical.neoutils.messages.MessageUtil;
 import com.neomechanical.neoutils.pages.Pagination;
 import org.bukkit.command.CommandSender;
@@ -60,7 +60,7 @@ public class EasyHelpCommand extends Command {
     public boolean playerOnly() {
         return playerOnly;
     }
-    private final ManagerManager managers = NeoUtils.getManagers();
+    private final ManagerHandler managers = NeoUtils.getManagers();
     @Override
     public void perform(CommandSender player, String[] args) {
         MessageUtil messageUtil = new MessageUtil();

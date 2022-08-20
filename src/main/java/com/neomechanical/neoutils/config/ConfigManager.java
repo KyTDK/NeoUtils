@@ -1,13 +1,11 @@
 package com.neomechanical.neoutils.config;
 
 import com.neomechanical.neoutils.NeoUtils;
-import com.neomechanical.neoutils.manager.ManagerManager;
-import com.neomechanical.neoutils.messages.Logger;
+import com.neomechanical.neoutils.manager.ManagerHandler;
 import org.apache.commons.io.IOUtils;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.*;
 import java.util.List;
@@ -16,15 +14,16 @@ public class ConfigManager {
 
     private File configFile = null;
     private FileConfiguration config;
-    private final JavaPlugin plugin = NeoUtils.getInstance();
-    private static final ManagerManager managers = NeoUtils.getManagers();
+    private final NeoUtils plugin;
+    private static final ManagerHandler managers = NeoUtils.getManagers();
     public void reloadConfig() {
         loadConfiguration();
     }
 
     String configFilePath;
 
-    public ConfigManager(String configFilePath) {
+    public ConfigManager(NeoUtils plugin, String configFilePath) {
+        this.plugin = plugin;
         this.configFilePath = configFilePath;
         loadConfiguration();
         managers.setConfigManager(this, configFilePath);
@@ -46,12 +45,12 @@ public class ConfigManager {
                 //Try to create the language.yml config file, and throw an error if it fails.
 
                 if (!configFile.createNewFile()) {
-                    Logger.warn("There was an error creating the " + configFilePath + " config file.");
+                    plugin.getFancyLogger().warn("There was an error creating the " + configFilePath + " config file.");
                     return;
 
                 }
             } catch (IOException ioException) {
-                Logger.warn("There was an error creating the " + configFilePath + " config file.");
+                plugin.getFancyLogger().warn("There was an error creating the " + configFilePath + " config file.");
                 return;
             }
         }
@@ -77,7 +76,7 @@ public class ConfigManager {
         try {
             config.save(configFile);
         } catch (IOException e) {
-            Logger.fatal("Could not save config to " + configFile.getPath());
+            plugin.getFancyLogger().fatal("Could not save config to " + configFile.getPath());
             return false;
         }
         return true;
@@ -95,13 +94,13 @@ public class ConfigManager {
                     try (OutputStream outputStream = new FileOutputStream(configFile)) {
                         IOUtils.copy(inputStream, outputStream);
                     } catch (Exception e) {
-                        Logger.fatal("There was an error creating the " + configFilePath + " config file. (4)");
+                        plugin.getFancyLogger().fatal("There was an error creating the " + configFilePath + " config file. (4)");
                     }
                 }
             }
             ConfigUpdater.update(plugin, configFilePath, configFile, List.of(""));
         } catch (IOException ioException) {
-            Logger.fatal("There was an error creating the " + configFilePath + " config file. (3)");
+            plugin.getFancyLogger().fatal("There was an error creating the " + configFilePath + " config file. (3)");
         }
     }
     public static void reloadAllConfigs() {
