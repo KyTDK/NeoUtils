@@ -1,13 +1,11 @@
-package com.neomechanical.neoutils.manager;
-
-import com.neomechanical.neoutils.commands.Command;
+package com.neomechanical.neoutils.commands;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class CommandManager {
-    protected CommandManager() { }
+    public CommandManager() { }
     private final Map<String, Command> stringCommandBuilderMap = new HashMap<>();
     public Command getCommand(String command) {
         return stringCommandBuilderMap.get(command);

@@ -1,4 +1,4 @@
-package com.neomechanical.neoutils.manager;
+package com.neomechanical.neoutils.config;
 
 import com.neomechanical.neoutils.NeoUtils;
 import com.neomechanical.neoutils.config.ConfigUpdater;

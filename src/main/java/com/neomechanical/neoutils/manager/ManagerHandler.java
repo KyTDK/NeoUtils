@@ -1,7 +1,10 @@
 package com.neomechanical.neoutils.manager;
 
 import com.neomechanical.neoutils.NeoUtils;
+import com.neomechanical.neoutils.commands.CommandManager;
+import com.neomechanical.neoutils.config.ConfigManager;
 import com.neomechanical.neoutils.inventory.managers.InventoryManager;
+import com.neomechanical.neoutils.languages.LanguageManager;
 
 import java.util.HashMap;
 import java.util.Map;
