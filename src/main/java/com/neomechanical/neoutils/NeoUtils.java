@@ -10,7 +10,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public abstract class NeoUtils extends JavaPlugin implements Api {
     private static BukkitAudiences adventure;
-    private static NeoUtils instance;
     private static ManagerHandler managerHandler;
 
     public static @NonNull BukkitAudiences getAdventure() {
@@ -18,12 +17,6 @@ public abstract class NeoUtils extends JavaPlugin implements Api {
             throw new IllegalStateException("Tried to access Adventure when the plugin was disabled!");
         }
         return adventure;
-    }
-    public static NeoUtils getInstance() {
-        if (instance == null) {
-            throw new IllegalStateException("Tried to access instance when the plugin was hadn't initialised yet, please make sure you extend Api in your main class!");
-        }
-        return instance;
     }
     public static ManagerHandler getManagers() {
         if (managerHandler == null) {
@@ -37,7 +30,6 @@ public abstract class NeoUtils extends JavaPlugin implements Api {
     }
     @Override
     public void onEnable() {
-        instance = this;
         logger = new Logger(this);
         adventure = BukkitAudiences.create(this);
         managerHandler = new ManagerHandler(this);

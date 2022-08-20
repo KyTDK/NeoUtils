@@ -51,7 +51,7 @@ public class CommandBuilder {
     }
     public void register() {
         manager.getCommandManager().addCommand(mainCommand);
-        CommandUtils.registerCommand(mainCommand.getPermission(), mainCommand.getName(), aliases);
+        CommandUtils.registerCommand(plugin, mainCommand.getPermission(), mainCommand.getName(), aliases);
         Objects.requireNonNull(plugin.getCommand(mainCommand.getName())).setExecutor(functionality);
     }
     public void unregister() {

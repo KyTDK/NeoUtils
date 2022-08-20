@@ -5,14 +5,15 @@ import com.neomechanical.neoutils.commands.CommandManager;
 import com.neomechanical.neoutils.config.ConfigManager;
 import com.neomechanical.neoutils.inventory.managers.InventoryManager;
 import com.neomechanical.neoutils.languages.LanguageManager;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class ManagerHandler  {
 
+    private final NeoUtils plugin;
     public ManagerHandler(NeoUtils plugin) {
+        this.plugin = plugin;
         this.languageManager = new LanguageManager(plugin);
     }
     private final Map<String, ConfigManager> configManager = new HashMap<>();
@@ -26,11 +27,11 @@ public class ManagerHandler  {
         }
         return languageManager;
     }
-    public ConfigManager getConfigManager(String configName) {
-        if (configManager.get(configName) == null) {
-            throw new IllegalStateException("Tried to access " + configName +" in configManager, but its not set!");
-        }
+    public ConfigManager setNewConfigManager(String configName) {
         return configManager.get(configName);
+    }
+    public ConfigManager getNewConfigManager(String configName) {
+        return new ConfigManager(plugin, configName);
     }
     public Map<String, ConfigManager> getConfigs() {
         return configManager;

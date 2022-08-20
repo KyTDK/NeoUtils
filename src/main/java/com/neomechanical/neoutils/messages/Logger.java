@@ -1,6 +1,5 @@
 package com.neomechanical.neoutils.messages;
 
-import com.neomechanical.neoutils.NeoUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 

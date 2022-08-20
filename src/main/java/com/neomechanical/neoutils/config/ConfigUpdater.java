@@ -2,7 +2,6 @@ package com.neomechanical.neoutils.config;
 
 import com.google.common.base.Preconditions;
 import com.neomechanical.neoutils.NeoUtils;
-import com.neomechanical.neoutils.messages.Logger;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
