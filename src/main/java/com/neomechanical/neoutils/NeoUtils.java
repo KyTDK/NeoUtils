@@ -13,7 +13,7 @@ public abstract class NeoUtils extends JavaPlugin implements Api {
     private static JavaPlugin instance;
     private static ManagerHandler managerHandler;
 
-    public static @NonNull BukkitAudiences adventure() {
+    public static @NonNull BukkitAudiences getAdventure() {
         if (adventure == null) {
             throw new IllegalStateException("Tried to access Adventure when the plugin was disabled!");
         }
