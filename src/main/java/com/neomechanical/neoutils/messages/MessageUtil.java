@@ -17,7 +17,7 @@ import java.util.List;
 
 public final class MessageUtil {
 
-    private static final BukkitAudiences adventure = NeoUtils.adventure();
+    private static final BukkitAudiences adventure = NeoUtils.getAdventure();
 
     /**
      * A utility class for handling Bukkit messages.
@@ -66,7 +66,7 @@ public final class MessageUtil {
     }
 
     public static void sendMMAll(String string) {
-        Audience player = NeoUtils.adventure().all();
+        Audience player = NeoUtils.getAdventure().all();
         var mm = MiniMessage.miniMessage();
         Component parsed = mm.deserialize(string);
         player.sendMessage(parsed);

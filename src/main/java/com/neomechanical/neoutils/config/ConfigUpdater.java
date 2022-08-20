@@ -1,6 +1,7 @@
 package com.neomechanical.neoutils.config;
 
 import com.google.common.base.Preconditions;
+import com.neomechanical.neoutils.NeoUtils;
 import com.neomechanical.neoutils.messages.Logger;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -18,14 +19,14 @@ public class ConfigUpdater {
     //Used for separating keys in the keyBuilder inside parseComments method
     private static final char SEPARATOR = '.';
 
-    public static void update(Plugin plugin, String resourceName, File toUpdate, String... ignoredSections) throws IOException {
+    public static void update(NeoUtils plugin, String resourceName, File toUpdate, String... ignoredSections) throws IOException {
         update(plugin, resourceName, toUpdate, Arrays.asList(ignoredSections));
     }
 
-    public static void update(Plugin plugin, String resourceName, File toUpdate, List<String> ignoredSections) throws IOException {
+    public static void update(NeoUtils plugin, String resourceName, File toUpdate, List<String> ignoredSections) throws IOException {
         Preconditions.checkArgument(toUpdate.exists(), "The toUpdate file doesn't exist!");
         if (plugin.getResource(resourceName) == null) {
-            Logger.warn("The resource " + resourceName + " doesn't exist!");
+            plugin.getFancyLogger().warn("The resource " + resourceName + " doesn't exist!");
             return;
         }
         FileConfiguration defaultConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(Objects.requireNonNull(plugin.getResource(resourceName)), StandardCharsets.UTF_8));

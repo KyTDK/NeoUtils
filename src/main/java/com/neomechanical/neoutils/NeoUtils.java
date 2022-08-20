@@ -19,10 +19,9 @@ public abstract class NeoUtils extends JavaPlugin implements Api {
         }
         return adventure;
     }
-    @Deprecated
     public static JavaPlugin getInstance() {
         if (instance == null) {
-            throw new IllegalStateException("Tried to access instance when the plugin was disabled, please make sure you call NeoUtils.init(this) in onEnable()!");
+            throw new IllegalStateException("Tried to access instance when the plugin was hadn't initialised yet, please make sure you extend Api in your main class!");
         }
         return instance;
     }
