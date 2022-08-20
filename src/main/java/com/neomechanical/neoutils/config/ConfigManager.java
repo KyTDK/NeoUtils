@@ -22,8 +22,8 @@ public class ConfigManager {
 
     String configFilePath;
 
-    public ConfigManager(NeoUtils plugin, String configFilePath) {
-        this.plugin = plugin;
+    public ConfigManager(String configFilePath) {
+        this.plugin = NeoUtils.getInstance();
         this.configFilePath = configFilePath;
         loadConfiguration();
         managers.setConfigManager(this, configFilePath);

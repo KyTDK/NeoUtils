@@ -10,7 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public abstract class NeoUtils extends JavaPlugin implements Api {
     private static BukkitAudiences adventure;
-    private static JavaPlugin instance;
+    private static NeoUtils instance;
     private static ManagerHandler managerHandler;
 
     public static @NonNull BukkitAudiences getAdventure() {
@@ -19,7 +19,7 @@ public abstract class NeoUtils extends JavaPlugin implements Api {
         }
         return adventure;
     }
-    public static JavaPlugin getInstance() {
+    public static NeoUtils getInstance() {
         if (instance == null) {
             throw new IllegalStateException("Tried to access instance when the plugin was hadn't initialised yet, please make sure you extend Api in your main class!");
         }
