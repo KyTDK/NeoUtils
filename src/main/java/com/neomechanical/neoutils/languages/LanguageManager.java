@@ -19,18 +19,18 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class LanguageManager {
-    final Map<String, String> internalPlaceholderReplacements;
-    private final NeoUtils main;
-    File languageFolder = null;
-    private File languageConfigFile = null;
-    private FileConfiguration languageConfig;
+    private @NotNull
+    static final ArrayList<String> languageFiles = new ArrayList<>();
     private static String currentLanguage = "en";
     private static String languageCode = "en-US";
     private static Supplier<String> languageChangeConsumer;
-
-    private FileConfiguration defaultLanguageConfig = null;
+    final Map<String, String> internalPlaceholderReplacements;
+    private final NeoUtils main;
     private final Map<String, Function<Player, String>> internalPlaceholders = new HashMap<>();
-    private @NotNull static final ArrayList<String> languageFiles = new ArrayList<>();
+    File languageFolder = null;
+    private File languageConfigFile = null;
+    private FileConfiguration languageConfig;
+    private FileConfiguration defaultLanguageConfig = null;
 
 
     /**
@@ -47,28 +47,34 @@ public class LanguageManager {
         this.internalPlaceholders.put(placeholder, placeholderFunction);
         return this;
     }
-    public LanguageManager setLanguageCode(Supplier<String> languageCode) {
-        LanguageManager.languageChangeConsumer = languageCode;
-        return this;
-    }
+
     public LanguageManager setLanguageFile( @NotNull String... files) {
         languageFiles.clear();
         languageFiles.addAll(Arrays.asList(files));
         return this;
     }
+
     public LanguageManager addLanguageFile(String... languageCode) {
         LanguageManager.languageFiles.addAll(Arrays.asList(languageCode));
         return this;
     }
+
     /**
      * Set the manager instance
      */
     public void set() {
         NeoUtils.getManagers().setLanguageManager(this);
     }
+
     public String getLanguageCode() {
         return languageCode;
     }
+
+    public LanguageManager setLanguageCode(Supplier<String> languageCode) {
+        LanguageManager.languageChangeConsumer = languageCode;
+        return this;
+    }
+
     private void loadMissingDefaultLanguageFiles() {
         //Create the Language Data Folder if it does not exist yet (the NotQuests/languages folder)
         languageFolder = new File(main.getDataFolder().getPath() + "/languages/");
