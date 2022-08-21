@@ -9,6 +9,7 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -37,10 +38,11 @@ public class LanguageManager {
      *
      * @param main the main class
      */
-    public LanguageManager(final NeoUtils main) {
-        this.main = main;
+    public LanguageManager(final JavaPlugin main) {
+        this.main = (NeoUtils) main;
         internalPlaceholderReplacements = new HashMap<>();
     }
+
     public LanguageManager addInternalPlaceholder(String placeholder, Function<Player, String> placeholderFunction) {
         this.internalPlaceholders.put(placeholder, placeholderFunction);
         return this;
