@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * A simple ItemBuilder class.
@@ -54,7 +55,7 @@ public class ItemBuilder {
      */
     public ItemBuilder lore(List<String> lore) {
         this.lore.addAll(lore.stream()
-                .map(MessageUtil::color).toList());
+                .map(MessageUtil::color).collect(Collectors.toList()));
         return this;
     }
 

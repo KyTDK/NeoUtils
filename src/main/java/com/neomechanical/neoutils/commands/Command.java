@@ -3,6 +3,7 @@ package com.neomechanical.neoutils.commands;
 import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -13,11 +14,11 @@ public abstract class Command {
     }
 
     public Command addSubcommand(Command... command) {
-        getSubcommands().addAll(List.of(command));
+        getSubcommands().addAll(new ArrayList<>(Arrays.asList(command)));
         return this;
     }
     public Command removeSubcommand(Command... command) {
-        getSubcommands().removeAll(List.of(command));
+        getSubcommands().removeAll((new ArrayList<>(Arrays.asList(command))));
         return this;
     }
     public abstract String getName();

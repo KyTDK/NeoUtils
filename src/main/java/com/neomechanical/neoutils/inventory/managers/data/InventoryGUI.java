@@ -92,13 +92,13 @@ public class InventoryGUI implements NInventory {
                     }
                 }
                 //Add buttons
-                newPage.setItem(getSize()-9, new InventoryItem(ItemUtil.createItem(Material.DARK_OAK_BUTTON, ChatColor.GREEN + "Left"),
+                newPage.setItem(getSize() - 9, new InventoryItem(ItemUtil.createItem(Material.OAK_BUTTON, ChatColor.GREEN + "Left"),
                         (event) -> new OpenInventory(this).action(event), InventoryItemType.NAVIGATION));
                 if (pages.contains(this))  {
-                    setItem(getSize()-9, new InventoryItem(ItemUtil.createItem(Material.DARK_OAK_BUTTON, ChatColor.GREEN + "Left"),
-                            (event) -> new OpenInventory(pages.get(pages.size()-2)).action(event), InventoryItemType.NAVIGATION));
+                    setItem(getSize() - 9, new InventoryItem(ItemUtil.createItem(Material.OAK_BUTTON, ChatColor.GREEN + "Left"),
+                            (event) -> new OpenInventory(pages.get(pages.size() - 2)).action(event), InventoryItemType.NAVIGATION));
                 }
-                setItem(getSize()-1, new InventoryItem(ItemUtil.createItem(Material.DARK_OAK_BUTTON, ChatColor.GREEN + "Right"),
+                setItem(getSize() - 1, new InventoryItem(ItemUtil.createItem(Material.OAK_BUTTON, ChatColor.GREEN + "Right"),
                         (event) -> new OpenInventory(newPage).action(event), InventoryItemType.NAVIGATION));
                 //Add overflown items to new page
                 for (InventoryItem itemCO : carryOver) {

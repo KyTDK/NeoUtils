@@ -139,7 +139,7 @@ public class LanguageManager {
 
 
                 }
-                ConfigUpdater.update(main, "translations/" + fileName, file, List.of(""));
+                ConfigUpdater.update(main, "translations/" + fileName, file, Collections.singletonList(""));
             } catch (IOException ioException) {
                 main.getFancyLogger().fatal("There was an error creating the " + fileName + " language file. (3)");
                 return;
@@ -200,7 +200,7 @@ public class LanguageManager {
                 }
             } else {
                 try {
-                    ConfigUpdater.update(main, "translations/" + languageCode + ".yml", languageConfigFile, List.of(""));
+                    ConfigUpdater.update(main, "translations/" + languageCode + ".yml", languageConfigFile, Collections.singletonList(""));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

@@ -1,15 +1,18 @@
 package com.neomechanical.neoutils.config;
 
 import com.neomechanical.neoutils.NeoUtils;
-import com.neomechanical.neoutils.config.ConfigUpdater;
 import com.neomechanical.neoutils.manager.ManagerHandler;
 import org.apache.commons.io.IOUtils;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import java.io.*;
-import java.util.List;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.util.Collections;
 
 public class ConfigManager {
 
@@ -92,14 +95,14 @@ public class ConfigManager {
                 InputStream inputStream = plugin.getResource(configFilePath);
                 //Instead of creating a new language file, we will copy the one from inside the plugin jar into the plugin folder:
                 if (inputStream != null) {
-                    try (OutputStream outputStream = new FileOutputStream(configFile)) {
+                    try (OutputStream outputStream = Files.newOutputStream(configFile.toPath())) {
                         IOUtils.copy(inputStream, outputStream);
                     } catch (Exception e) {
                         plugin.getFancyLogger().fatal("There was an error creating the " + configFilePath + " config file. (4)");
                     }
                 }
             }
-            ConfigUpdater.update(plugin, configFilePath, configFile, List.of(""));
+            ConfigUpdater.update(plugin, configFilePath, configFile, Collections.singletonList(""));
         } catch (IOException ioException) {
             plugin.getFancyLogger().fatal("There was an error creating the " + configFilePath + " config file. (3)");
         }

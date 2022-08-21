@@ -1,7 +1,6 @@
 package com.neomechanical.neoutils.config;
 
 import com.google.common.base.Preconditions;
-import com.neomechanical.neoutils.NeoUtils;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -18,17 +17,14 @@ public class ConfigUpdater {
     //Used for separating keys in the keyBuilder inside parseComments method
     private static final char SEPARATOR = '.';
 
-    public static void update(NeoUtils plugin, String resourceName, File toUpdate, String... ignoredSections) throws IOException {
+    public static void update(Plugin plugin, String resourceName, File toUpdate, String... ignoredSections) throws IOException {
         update(plugin, resourceName, toUpdate, Arrays.asList(ignoredSections));
     }
 
-    public static void update(NeoUtils plugin, String resourceName, File toUpdate, List<String> ignoredSections) throws IOException {
+    public static void update(Plugin plugin, String resourceName, File toUpdate, List<String> ignoredSections) throws IOException {
         Preconditions.checkArgument(toUpdate.exists(), "The toUpdate file doesn't exist!");
-        if (plugin.getResource(resourceName) == null) {
-            plugin.getFancyLogger().warn("The resource " + resourceName + " doesn't exist!");
-            return;
-        }
-        FileConfiguration defaultConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(Objects.requireNonNull(plugin.getResource(resourceName)), StandardCharsets.UTF_8));
+
+        FileConfiguration defaultConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(plugin.getResource(resourceName), StandardCharsets.UTF_8));
         FileConfiguration currentConfig = YamlConfiguration.loadConfiguration(toUpdate);
         Map<String, String> comments = parseComments(plugin, resourceName, defaultConfig);
         Map<String, String> ignoredSectionsValues = parseIgnoredSections(toUpdate, currentConfig, comments, ignoredSections == null ? Collections.emptyList() : ignoredSections);
@@ -39,8 +35,8 @@ public class ConfigUpdater {
         String value = writer.toString(); // config contents
 
         Path toUpdatePath = toUpdate.toPath();
-        if (!value.equals(Files.readString(toUpdatePath))) { // if updated contents are not the same as current file contents, update
-            Files.writeString(toUpdatePath, value);
+        if (!value.equals(new String(Files.readAllBytes(toUpdatePath), StandardCharsets.UTF_8))) { // if updated contents are not the same as current file contents, update
+            Files.write(toUpdatePath, value.getBytes(StandardCharsets.UTF_8));
         }
     }
 
@@ -103,11 +99,7 @@ public class ConfigUpdater {
 
     //Returns a map of key comment pairs. If a key doesn't have any comments it won't be included in the map.
     private static Map<String, String> parseComments(Plugin plugin, String resourceName, FileConfiguration defaultConfig) throws IOException {
-        InputStream resourceInputStream = plugin.getResource(resourceName);
-        if (resourceInputStream==null) {
-            throw new IllegalStateException("Resource is null in config updater");
-        }
-        BufferedReader reader = new BufferedReader(new InputStreamReader(resourceInputStream));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(plugin.getResource(resourceName)));
         Map<String, String> comments = new LinkedHashMap<>();
         StringBuilder commentBuilder = new StringBuilder();
         KeyBuilder keyBuilder = new KeyBuilder(defaultConfig, SEPARATOR);

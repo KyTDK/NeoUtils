@@ -10,7 +10,7 @@
     <description>Tools for developers and server owners</description>
     <url>https://neomechanical.com</url>
     <properties>
-        <java.version>17</java.version>
+        <java.version>8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <build>
@@ -20,8 +20,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
+                    <source>8</source>
+                    <target>8</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -46,11 +46,16 @@
                             <shadedPattern>com.neomechanical.kyori
                             </shadedPattern> <!-- Replace [YOUR_PLUGIN_PACKAGE] with your namespace -->
                         </relocation>
+                        <relocation>
+                            <pattern>org.apache.maven:maven-artifact</pattern>
+                            <shadedPattern>com.neomechanical.neoutils.maven-artifact</shadedPattern>
+                        </relocation>
                     </relocations>
                     <artifactSet>
                         <includes>
                             <include>net.kyori</include>
                             <include>commons-io</include>
+                            <include>org.apache.maven:maven-artifact</include>
                         </includes>
                     </artifactSet>
                 </configuration>
@@ -99,6 +104,11 @@
             <artifactId>lombok</artifactId>
             <version>1.18.24</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.maven</groupId>
+            <artifactId>maven-artifact</artifactId>
+            <version>3.8.5</version>
         </dependency>
         <dependency>
             <groupId>net.kyori</groupId>

@@ -72,8 +72,13 @@ public class KeyBuilder implements Cloneable {
 
     public static String getIndents(String key, char separator) {
         String[] splitKey = key.split("[" + separator + "]");
+        StringBuilder builder = new StringBuilder();
 
-        return "  ".repeat(Math.max(0, splitKey.length - 1));
+        for (int i = 1; i < splitKey.length; i++) {
+            builder.append("  ");
+        }
+
+        return builder.toString();
     }
 
     public boolean isConfigSection() {

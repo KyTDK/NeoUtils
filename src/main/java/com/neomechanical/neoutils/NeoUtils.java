@@ -11,6 +11,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public abstract class NeoUtils extends JavaPlugin implements Api {
     private static BukkitAudiences adventure;
     private static ManagerHandler managerHandler;
+    private static NeoUtils plugin;
 
     public static @NonNull BukkitAudiences getAdventure() {
         if (adventure == null) {
@@ -18,18 +19,27 @@ public abstract class NeoUtils extends JavaPlugin implements Api {
         }
         return adventure;
     }
+
+    private Logger logger;
+
     public static ManagerHandler getManagers() {
         if (managerHandler == null) {
-            throw new IllegalStateException("Tried to access managerManager when the plugin was disabled!");
+            throw new IllegalStateException("Tried to access the manager handler when the plugin was disabled!");
         }
         return managerHandler;
     }
-    Logger logger;
+
+    public static NeoUtils getInstance() {
+        return plugin;
+    }
+
     public Logger getFancyLogger() {
         return logger;
     }
+
     @Override
     public void onEnable() {
+        plugin = this;
         logger = new Logger(this);
         adventure = BukkitAudiences.create(this);
         managerHandler = new ManagerHandler(this);

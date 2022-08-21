@@ -1,10 +1,11 @@
 package com.neomechanical.neoutils.updates;
-import java.lang.module.ModuleDescriptor.Version;
+
+import org.apache.maven.artifact.versioning.ComparableVersion;
 
 public class IsUpToDate {
     public static boolean isUpToDate(String currentVersion, String latestVersion) {
-        Version current = Version.parse(currentVersion);
-        Version latest = Version.parse(latestVersion);
+        ComparableVersion current = new ComparableVersion(currentVersion);
+        ComparableVersion latest = new ComparableVersion(latestVersion);
         return current.compareTo(latest) >= 0;
     }
 }
