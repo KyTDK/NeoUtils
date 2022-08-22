@@ -18,6 +18,11 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+/**
+ * Create a new LanguageManager for the given plugin.
+ *
+ * @param main the main class
+ */
 public class LanguageManager {
     private @NotNull
     static final ArrayList<String> languageFiles = new ArrayList<>();
@@ -31,13 +36,6 @@ public class LanguageManager {
     private File languageConfigFile = null;
     private FileConfiguration languageConfig;
     private FileConfiguration defaultLanguageConfig = null;
-
-
-    /**
-     * Create a new LanguageManager for the given plugin.
-     *
-     * @param main the main class
-     */
     public LanguageManager(final JavaPlugin main) {
         this.main = (NeoUtils) main;
         internalPlaceholderReplacements = new HashMap<>();

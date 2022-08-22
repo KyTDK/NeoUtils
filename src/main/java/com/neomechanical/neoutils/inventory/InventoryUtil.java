@@ -8,8 +8,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.InventoryHolder;
 
 import javax.annotation.Nullable;
-
+/**
+ * Basic utils for InventoryGUIs
+ */
 public class InventoryUtil {
+    private InventoryUtil() {}
     public static void registerGUI(InventoryGUI inventoryGUI) {
         if (!isRegistered(inventoryGUI)) {
             NeoUtils.getManagers().getInventoryManager().put(inventoryGUI);

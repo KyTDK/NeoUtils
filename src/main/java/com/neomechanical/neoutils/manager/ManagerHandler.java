@@ -9,6 +9,9 @@ import com.neomechanical.neoutils.languages.LanguageManager;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Get and set managers, such as languageManager, configManager
+ */
 public class ManagerHandler  {
 
     private final NeoUtils plugin;
@@ -30,6 +33,11 @@ public class ManagerHandler  {
     public ConfigManager getConfigManager(String configName) {
         return configManager.get(configName);
     }
+    /**
+     * Simple method to create a manager for a specific config file
+     *
+     * @param configName The config name, must have yml appended
+     */
     public ConfigManager createNewConfigManager(String configName) {
         return new ConfigManager(plugin, configName);
     }
