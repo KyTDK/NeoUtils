@@ -3,13 +3,11 @@ package com.neomechanical.neoutils.config.yaml;
 import com.google.common.base.Charsets;
 import com.google.common.base.Preconditions;
 import org.jetbrains.annotations.NotNull;
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
 import javax.annotation.Nullable;
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
@@ -53,12 +51,14 @@ public class YamlUtils {
         return null;
     }
 
-    public static void save(@NotNull Yaml yaml, File file, Map<String, Object> dataRaw) throws IOException {
+    public static void save(File file, Map<String, Object> dataRaw) throws IOException {
         Preconditions.checkArgument(file != null, "File cannot be null");
-
-        try (Writer writer = new OutputStreamWriter(java.nio.file.Files.newOutputStream(file.toPath()), Charsets.UTF_8)) {
-            String data = dataRaw.toString();
-            writer.write(data);
-        }
+        //Create an accurate yaml container by converting the map to YAML style
+        final DumperOptions options = new DumperOptions();
+        options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+        options.setPrettyFlow(true);
+        final Yaml yaml = new Yaml(options);
+        final FileWriter writer = new FileWriter(file);
+        yaml.dump(dataRaw, writer);
     }
 }
