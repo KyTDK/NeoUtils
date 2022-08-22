@@ -1,5 +1,6 @@
 package com.neomechanical.neoutils.config.yaml;
 
+import javax.annotation.Nullable;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -13,8 +14,11 @@ public class YamlKeys {
         getKeysRecursive(data);
     }
 
-    public static Set<String> getKeys(boolean deep, Map<String, Object> data) {
+    public static @Nullable Set<String> getKeys(boolean deep, Map<String, Object> data) {
         if (!deep) {
+            if (data == null || data.isEmpty()) {
+                return null;
+            }
             return data.keySet();
         } else {
             return new YamlKeys(data).getKeys();
