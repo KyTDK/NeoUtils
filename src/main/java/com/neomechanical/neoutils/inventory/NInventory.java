@@ -30,7 +30,7 @@ public interface NInventory {
      * @param index The index where to put the ItemStack
      * @param item The ItemStack to set
      */
-    void setItem(int index, @Nullable InventoryItem item);
+    NInventory setItem(int index, @Nullable InventoryItem item);
     /**
      * Stores the given ItemStacks in the inventory. This will try to fill
      * existing stacks and empty slots as well as it can.
@@ -54,7 +54,7 @@ public interface NInventory {
      * @param items The ItemStacks to add
      * @throws IllegalArgumentException if items or any element in it is null
      */
-    void addItem(@NotNull InventoryItem... items) throws IllegalArgumentException;
+    NInventory addItem(@NotNull InventoryItem... items) throws IllegalArgumentException;
     /**
      * Removes the given ItemStacks from the inventory.
      * <p>
@@ -73,7 +73,7 @@ public interface NInventory {
      * @param items The ItemStacks to remove
      * @throws IllegalArgumentException if items is null
      */
-    void removeItem(@NotNull InventoryItem... items) throws IllegalArgumentException;
+    NInventory removeItem(@NotNull InventoryItem... items) throws IllegalArgumentException;
 
     /**
      * Returns all ItemStacks from the inventory
@@ -91,13 +91,13 @@ public interface NInventory {
      * @throws IllegalArgumentException If the array has more items than the
      *     inventory.
      */
-    void setContents(@NotNull InventoryItem[] items) throws IllegalArgumentException;
+    NInventory setContents(@NotNull InventoryItem[] items) throws IllegalArgumentException;
     /**
      * Set the inventory to open the given inventory when closed
      *
      * @param inventory the inventory to open when closed
      */
-    void setOpenOnClose(@NotNull InventoryGUI inventory);
-    void setUnregisterOnClose(boolean unregister);
-    void setPagesInheritParentSettings(boolean inherit);
+    NInventory setOpenOnClose(@NotNull InventoryGUI inventory);
+    NInventory setUnregisterOnClose(boolean unregister);
+    NInventory setPagesInheritParentSettings(boolean inherit);
 }

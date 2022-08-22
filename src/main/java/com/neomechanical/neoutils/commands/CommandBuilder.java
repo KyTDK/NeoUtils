@@ -53,6 +53,7 @@ public class CommandBuilder {
         CommandUtils.registerCommand(mainCommand.getPermission(), mainCommand.getName(), aliases);
         Objects.requireNonNull(plugin.getCommand(mainCommand.getName())).setExecutor(functionality);
     }
+    @Deprecated
     public void unregister() {
         manager.getCommandManager().removeCommand(parentCommand);
     }

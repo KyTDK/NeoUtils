@@ -9,6 +9,7 @@ import com.neomechanical.neoutils.items.ItemUtil;
 import lombok.Data;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -43,13 +44,14 @@ public class InventoryGUI implements NInventory {
     }
 
     @Override
-    public void setItem(int index, @Nullable InventoryItem item) {
+    public InventoryGUI setItem(int index, @Nullable InventoryItem item) {
         inventoryItems.add(item);
         inventory.setItem(index, item == null ? null : item.getItem());
+        return this;
     }
 
     @Override
-    public void addItem(@NotNull InventoryItem... items) throws IllegalArgumentException {
+    public InventoryGUI addItem(@NotNull InventoryItem... items) throws IllegalArgumentException {
         for (InventoryItem item : items) {
             if (!pages.isEmpty()) {
                 pages.get(pages.size() - 1).addItem(item);
@@ -98,14 +100,16 @@ public class InventoryGUI implements NInventory {
             inventoryItems.add(item);
             inventory.addItem(item.getItem());
         }
+        return this;
     }
 
     @Override
-    public void removeItem(@NotNull InventoryItem... items) throws IllegalArgumentException {
+    public InventoryGUI removeItem(@NotNull InventoryItem... items) throws IllegalArgumentException {
         for (InventoryItem item : items) {
             inventoryItems.remove(item);
             inventory.removeItem(item.getItem());
         }
+        return this;
     }
 
     @NotNull
@@ -115,25 +119,32 @@ public class InventoryGUI implements NInventory {
     }
 
     @Override
-    public void setContents(@NotNull InventoryItem[] items) throws IllegalArgumentException {
+    public InventoryGUI setContents(@NotNull InventoryItem[] items) throws IllegalArgumentException {
         for (InventoryItem item : items) {
             inventoryItems.add(item);
             inventory.addItem(item.getItem());
         }
+        return this;
     }
 
     @Override
-    public void setOpenOnClose(@NotNull InventoryGUI inventory) {
+    public InventoryGUI setOpenOnClose(@NotNull InventoryGUI inventory) {
         this.openOnClose = inventory;
+        return this;
     }
 
     @Override
-    public void setUnregisterOnClose(boolean unregister) {
+    public InventoryGUI setUnregisterOnClose(boolean unregister) {
         this.unregisterOnClose = unregister;
+        return this;
     }
 
     @Override
-    public void setPagesInheritParentSettings(boolean inherit) {
+    public InventoryGUI setPagesInheritParentSettings(boolean inherit) {
         this.pagesInheritParentSettings = inherit;
+        return this;
+    }
+    public void open(Player player) {
+        InventoryUtil.openInventory(player, this);
     }
 }
