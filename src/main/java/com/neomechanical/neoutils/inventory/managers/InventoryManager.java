@@ -13,14 +13,25 @@ import java.util.Map;
 public class InventoryManager {
     private final Map<Inventory, InventoryGUI> inventoryGuiMap = new HashMap<>();
 
+    /**
+     * Get the inventory GUI from an id.
+     * @param inventoryGUI the inventory GUI
+     * @param item the item
+     * @return the shop GUI
+     */
+    @Deprecated
     @Nullable
     public InventoryItem getMenuItem(InventoryGUI inventoryGUI, @NotNull ItemStack item) {
-        for (InventoryItem menuItem : inventoryGUI.getInventoryItems()) {
+        for (InventoryItem menuItem : inventoryGUI.getInventoryItems().values()) {
             if (menuItem.getItem().equals(item)) {
                 return menuItem;
             }
         }
         return null;
+    }
+    @Nullable
+    public InventoryItem getMenuItem(InventoryGUI inventoryGUI, int index) {
+        return inventoryGUI.getInventoryItems().get(index);
     }
     public boolean isGUI(Inventory inventory) {
         return inventoryGuiMap.containsKey(inventory);

@@ -3,7 +3,7 @@ package com.neomechanical.neoutils.inventory.utils;
 import org.bukkit.inventory.Inventory;
 
 public class Size {
-    public static int amountOfFiledSlots(Inventory inventory) {
+    public static int amountOfFilledSlots(Inventory inventory) {
         int contents = 0;
         for (int i = 0; i < inventory.getSize(); i++) {
             if (inventory.getItem(i) != null) {

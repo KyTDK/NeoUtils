@@ -1,5 +1,6 @@
 package com.neomechanical.neoutils.inventory;
 
+import com.neomechanical.neoutils.NeoUtils;
 import com.neomechanical.neoutils.inventory.managers.InventoryManager;
 import com.neomechanical.neoutils.inventory.managers.data.InventoryGUI;
 import org.bukkit.Bukkit;
@@ -9,21 +10,17 @@ import org.bukkit.inventory.InventoryHolder;
 import javax.annotation.Nullable;
 
 public class InventoryUtil {
-    private static final InventoryManager inventoryManager = new InventoryManager();
-    public static InventoryManager getInventoryManager() {
-        return inventoryManager;
-    }
     public static void registerGUI(InventoryGUI inventoryGUI) {
         if (!isRegistered(inventoryGUI)) {
-            inventoryManager.put(inventoryGUI);
+            NeoUtils.getManagers().getInventoryManager().put(inventoryGUI);
         }
     }
     private static boolean isRegistered(InventoryGUI inventoryGUI) {
-        return inventoryManager.contains(inventoryGUI);
+        return NeoUtils.getManagers().getInventoryManager().contains(inventoryGUI);
     }
     public static void unregisterGUI(InventoryGUI inventoryGUI) {
         if (isRegistered(inventoryGUI)) {
-            inventoryManager.remove(inventoryGUI);
+            NeoUtils.getManagers().getInventoryManager().remove(inventoryGUI);
         }
     }
     public static InventoryGUI createInventoryGUI(@Nullable InventoryHolder owner, int rows, String title) {

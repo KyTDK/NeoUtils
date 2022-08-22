@@ -12,13 +12,18 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class InventoryFunctionality implements Listener {
+    JavaPlugin plugin;
+    public InventoryFunctionality(JavaPlugin plugin) {
+        this.plugin = plugin;
+    }
+    private final InventoryManager inventoryManager = NeoUtils.getManagers().getInventoryManager();
     @EventHandler
     public void onInventoryClose(InventoryCloseEvent event) {
         Inventory inventory = event.getInventory();
-        InventoryManager inventoryManager = InventoryUtil.getInventoryManager();
         if (!inventoryManager.isGUI(inventory)) {
             return;
         }
@@ -31,7 +36,7 @@ public class InventoryFunctionality implements Listener {
                 @Override
                 public void run() {
                     //Make sure it wasn't just another inventory being opened.
-                    if (!InventoryUtil.getInventoryManager().isGUI(player.getOpenInventory().getTopInventory())
+                    if (!inventoryManager.isGUI(player.getOpenInventory().getTopInventory())
                     && player.getOpenInventory().getTopInventory().getType() == InventoryType.CRAFTING) {
                         if (gui.getOpenOnClose() != null) {
                             InventoryUtil.openInventory(player, gui.getOpenOnClose());
@@ -42,12 +47,11 @@ public class InventoryFunctionality implements Listener {
                         InventoryUtil.unregisterGUI(gui);
                     }
                 }
-            }.runTaskLater(NeoUtils.getInstance(), 1L);
+            }.runTaskLater(plugin, 1L);
     }
     @EventHandler
     public void onClick(InventoryClickEvent event) {
         Inventory inventory = event.getInventory();
-        InventoryManager inventoryManager = InventoryUtil.getInventoryManager();
         if (!inventoryManager.isGUI(inventory)) {
             return;
         }
@@ -60,12 +64,12 @@ public class InventoryFunctionality implements Listener {
         if (item == null) {
             return;
         }
-        InventoryItem menuItem = inventoryManager.getMenuItem(gui, item);
+        InventoryItem menuItem = inventoryManager.getMenuItem(gui, event.getSlot());
         if (menuItem == null) {
             return;
         }
         if (menuItem.getAction() != null) {
-            menuItem.getAction().action(event);
+            menuItem.getAction().accept(event);
         }
     }
 }

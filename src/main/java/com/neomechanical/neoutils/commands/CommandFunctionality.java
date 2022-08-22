@@ -65,7 +65,7 @@ public class CommandFunctionality implements CommandExecutor, TabCompleter{
                     if (args[0].equalsIgnoreCase(commandBuilder.getSubcommands().get(i).getName())) {
                         List<String> suggestions = commandBuilder.getSubcommands().get(i).tabSuggestions();
                         Map<String, List<String>> mapSuggestions = commandBuilder.getSubcommands().get(i).mapSuggestions();
-                        List<String> listArgs = List.of(args);
+                        List<String> listArgs = new ArrayList<>(Arrays.asList(args));
                         String currentArg = listArgs.get(listArgs.size() - 2);
                         if (mapSuggestions != null && mapSuggestions.containsKey(currentArg)) {
                             list.addAll(mapSuggestions.get(currentArg));

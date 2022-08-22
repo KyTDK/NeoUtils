@@ -1,6 +1,5 @@
 package com.neomechanical.neoutils.commands.utils;
 
-import com.neomechanical.neoutils.NeoUtils;
 import lombok.experimental.UtilityClass;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -9,6 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.SimplePluginManager;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import javax.annotation.Nullable;
 import java.lang.reflect.Constructor;
@@ -29,28 +29,28 @@ public final class CommandUtils {
      * @param permission Required permission or null
      * @param aliases    Aliases of the command. First element is the "real" command name.
      */
-    public static void registerCommand(@Nullable final String permission, String mainCommand, final String... aliases) {
+    public static void registerCommand(JavaPlugin plugin, @Nullable final String permission, String mainCommand, final String... aliases) {
 
-        final PluginCommand command = getCommand(mainCommand);
+        final PluginCommand command = getCommand(plugin, mainCommand);
         if (aliases!=null) {
             command.setAliases(Arrays.asList(aliases));
         }
         command.setPermission(permission);
 
-        getCommandMap().register(NeoUtils.getInstance().getDescription().getName(), command);
+        getCommandMap().register(plugin.getDescription().getName(), command);
     }
 
     /**
      * Gets a PluginCommand by its name
      */
-    public static PluginCommand getCommand(final String name) {
+    public static PluginCommand getCommand(JavaPlugin plugin, final String name) {
         PluginCommand command = null;
 
         try {
             final Constructor<PluginCommand> constructor = PluginCommand.class.getDeclaredConstructor(String.class, Plugin.class);
             constructor.setAccessible(true);
 
-            command = constructor.newInstance(name, NeoUtils.getInstance());
+            command = constructor.newInstance(name, plugin);
         } catch (final SecurityException | NoSuchMethodException | InvocationTargetException | InstantiationException |
                        IllegalAccessException | IllegalArgumentException e) {
             e.printStackTrace();

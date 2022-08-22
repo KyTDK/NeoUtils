@@ -17,7 +17,7 @@ import java.util.List;
 
 public final class MessageUtil {
 
-    private static final BukkitAudiences adventure = NeoUtils.adventure();
+    private static final BukkitAudiences adventure = NeoUtils.getAdventure();
 
     /**
      * A utility class for handling Bukkit messages.
@@ -59,21 +59,21 @@ public final class MessageUtil {
         player.sendMessage(parsed);
     }
     public static void sendMM(CommandSender sendTo, String msg) {
-        var mm = MiniMessage.miniMessage();
+        MiniMessage mm = MiniMessage.miniMessage();
         Component parsed = mm.deserialize(msg);
         Audience player = adventure.sender(sendTo);
         player.sendMessage(parsed);
     }
 
     public static void sendMMAll(String string) {
-        Audience player = NeoUtils.adventure().all();
-        var mm = MiniMessage.miniMessage();
+        Audience player = NeoUtils.getAdventure().all();
+        MiniMessage mm = MiniMessage.miniMessage();
         Component parsed = mm.deserialize(string);
         player.sendMessage(parsed);
     }
 
     public static void sendMMAdmins(String string) {
-        var mm = MiniMessage.miniMessage();
+        MiniMessage mm = MiniMessage.miniMessage();
         Component parsed = mm.deserialize(string);
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (player.isOp()) {
@@ -84,7 +84,7 @@ public final class MessageUtil {
     }
 
     public MessageUtil addComponent(String msg) {
-        var mm = MiniMessage.miniMessage();
+        MiniMessage mm = MiniMessage.miniMessage();
         Component parsed = mm.deserialize(msg);
         neoComponentArray.add(parsed);
         return this;

@@ -1,7 +1,10 @@
 package com.neomechanical.neoutils.commands.utils.permissions;
 
 import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
 
 public class PermissionCheck {
-    //TODO Find a way to check if a player has permission to any command
+    public static String getPermission(Command command) {
+        return command.getPermission();
+    }
 }

@@ -1,9 +1,11 @@
 package com.neomechanical.neoutils.inventory.managers.data;
 
+import com.neomechanical.neoutils.NeoUtils;
 import com.neomechanical.neoutils.inventory.InventoryUtil;
 import com.neomechanical.neoutils.inventory.NInventory;
 import com.neomechanical.neoutils.inventory.actions.OpenInventory;
 import com.neomechanical.neoutils.inventory.items.InventoryItemType;
+import com.neomechanical.neoutils.inventory.utils.InventoryOperations;
 import com.neomechanical.neoutils.inventory.utils.Size;
 import com.neomechanical.neoutils.items.ItemUtil;
 import lombok.Data;
@@ -16,7 +18,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Auto-pagination, feature rich inventory GUI.
@@ -26,7 +30,7 @@ import java.util.List;
 public class InventoryGUI implements NInventory {
     private @NotNull final Inventory inventory;
     private @NotNull final List<InventoryGUI> pages = new ArrayList<>();
-    private final List<InventoryItem> inventoryItems = new ArrayList<>();
+    private final Map<Integer, InventoryItem> inventoryItems = new HashMap<>();
     private @NotNull final String title;
     private @Nullable InventoryGUI openOnClose = null;
     private boolean unregisterOnClose = true;
@@ -45,8 +49,13 @@ public class InventoryGUI implements NInventory {
 
     @Override
     public InventoryGUI setItem(int index, @Nullable InventoryItem item) {
-        inventoryItems.add(item);
-        inventory.setItem(index, item == null ? null : item.getItem());
+        if (item != null) {
+            if (inventory.getItem(index) != null) {
+                removeItem(item);
+            }
+            inventoryItems.put(index, item);
+            inventory.setItem(index, item.getItem());
+        }
         return this;
     }
 
@@ -57,18 +66,20 @@ public class InventoryGUI implements NInventory {
                 pages.get(pages.size() - 1).addItem(item);
                 continue;
             }
-            if (Size.amountOfFiledSlots(inventory)+1 > getSize()) {
+            //If overflow occurs
+            if (Size.amountOfFilledSlots(inventory)+1 > getSize()) {
                 List<InventoryItem> carryOver = new ArrayList<>();
                 carryOver.add(item);
                 for (int i = getSize()-9; i < getSize(); i++) {
                     ItemStack itemCO = inventory.getItem(i);
                     if (itemCO != null) {
-                        InventoryItem itemCOI = InventoryUtil.getInventoryManager().getMenuItem(this, itemCO);
+                        InventoryItem itemCOI = NeoUtils.getManagers().getInventoryManager().getMenuItem(this, i);
                         if (itemCOI!=null&&itemCOI.getType()!=null&&itemCOI.getType().equals(InventoryItemType.NAVIGATION)) {
                             continue;
                         }
                         carryOver.add(itemCOI);
                         inventory.remove(itemCO);
+                        inventoryItems.remove(i);
                     }
                 }
                 InventoryGUI newPage = InventoryUtil.createInventoryGUI(null, getSize(), title);
@@ -81,24 +92,25 @@ public class InventoryGUI implements NInventory {
                         newPage.setUnregisterOnClose(true);
                     }
                 }
-                newPage.setItem(getSize()-9, new InventoryItem(ItemUtil.createItem(Material.DARK_OAK_BUTTON, ChatColor.GREEN + "Left"),
-                        new OpenInventory(this), InventoryItemType.NAVIGATION));
-                pages.add(newPage);
+                //Add buttons
+                newPage.setItem(getSize() - 9, new InventoryItem(ItemUtil.createItem(Material.OAK_BUTTON, ChatColor.GREEN + "Left"),
+                        (event) -> new OpenInventory(this).action(event), InventoryItemType.NAVIGATION));
+                if (pages.contains(this))  {
+                    setItem(getSize() - 9, new InventoryItem(ItemUtil.createItem(Material.OAK_BUTTON, ChatColor.GREEN + "Left"),
+                            (event) -> new OpenInventory(pages.get(pages.size() - 2)).action(event), InventoryItemType.NAVIGATION));
+                }
+                setItem(getSize() - 1, new InventoryItem(ItemUtil.createItem(Material.OAK_BUTTON, ChatColor.GREEN + "Right"),
+                        (event) -> new OpenInventory(newPage).action(event), InventoryItemType.NAVIGATION));
+                //Add overflown items to new page
                 for (InventoryItem itemCO : carryOver) {
                     if (itemCO != null) {
                         newPage.addItem(itemCO);
                     }
                 }
-                if (pages.contains(this))  {
-                    setItem(getSize()-9, new InventoryItem(ItemUtil.createItem(Material.DARK_OAK_BUTTON, ChatColor.GREEN + "Left"),
-                            new OpenInventory(pages.get(pages.size()-2)), InventoryItemType.NAVIGATION));
-                }
-                setItem(getSize()-1, new InventoryItem(ItemUtil.createItem(Material.DARK_OAK_BUTTON, ChatColor.GREEN + "Right"),
-                        new OpenInventory(newPage), InventoryItemType.NAVIGATION));
+                pages.add(newPage);
                 continue;
             }
-            inventoryItems.add(item);
-            inventory.addItem(item.getItem());
+            inventoryItems.put(InventoryOperations.addItem(inventory, item.getItem()), item);
         }
         return this;
     }
@@ -106,7 +118,7 @@ public class InventoryGUI implements NInventory {
     @Override
     public InventoryGUI removeItem(@NotNull InventoryItem... items) throws IllegalArgumentException {
         for (InventoryItem item : items) {
-            inventoryItems.remove(item);
+            inventoryItems.values().remove(item);
             inventory.removeItem(item.getItem());
         }
         return this;
@@ -121,8 +133,10 @@ public class InventoryGUI implements NInventory {
     @Override
     public InventoryGUI setContents(@NotNull InventoryItem[] items) throws IllegalArgumentException {
         for (InventoryItem item : items) {
-            inventoryItems.add(item);
-            inventory.addItem(item.getItem());
+            int index = InventoryOperations.addItem(inventory, item.getItem());
+            inventoryItems.put(index, item);
+            inventory.setItem(index, item.getItem());
+            //get item index
         }
         return this;
     }
@@ -146,5 +160,8 @@ public class InventoryGUI implements NInventory {
     }
     public void open(Player player) {
         InventoryUtil.openInventory(player, this);
+    }
+    public List<InventoryGUI> getPages() {
+        return pages;
     }
 }

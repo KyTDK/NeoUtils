@@ -6,15 +6,14 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
-
 public interface NInventory {
     /**
      * Returns the size of the inventory
      *
      * @return The size of the inventory
      */
-    public int getSize();
+    int getSize();
+
     /**
      * Returns the ItemStack found in the slot at the given index
      *

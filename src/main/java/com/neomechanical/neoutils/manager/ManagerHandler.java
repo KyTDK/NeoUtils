@@ -3,15 +3,23 @@ package com.neomechanical.neoutils.manager;
 import com.neomechanical.neoutils.NeoUtils;
 import com.neomechanical.neoutils.commands.CommandManager;
 import com.neomechanical.neoutils.config.ConfigManager;
+import com.neomechanical.neoutils.inventory.managers.InventoryManager;
 import com.neomechanical.neoutils.languages.LanguageManager;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class ManagerManager {
+public class ManagerHandler  {
+
+    private final NeoUtils plugin;
+    public ManagerHandler(NeoUtils plugin) {
+        this.plugin = plugin;
+        this.languageManager = new LanguageManager(plugin);
+    }
     private final Map<String, ConfigManager> configManager = new HashMap<>();
     private final CommandManager commandManager = new CommandManager();
-    private LanguageManager languageManager = new LanguageManager(NeoUtils.getInstance());
+    private LanguageManager languageManager;
+    private final InventoryManager inventoryManager = new InventoryManager();
 
     public LanguageManager getLanguageManager() {
         if (languageManager == null) {
@@ -20,10 +28,10 @@ public class ManagerManager {
         return languageManager;
     }
     public ConfigManager getConfigManager(String configName) {
-        if (configManager.get(configName) == null) {
-            throw new IllegalStateException("Tried to access " + configName +" in configManager, but its not set!");
-        }
         return configManager.get(configName);
+    }
+    public ConfigManager createNewConfigManager(String configName) {
+        return new ConfigManager(plugin, configName);
     }
     public Map<String, ConfigManager> getConfigs() {
         return configManager;
@@ -36,5 +44,8 @@ public class ManagerManager {
     }
     public CommandManager getCommandManager() {
         return commandManager;
+    }
+    public InventoryManager getInventoryManager() {
+        return inventoryManager;
     }
 }
