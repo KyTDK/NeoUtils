@@ -1,13 +1,13 @@
 package com.neomechanical.neoutils.config.yaml;
 
-import com.google.common.base.Charsets;
 import com.google.common.base.Preconditions;
-import org.jetbrains.annotations.NotNull;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
 import javax.annotation.Nullable;
-import java.io.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;

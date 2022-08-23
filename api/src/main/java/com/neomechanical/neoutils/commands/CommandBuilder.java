@@ -5,7 +5,8 @@ import com.neomechanical.neoutils.commands.utils.CommandUtils;
 import com.neomechanical.neoutils.manager.ManagerHandler;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Objects;
 import java.util.function.Supplier;
 
 public class CommandBuilder {

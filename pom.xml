@@ -16,6 +16,7 @@
 
     <modules>
         <module>LEGACY</module>
+        <module>api</module>
     </modules>
     <build>
         <plugins>
@@ -67,7 +68,7 @@
         </plugins>
         <resources>
             <resource>
-                <directory>src/main/resources</directory>
+                <directory>api/src/main/resources</directory>
                 <filtering>true</filtering>
             </resource>
         </resources>

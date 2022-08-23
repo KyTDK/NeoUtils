@@ -1,7 +1,6 @@
 package com.neomechanical.neoutils.inventory;
 
 import com.neomechanical.neoutils.NeoUtils;
-import com.neomechanical.neoutils.inventory.managers.InventoryManager;
 import com.neomechanical.neoutils.inventory.managers.data.InventoryGUI;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
