@@ -5,6 +5,7 @@ import com.neomechanical.neoutils.commands.CommandManager;
 import com.neomechanical.neoutils.config.ConfigManager;
 import com.neomechanical.neoutils.inventory.managers.InventoryManager;
 import com.neomechanical.neoutils.languages.LanguageManager;
+import com.neomechanical.neoutils.versions.VersionManager;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,10 +16,7 @@ import java.util.Map;
 public class ManagerHandler  {
 
     private final NeoUtils plugin;
-    public ManagerHandler(NeoUtils plugin) {
-        this.plugin = plugin;
-        this.languageManager = new LanguageManager(plugin);
-    }
+    private final VersionManager versionManager;
     private final Map<String, ConfigManager> configManager = new HashMap<>();
     private final CommandManager commandManager = new CommandManager();
     private LanguageManager languageManager;
@@ -47,13 +45,26 @@ public class ManagerHandler  {
     public void setLanguageManager(LanguageManager languageManager) {
         this.languageManager = languageManager;
     }
+
     public void setConfigManager(ConfigManager configManager, String configName) {
         this.configManager.put(configName, configManager);
     }
+
     public CommandManager getCommandManager() {
         return commandManager;
     }
+
     public InventoryManager getInventoryManager() {
         return inventoryManager;
+    }
+
+    public ManagerHandler(NeoUtils plugin) {
+        this.plugin = plugin;
+        this.languageManager = new LanguageManager(plugin);
+        this.versionManager = new VersionManager();
+    }
+
+    public VersionManager getVersionManager() {
+        return versionManager;
     }
 }

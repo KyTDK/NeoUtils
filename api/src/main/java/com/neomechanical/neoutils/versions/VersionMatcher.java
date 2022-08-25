@@ -2,9 +2,10 @@ package com.neomechanical.neoutils.versions;
 
 import com.neomechanical.neoutils.version.items.ItemVersionWrapper;
 import org.bukkit.Bukkit;
-import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.InvocationTargetException;
+
+import static com.neomechanical.neoutils.updates.IsUpToDate.isUpToDate;
 
 public class VersionMatcher {
     String serverVersion;
@@ -12,17 +13,20 @@ public class VersionMatcher {
     /***
      * @throws IllegalStateException If the version wrapper failed to be instantiated or is unable to be found
      */
-    public VersionMatcher(@Nullable String serverVersion) {
-        if (serverVersion == null) {
-            this.serverVersion = Bukkit.getServer()
-                    .getClass()
-                    .getPackage()
-                    .getName()
-                    .split("\\.")[3]
-                    .substring(1);
-        } else {
-            this.serverVersion = serverVersion;
+    public VersionMatcher() {
+        serverVersion = Bukkit.getServer()
+                .getClass()
+                .getPackage()
+                .getName()
+                .split("\\.")[3]
+                .substring(1);
+        if (isLegacy()) {
+            serverVersion = "LEGACY";
         }
+    }
+
+    public boolean isLegacy() {
+        return !isUpToDate(serverVersion, "1_14_R1");
     }
 
     public ItemVersionWrapper matchItems() {
@@ -37,7 +41,7 @@ public class VersionMatcher {
                     "Failed to instantiate version wrapper for version " + serverVersion, exception);
         } catch (ClassNotFoundException exception) {
             throw new IllegalStateException(
-                    "AnvilGUI does not support server version \"" + serverVersion + "\"", exception);
+                    "NeoUtils does not support server version \"" + serverVersion + "\"", exception);
         }
     }
 }
