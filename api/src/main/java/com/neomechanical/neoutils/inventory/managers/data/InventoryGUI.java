@@ -9,9 +9,10 @@ import com.neomechanical.neoutils.inventory.items.InventoryItemType;
 import com.neomechanical.neoutils.inventory.utils.InventoryOperations;
 import com.neomechanical.neoutils.inventory.utils.Size;
 import com.neomechanical.neoutils.items.ItemUtil;
-import com.neomechanical.neoutils.version.VersionManager;
+import com.neomechanical.neoutils.version.items.ItemVersionWrapper;
 import lombok.Data;
 import net.md_5.bungee.api.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -97,11 +98,11 @@ public class InventoryGUI implements NInventory {
                     }
                 }
                 // Add buttons
-                VersionManager versionManager = NeoUtils.getManagers().getVersionManager();
+                Material button = ((ItemVersionWrapper) NeoUtils.getInternalVersions().get("items")).oakButton();
                 newPage.setItem(
                         getSize() - 9,
                         new InventoryItem(
-                                ItemUtil.createItem(versionManager.matchItems().oakButton(), ChatColor.GREEN + "Left"),
+                                ItemUtil.createItem(button, ChatColor.GREEN + "Left"),
                                 (event) -> new OpenInventory(this).action(event),
                                 InventoryItemType.NAVIGATION));
                 if (pages.contains(this)) {
@@ -109,14 +110,14 @@ public class InventoryGUI implements NInventory {
                             getSize() - 9,
                             new InventoryItem(
                                     ItemUtil.createItem(
-                                            versionManager.matchItems().oakButton(), ChatColor.GREEN + "Left"),
+                                            button, ChatColor.GREEN + "Left"),
                                     (event) -> new OpenInventory(pages.get(pages.size() - 2)).action(event),
                                     InventoryItemType.NAVIGATION));
                 }
                 setItem(
                         getSize() - 1,
                         new InventoryItem(
-                                ItemUtil.createItem(versionManager.matchItems().oakButton(), ChatColor.GREEN + "Right"),
+                                ItemUtil.createItem(button, ChatColor.GREEN + "Right"),
                                 (event) -> new OpenInventory(newPage).action(event),
                                 InventoryItemType.NAVIGATION));
                 // Add overflown items to new page

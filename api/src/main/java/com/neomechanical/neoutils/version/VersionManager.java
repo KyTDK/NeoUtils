@@ -1,17 +1,20 @@
 package com.neomechanical.neoutils.version;
 
-
-import com.neomechanical.neoutils.version.items.ItemVersionWrapper;
+import java.util.HashMap;
+import java.util.Map;
 
 public class VersionManager {
-    ItemVersionWrapper itemVersionWrapper;
+    private final Map<String, Versioning> versioningMap = new HashMap<>();
 
-    public VersionManager() {
-        VersionMatcher versionMatcher = new VersionMatcher();
-        itemVersionWrapper = versionMatcher.matchItems();
+    public void addVersioningClass(String versioningName, Versioning versioningClass) {
+        versioningMap.put(versioningName, versioningClass);
     }
 
-    public ItemVersionWrapper matchItems() {
-        return itemVersionWrapper;
+    public Map<String, Versioning> getVersioningMap() {
+        return versioningMap;
+    }
+
+    public Versioning getVersioning(String versioningName) {
+        return getVersioningMap().get(versioningName);
     }
 }

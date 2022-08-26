@@ -8,33 +8,21 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>NeoUtils</artifactId>
-    <packaging>jar</packaging>
+    <artifactId>NeoUtils-NONLEGACY</artifactId>
+
     <dependencies>
         <dependency>
             <groupId>com.neomechanical</groupId>
             <artifactId>NeoUtils-abstraction</artifactId>
             <version>${project.parent.version}</version>
-            <scope>compile</scope>
+            <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>com.neomechanical</groupId>
-            <artifactId>NeoUtils-LEGACY</artifactId>
-            <version>${project.parent.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.neomechanical</groupId>
-            <artifactId>NeoUtils-NONLEGACY</artifactId>
-            <version>${project.parent.version}</version>
-            <scope>compile</scope>
-        </dependency>
+        <!--This adds the Spigot API artifact to the build -->
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
             <version>1.19.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
-            <classifier>remapped-mojang</classifier>
         </dependency>
     </dependencies>
 </project>

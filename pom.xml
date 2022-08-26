@@ -18,6 +18,7 @@
     <modules>
         <module>api</module>
         <module>LEGACY</module>
+        <module>NONLEGACY</module>
         <module>abstraction</module>
     </modules>
     <build>
