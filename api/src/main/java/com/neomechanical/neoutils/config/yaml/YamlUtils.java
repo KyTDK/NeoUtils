@@ -1,5 +1,6 @@
 package com.neomechanical.neoutils.config.yaml;
 
+
 import com.google.common.base.Preconditions;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
@@ -53,7 +54,7 @@ public class YamlUtils {
 
     public static void save(File file, Map<String, Object> dataRaw) throws IOException {
         Preconditions.checkArgument(file != null, "File cannot be null");
-        //Create an accurate yaml container by converting the map to YAML style
+        // Create an accurate yaml container by converting the map to YAML style
         final DumperOptions options = new DumperOptions();
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
         options.setPrettyFlow(true);

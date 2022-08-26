@@ -1,5 +1,6 @@
 package com.neomechanical.neoutils.config.yaml;
 
+
 import javax.annotation.Nullable;
 import java.util.HashSet;
 import java.util.Map;
@@ -40,7 +41,11 @@ public class YamlKeys {
             } else {
                 keys.add(path); // No more maps have been found, we can add the path and stop recursing.
                 if (path.contains(".")) {
-                    path = path.substring(0, path.lastIndexOf(".")); // Removing last key, so if a value contains more than one key, it won't appear again.
+                    path = path.substring(
+                            0,
+                            path.lastIndexOf(
+                                    ".")); // Removing last key, so if a value contains more than one key, it won't
+                    // appear again.
                 }
             }
         }

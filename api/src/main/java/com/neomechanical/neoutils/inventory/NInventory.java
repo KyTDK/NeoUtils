@@ -1,5 +1,6 @@
 package com.neomechanical.neoutils.inventory;
 
+
 import com.neomechanical.neoutils.inventory.managers.data.InventoryGUI;
 import com.neomechanical.neoutils.inventory.managers.data.InventoryItem;
 import org.bukkit.inventory.ItemStack;
@@ -97,6 +98,8 @@ public interface NInventory {
      * @param inventory the inventory to open when closed
      */
     NInventory setOpenOnClose(@NotNull InventoryGUI inventory);
+
     NInventory setUnregisterOnClose(boolean unregister);
+
     NInventory setPagesInheritParentSettings(boolean inherit);
 }

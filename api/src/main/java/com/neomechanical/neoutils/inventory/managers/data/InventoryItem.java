@@ -1,5 +1,6 @@
 package com.neomechanical.neoutils.inventory.managers.data;
 
+
 import com.neomechanical.neoutils.inventory.items.InventoryItemType;
 import lombok.Data;
 import org.bukkit.event.inventory.InventoryClickEvent;

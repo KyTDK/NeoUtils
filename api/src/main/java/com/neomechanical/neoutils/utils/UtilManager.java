@@ -1,10 +1,10 @@
 package com.neomechanical.neoutils.utils;
 
+
 import java.util.Map;
 
 public class UtilManager {
-    public static String replaceFromMap(String string,
-                                        Map<String, String> replacements) {
+    public static String replaceFromMap(String string, Map<String, String> replacements) {
         StringBuilder sb = new StringBuilder(string);
         for (Map.Entry<String, String> entry : replacements.entrySet()) {
             String key = entry.getKey();

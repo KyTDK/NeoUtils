@@ -1,7 +1,7 @@
-package com.neomechanical.version.items;
+package com.neomechanical.neoutils.version.items;
 
-import com.neomechanical.neoutils.version.items.ItemVersionWrapper;
 import org.bukkit.Material;
+
 public class WrapperLEGACY implements ItemVersionWrapper {
 
     @Override

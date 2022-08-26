@@ -1,5 +1,6 @@
 package com.neomechanical.neoutils.commands.easyCommands;
 
+
 import com.neomechanical.neoutils.NeoUtils;
 import com.neomechanical.neoutils.commands.Command;
 import com.neomechanical.neoutils.manager.ManagerHandler;
@@ -20,8 +21,14 @@ public class EasyHelpCommand extends Command {
     private final String suffix;
     private final String prefix;
 
-    public EasyHelpCommand(String parentCommandName, String syntax, String description,
-                           String permission, boolean playerOnly , @Nullable String prefix, @Nullable String suffix) {
+    public EasyHelpCommand(
+            String parentCommandName,
+            String syntax,
+            String description,
+            String permission,
+            boolean playerOnly,
+            @Nullable String prefix,
+            @Nullable String suffix) {
         this.parentCommandName = parentCommandName;
         this.syntax = syntax;
         this.description = description;
@@ -60,7 +67,9 @@ public class EasyHelpCommand extends Command {
     public boolean playerOnly() {
         return playerOnly;
     }
+
     private final ManagerHandler managers = NeoUtils.getManagers();
+
     @Override
     public void perform(CommandSender player, String[] args) {
         MessageUtil messageUtil = new MessageUtil();
@@ -68,18 +77,22 @@ public class EasyHelpCommand extends Command {
         int page = 1;
         if (args.length == 2) {
             if (Integer.getInteger(args[1]) == null) {
-                MessageUtil.sendMM(player, managers.getLanguageManager().getString("commandGeneric.errorInvalidSyntax", null));
+                MessageUtil.sendMM(
+                        player, managers.getLanguageManager().getString("commandGeneric.errorInvalidSyntax", null));
                 return;
             }
             page = Integer.getInteger(args[1]);
         }
-        List<Command> pageList = Pagination.getPage(managers.getCommandManager().getSubcommands(parentCommandName), page, 10);
+        List<Command> pageList =
+                Pagination.getPage(managers.getCommandManager().getSubcommands(parentCommandName), page, 10);
         if (pageList == null) {
-            MessageUtil.sendMM(player, managers.getLanguageManager().getString("commandGeneric.errorInvalidSyntax", null));
+            MessageUtil.sendMM(
+                    player, managers.getLanguageManager().getString("commandGeneric.errorInvalidSyntax", null));
             return;
         }
         for (Command subCommand : pageList) {
-            messageUtil.addComponent("  <gray><bold>" + subCommand.getSyntax() + "</bold> - " + subCommand.getDescription());
+            messageUtil.addComponent(
+                    "  <gray><bold>" + subCommand.getSyntax() + "</bold> - " + subCommand.getDescription());
         }
         if (prefix != null && suffix != null) {
             messageUtil.sendNeoComponentMessage(player, prefix, suffix);

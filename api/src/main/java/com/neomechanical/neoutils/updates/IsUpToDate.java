@@ -1,5 +1,6 @@
 package com.neomechanical.neoutils.updates;
 
+
 import org.apache.maven.artifact.versioning.ComparableVersion;
 
 public class IsUpToDate {

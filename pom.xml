@@ -46,26 +46,6 @@
                         </configuration>
                     </execution>
                 </executions>
-                <configuration>
-                    <relocations>
-                        <relocation>
-                            <pattern>net.kyori</pattern>
-                            <shadedPattern>com.neomechanical.kyori
-                            </shadedPattern> <!-- Replace [YOUR_PLUGIN_PACKAGE] with your namespace -->
-                        </relocation>
-                        <relocation>
-                            <pattern>org.apache.maven:maven-artifact</pattern>
-                            <shadedPattern>com.neomechanical.neoutils.maven-artifact</shadedPattern>
-                        </relocation>
-                    </relocations>
-                    <artifactSet>
-                        <includes>
-                            <include>net.kyori</include>
-                            <include>commons-io</include>
-                            <include>org.apache.maven:maven-artifact</include>
-                        </includes>
-                    </artifactSet>
-                </configuration>
             </plugin>
         </plugins>
         <resources>

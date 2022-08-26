@@ -1,11 +1,12 @@
 package com.neomechanical.neoutils.manager;
 
+
 import com.neomechanical.neoutils.NeoUtils;
 import com.neomechanical.neoutils.commands.CommandManager;
 import com.neomechanical.neoutils.config.ConfigManager;
 import com.neomechanical.neoutils.inventory.managers.InventoryManager;
 import com.neomechanical.neoutils.languages.LanguageManager;
-import com.neomechanical.neoutils.versions.VersionManager;
+import com.neomechanical.neoutils.version.VersionManager;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,7 +14,7 @@ import java.util.Map;
 /**
  * Get and set managers, such as languageManager, configManager
  */
-public class ManagerHandler  {
+public class ManagerHandler {
 
     private final NeoUtils plugin;
     private final VersionManager versionManager;
@@ -28,6 +29,7 @@ public class ManagerHandler  {
         }
         return languageManager;
     }
+
     public ConfigManager getConfigManager(String configName) {
         return configManager.get(configName);
     }
@@ -39,9 +41,11 @@ public class ManagerHandler  {
     public ConfigManager createNewConfigManager(String configName) {
         return new ConfigManager(plugin, configName);
     }
+
     public Map<String, ConfigManager> getConfigs() {
         return configManager;
     }
+
     public void setLanguageManager(LanguageManager languageManager) {
         this.languageManager = languageManager;
     }

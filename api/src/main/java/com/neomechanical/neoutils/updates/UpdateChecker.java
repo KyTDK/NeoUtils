@@ -26,7 +26,9 @@ public class UpdateChecker {
         new BukkitRunnable() {
             @Override
             public void run() {
-                new UpdateChecker(plugin, 103183).getVersion(version -> UpToDate = isUpToDate(plugin.getDescription().getVersion(), version));
+                new UpdateChecker(plugin, 103183)
+                        .getVersion(version ->
+                                UpToDate = isUpToDate(plugin.getDescription().getVersion(), version));
             }
         }.runTaskTimer(plugin, 0, interval);
     }
@@ -38,7 +40,10 @@ public class UpdateChecker {
 
     public void getVersion(final Consumer<String> consumer) {
         Bukkit.getScheduler().runTaskAsynchronously(this.plugin, () -> {
-            try (InputStream inputStream = new URL("https://api.spigotmc.org/legacy/update.php?resource=" + this.resourceId).openStream(); Scanner scanner = new Scanner(inputStream)) {
+            try (InputStream inputStream = new URL(
+                                    "https://api.spigotmc.org/legacy/update.php?resource=" + this.resourceId)
+                            .openStream();
+                    Scanner scanner = new Scanner(inputStream)) {
                 if (scanner.hasNext()) {
                     consumer.accept(scanner.next());
                 }
@@ -48,4 +53,3 @@ public class UpdateChecker {
         });
     }
 }
-

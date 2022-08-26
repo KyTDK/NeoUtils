@@ -1,5 +1,6 @@
 package com.neomechanical.neoutils.messages;
 
+
 import com.neomechanical.neoutils.NeoUtils;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
@@ -24,16 +25,16 @@ public final class MessageUtil {
      */
     public MessageUtil() {}
 
-        /**
-         * Translate an uncolored message.
-         *
-         * @param msg the msg
-         * @return the colored message
-         */
-        @Contract("null -> null")
-        public static String color(String msg) {
-            return msg == null ? null : ChatColor.translateAlternateColorCodes('&', msg);
-        }
+    /**
+     * Translate an uncolored message.
+     *
+     * @param msg the msg
+     * @return the colored message
+     */
+    @Contract("null -> null")
+    public static String color(String msg) {
+        return msg == null ? null : ChatColor.translateAlternateColorCodes('&', msg);
+    }
 
     static List<Component> neoComponentArray = new ArrayList<>();
 
@@ -50,14 +51,17 @@ public final class MessageUtil {
         Audience player = adventure.player(sendTo);
         player.sendMessage(parsed);
     }
+
     public static void sendMM(Player sendTo, TextComponent parsed) {
         Audience player = adventure.player(sendTo);
         player.sendMessage(parsed);
     }
+
     public static void sendMM(CommandSender sendTo, TextComponent parsed) {
         Audience player = adventure.sender(sendTo);
         player.sendMessage(parsed);
     }
+
     public static void sendMM(CommandSender sendTo, String msg) {
         MiniMessage mm = MiniMessage.miniMessage();
         Component parsed = mm.deserialize(msg);
@@ -89,6 +93,7 @@ public final class MessageUtil {
         neoComponentArray.add(parsed);
         return this;
     }
+
     public MessageUtil addComponent(TextComponent msg) {
         neoComponentArray.add(msg);
         return this;
@@ -97,7 +102,7 @@ public final class MessageUtil {
     public MessageUtil neoComponentMessage() {
         return this;
     }
-    
+
     public void sendNeoComponentMessage(CommandSender player, String prefix, String suffix) {
         player.sendMessage(color(prefix));
         for (Component msg : neoComponentArray) {
@@ -106,6 +111,7 @@ public final class MessageUtil {
         player.sendMessage(color(suffix));
         neoComponentArray.clear();
     }
+
     public void sendNeoComponentMessage(Player player, String prefix, String suffix) {
         player.sendMessage(color(prefix));
         for (Component msg : neoComponentArray) {
@@ -114,12 +120,14 @@ public final class MessageUtil {
         player.sendMessage(color(suffix));
         neoComponentArray.clear();
     }
+
     public void sendNeoComponentMessage(Player player) {
         for (Component msg : neoComponentArray) {
             sendMM(player, msg);
         }
         neoComponentArray.clear();
     }
+
     public void sendNeoComponentMessage(CommandSender player) {
         for (Component msg : neoComponentArray) {
             sendMM(player, msg);

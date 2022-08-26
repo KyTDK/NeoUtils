@@ -1,5 +1,6 @@
 package com.neomechanical.neoutils.inventory.managers.data;
 
+
 import com.neomechanical.neoutils.NeoUtils;
 import com.neomechanical.neoutils.inventory.InventoryUtil;
 import com.neomechanical.neoutils.inventory.NInventory;
@@ -8,7 +9,7 @@ import com.neomechanical.neoutils.inventory.items.InventoryItemType;
 import com.neomechanical.neoutils.inventory.utils.InventoryOperations;
 import com.neomechanical.neoutils.inventory.utils.Size;
 import com.neomechanical.neoutils.items.ItemUtil;
-import com.neomechanical.neoutils.versions.VersionManager;
+import com.neomechanical.neoutils.version.VersionManager;
 import lombok.Data;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.entity.Player;
@@ -28,13 +29,10 @@ import java.util.Map;
  */
 @Data
 public class InventoryGUI implements NInventory {
-    private @NotNull
-    final Inventory inventory;
-    private @NotNull
-    final List<InventoryGUI> pages = new ArrayList<>();
+    private @NotNull final Inventory inventory;
+    private @NotNull final List<InventoryGUI> pages = new ArrayList<>();
     private final Map<Integer, InventoryItem> inventoryItems = new HashMap<>();
-    private @NotNull
-    final String title;
+    private @NotNull final String title;
     private @Nullable InventoryGUI openOnClose = null;
     private boolean unregisterOnClose = true;
     private boolean pagesInheritParentSettings = true;
@@ -69,15 +67,18 @@ public class InventoryGUI implements NInventory {
                 pages.get(pages.size() - 1).addItem(item);
                 continue;
             }
-            //If overflow occurs
-            if (Size.amountOfFilledSlots(inventory)+1 > getSize()) {
+            // If overflow occurs
+            if (Size.amountOfFilledSlots(inventory) + 1 > getSize()) {
                 List<InventoryItem> carryOver = new ArrayList<>();
                 carryOver.add(item);
-                for (int i = getSize()-9; i < getSize(); i++) {
+                for (int i = getSize() - 9; i < getSize(); i++) {
                     ItemStack itemCO = inventory.getItem(i);
                     if (itemCO != null) {
-                        InventoryItem itemCOI = NeoUtils.getManagers().getInventoryManager().getMenuItem(this, i);
-                        if (itemCOI!=null&&itemCOI.getType()!=null&&itemCOI.getType().equals(InventoryItemType.NAVIGATION)) {
+                        InventoryItem itemCOI =
+                                NeoUtils.getManagers().getInventoryManager().getMenuItem(this, i);
+                        if (itemCOI != null
+                                && itemCOI.getType() != null
+                                && itemCOI.getType().equals(InventoryItemType.NAVIGATION)) {
                             continue;
                         }
                         carryOver.add(itemCOI);
@@ -95,17 +96,30 @@ public class InventoryGUI implements NInventory {
                         newPage.setUnregisterOnClose(true);
                     }
                 }
-                //Add buttons
+                // Add buttons
                 VersionManager versionManager = NeoUtils.getManagers().getVersionManager();
-                newPage.setItem(getSize() - 9, new InventoryItem(ItemUtil.createItem(versionManager.matchItems().oakButton(), ChatColor.GREEN + "Left"),
-                        (event) -> new OpenInventory(this).action(event), InventoryItemType.NAVIGATION));
+                newPage.setItem(
+                        getSize() - 9,
+                        new InventoryItem(
+                                ItemUtil.createItem(versionManager.matchItems().oakButton(), ChatColor.GREEN + "Left"),
+                                (event) -> new OpenInventory(this).action(event),
+                                InventoryItemType.NAVIGATION));
                 if (pages.contains(this)) {
-                    setItem(getSize() - 9, new InventoryItem(ItemUtil.createItem(versionManager.matchItems().oakButton(), ChatColor.GREEN + "Left"),
-                            (event) -> new OpenInventory(pages.get(pages.size() - 2)).action(event), InventoryItemType.NAVIGATION));
+                    setItem(
+                            getSize() - 9,
+                            new InventoryItem(
+                                    ItemUtil.createItem(
+                                            versionManager.matchItems().oakButton(), ChatColor.GREEN + "Left"),
+                                    (event) -> new OpenInventory(pages.get(pages.size() - 2)).action(event),
+                                    InventoryItemType.NAVIGATION));
                 }
-                setItem(getSize() - 1, new InventoryItem(ItemUtil.createItem(versionManager.matchItems().oakButton(), ChatColor.GREEN + "Right"),
-                        (event) -> new OpenInventory(newPage).action(event), InventoryItemType.NAVIGATION));
-                //Add overflown items to new page
+                setItem(
+                        getSize() - 1,
+                        new InventoryItem(
+                                ItemUtil.createItem(versionManager.matchItems().oakButton(), ChatColor.GREEN + "Right"),
+                                (event) -> new OpenInventory(newPage).action(event),
+                                InventoryItemType.NAVIGATION));
+                // Add overflown items to new page
                 for (InventoryItem itemCO : carryOver) {
                     if (itemCO != null) {
                         newPage.addItem(itemCO);
@@ -140,7 +154,7 @@ public class InventoryGUI implements NInventory {
             int index = InventoryOperations.addItem(inventory, item.getItem());
             inventoryItems.put(index, item);
             inventory.setItem(index, item.getItem());
-            //get item index
+            // get item index
         }
         return this;
     }
@@ -162,9 +176,11 @@ public class InventoryGUI implements NInventory {
         this.pagesInheritParentSettings = inherit;
         return this;
     }
+
     public void open(Player player) {
         InventoryUtil.openInventory(player, this);
     }
+
     public List<InventoryGUI> getPages() {
         return pages;
     }

@@ -1,4 +1,5 @@
-package com.neomechanical.neoutils.versions;
+package com.neomechanical.neoutils.version;
+
 
 import com.neomechanical.neoutils.version.items.ItemVersionWrapper;
 

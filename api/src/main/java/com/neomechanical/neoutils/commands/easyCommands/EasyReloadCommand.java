@@ -1,5 +1,6 @@
 package com.neomechanical.neoutils.commands.easyCommands;
 
+
 import com.neomechanical.neoutils.commands.Command;
 import org.bukkit.command.CommandSender;
 
@@ -38,8 +39,13 @@ public class EasyReloadCommand extends Command {
     public boolean playerOnly() {
         return playerOnly;
     }
-    public EasyReloadCommand(String syntax, String description, String permission, boolean playerOnly,
-                             BiConsumer<CommandSender, String[]> reloadFunction) {
+
+    public EasyReloadCommand(
+            String syntax,
+            String description,
+            String permission,
+            boolean playerOnly,
+            BiConsumer<CommandSender, String[]> reloadFunction) {
         this.syntax = syntax;
         this.description = description;
         this.permission = permission;

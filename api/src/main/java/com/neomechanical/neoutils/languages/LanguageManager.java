@@ -1,5 +1,6 @@
 package com.neomechanical.neoutils.languages;
 
+
 import com.neomechanical.neoutils.NeoUtils;
 import com.neomechanical.neoutils.config.ConfigUpdater;
 import com.neomechanical.neoutils.utils.UtilManager;
@@ -24,8 +25,7 @@ import java.util.function.Supplier;
  * @param main the main class
  */
 public class LanguageManager {
-    private @NotNull
-    static final ArrayList<String> languageFiles = new ArrayList<>();
+    private @NotNull static final ArrayList<String> languageFiles = new ArrayList<>();
     private static String currentLanguage = "en";
     private static String languageCode = "en-US";
     private static Supplier<String> languageChangeConsumer;
@@ -36,6 +36,7 @@ public class LanguageManager {
     private File languageConfigFile = null;
     private FileConfiguration languageConfig;
     private FileConfiguration defaultLanguageConfig = null;
+
     public LanguageManager(final JavaPlugin main) {
         this.main = (NeoUtils) main;
         internalPlaceholderReplacements = new HashMap<>();
@@ -46,7 +47,7 @@ public class LanguageManager {
         return this;
     }
 
-    public LanguageManager setLanguageFile( @NotNull String... files) {
+    public LanguageManager setLanguageFile(@NotNull String... files) {
         languageFiles.clear();
         languageFiles.addAll(Arrays.asList(files));
         return this;
@@ -74,7 +75,7 @@ public class LanguageManager {
     }
 
     private void loadMissingDefaultLanguageFiles() {
-        //Create the Language Data Folder if it does not exist yet (the NotQuests/languages folder)
+        // Create the Language Data Folder if it does not exist yet (the NotQuests/languages folder)
         languageFolder = new File(main.getDataFolder().getPath() + "/languages/");
 
         if (!languageFolder.exists()) {
@@ -90,52 +91,56 @@ public class LanguageManager {
 
                 if (!file.exists()) {
                     if (!file.createNewFile()) {
-                        main.getFancyLogger().fatal("There was an error creating the " + fileName + " language file. (3)");
+                        main.getFancyLogger()
+                                .fatal("There was an error creating the " + fileName + " language file. (3)");
                         return;
                     }
 
                     InputStream inputStream = main.getResource("translations/" + fileName);
-                    //Instead of creating a new language file, we will copy the one from inside the plugin jar into the plugin folder:
+                    // Instead of creating a new language file, we will copy the one from inside the plugin jar into the
+                    // plugin folder:
                     if (inputStream != null) {
                         try (OutputStream outputStream = new FileOutputStream(file)) {
                             IOUtils.copy(inputStream, outputStream);
                         } catch (Exception e) {
-                            main.getFancyLogger().fatal("There was an error creating the " + fileName + " language file. (4)");
+                            main.getFancyLogger()
+                                    .fatal("There was an error creating the " + fileName + " language file. (4)");
                             return;
                         }
                     }
                 }
 
-
-                //Doesn't matter if the en-US.yml exists in the plugin folder or not, because we're reading it from the internal resources folder
+                // Doesn't matter if the en-US.yml exists in the plugin folder or not, because we're reading it from the
+                // internal resources folder
                 if (fileName.equals("en-US.yml")) {
-                    //Copy to default.yml
+                    // Copy to default.yml
                     File defaultFile = new File(languageFolder, "default.yml");
 
                     InputStream inputStream = main.getResource("translations/en-US.yml");
-                    //Instead of creating a new language file, we will copy the one from inside the plugin jar into the plugin folder:
+                    // Instead of creating a new language file, we will copy the one from inside the plugin jar into the
+                    // plugin folder:
                     if (inputStream != null) {
                         try (OutputStream defaultOutputStream = new FileOutputStream(defaultFile)) {
                             IOUtils.copy(inputStream, defaultOutputStream);
-                            //Put into fileConfiguration
+                            // Put into fileConfiguration
 
                             if (!defaultFile.exists()) {
-                                main.getFancyLogger().fatal("There was an error reading the default.yml language file. (5)");
+                                main.getFancyLogger()
+                                        .fatal("There was an error reading the default.yml language file. (5)");
                                 return;
                             }
                             defaultLanguageConfig = new YamlConfiguration();
                             defaultLanguageConfig.load(defaultFile);
 
                         } catch (Exception e) {
-                            main.getFancyLogger().fatal("There was an error creating the default.yml language file. (6)");
+                            main.getFancyLogger()
+                                    .fatal("There was an error creating the default.yml language file. (6)");
                             return;
                         }
                     } else {
                         main.getFancyLogger().fatal("There was an error creating the default.yml language file. (7)");
                         return;
                     }
-
-
                 }
                 ConfigUpdater.update(main, "translations/" + fileName, file, Collections.singletonList(""));
             } catch (IOException ioException) {
@@ -144,7 +149,6 @@ public class LanguageManager {
             }
         }
     }
-
 
     /**
      * Load language configs
@@ -161,7 +165,7 @@ public class LanguageManager {
          */
         if (languageConfigFile == null || !currentLanguage.equals(languageCode)) {
 
-            //Create the Data Folder if it does not exist yet
+            // Create the Data Folder if it does not exist yet
 
             if (languageFolder == null) {
                 languageFolder = new File(main.getDataFolder().getPath() + "/languages/");
@@ -172,33 +176,39 @@ public class LanguageManager {
                     main.getFancyLogger().warn("There was an error creating the NeoPerformance languages folder.");
                     return;
                 }
-
             }
 
             if (!languageFiles.contains(languageCode + ".yml")) {
-                main.getFancyLogger().warn("The language file " + languageCode + ".yml does not exist or is not supported." +
-                        " Please look at the languages folder for a list of supported languages. Using the primary language file instead.");
+                main.getFancyLogger()
+                        .warn(
+                                "The language file " + languageCode + ".yml does not exist or is not supported."
+                                        + " Please look at the languages folder for a list of supported languages. Using the primary language file instead.");
                 languageCode = "en-US";
             }
             languageConfigFile = new File(languageFolder, languageCode + ".yml");
             if (!languageConfigFile.exists()) {
-                //Does not work yet, since comments are overridden if something is saved
-                //saveDefaultConfig();
+                // Does not work yet, since comments are overridden if something is saved
+                // saveDefaultConfig();
                 try {
-                    //Try to create the language.yml config file, and throw an error if it fails.
+                    // Try to create the language.yml config file, and throw an error if it fails.
 
                     if (!languageConfigFile.createNewFile()) {
-                        main.getFancyLogger().warn("There was an error creating the " + languageCode + ".yml language file.");
+                        main.getFancyLogger()
+                                .warn("There was an error creating the " + languageCode + ".yml language file.");
                         return;
-
                     }
                 } catch (IOException ioException) {
-                    main.getFancyLogger().warn("There was an error creating the " + languageCode + ".yml language file.");
+                    main.getFancyLogger()
+                            .warn("There was an error creating the " + languageCode + ".yml language file.");
                     return;
                 }
             } else {
                 try {
-                    ConfigUpdater.update(main, "translations/" + languageCode + ".yml", languageConfigFile, Collections.singletonList(""));
+                    ConfigUpdater.update(
+                            main,
+                            "translations/" + languageCode + ".yml",
+                            languageConfigFile,
+                            Collections.singletonList(""));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -214,7 +224,6 @@ public class LanguageManager {
         }
         currentLanguage = languageCode;
     }
-
 
     /**
      * This will return the language FileConfiguration object
@@ -234,9 +243,11 @@ public class LanguageManager {
             if (translatedString == null) {
                 return "Language string not found: " + languageString;
             }
-            return applySpecial(ChatColor.translateAlternateColorCodes('&', applyInternalPlaceholders(translatedString, player)));
+            return applySpecial(
+                    ChatColor.translateAlternateColorCodes('&', applyInternalPlaceholders(translatedString, player)));
         }
     }
+
     private String applyInternalPlaceholders(String initialMessage, @Nullable Player player) {
         internalPlaceholderReplacements.clear();
         for (Map.Entry<String, Function<Player, String>> entry : internalPlaceholders.entrySet()) {
@@ -248,7 +259,6 @@ public class LanguageManager {
     private String applySpecial(String initialMessage) {
         initialMessage = initialMessage.replace("<EMPTY>", " ");
 
-
         final StringBuilder finalMessage = new StringBuilder();
 
         final String[] splitMessages = initialMessage.split("\n");
@@ -259,10 +269,8 @@ public class LanguageManager {
             }
         }
 
-
         return finalMessage.toString();
     }
-
 
     /**
      * This will try to save the language configuration file with the data which is currently in the
@@ -277,5 +285,4 @@ public class LanguageManager {
             main.getFancyLogger().severe("Language Config file could not be saved.");
         }
     }
-
 }

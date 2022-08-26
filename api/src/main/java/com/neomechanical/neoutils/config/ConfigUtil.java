@@ -1,5 +1,6 @@
 package com.neomechanical.neoutils.config;
 
+
 import org.bukkit.configuration.ConfigurationSection;
 import org.jetbrains.annotations.NotNull;
 

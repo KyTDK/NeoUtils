@@ -1,5 +1,6 @@
 package com.neomechanical.neoutils;
 
+
 import com.neomechanical.neoutils.api.Api;
 import com.neomechanical.neoutils.inventory.managers.InventoryFunctionality;
 import com.neomechanical.neoutils.manager.ManagerHandler;

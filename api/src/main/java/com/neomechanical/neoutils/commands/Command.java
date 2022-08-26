@@ -1,5 +1,6 @@
 package com.neomechanical.neoutils.commands;
 
+
 import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.Map;
 
 public abstract class Command {
     ArrayList<Command> subcommands = new ArrayList<>();
+
     public List<Command> getSubcommands() {
         return subcommands;
     }
@@ -17,10 +19,12 @@ public abstract class Command {
         getSubcommands().addAll(new ArrayList<>(Arrays.asList(command)));
         return this;
     }
+
     public Command removeSubcommand(Command... command) {
         getSubcommands().removeAll((new ArrayList<>(Arrays.asList(command))));
         return this;
     }
+
     public abstract String getName();
 
     public abstract String getDescription();
@@ -31,7 +35,7 @@ public abstract class Command {
 
     public abstract boolean playerOnly();
 
-    //code for the subcommand
+    // code for the subcommand
     public abstract void perform(CommandSender player, String[] args);
 
     public abstract List<String> tabSuggestions();

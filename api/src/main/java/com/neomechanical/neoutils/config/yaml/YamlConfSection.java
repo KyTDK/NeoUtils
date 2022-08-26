@@ -1,5 +1,6 @@
 package com.neomechanical.neoutils.config.yaml;
 
+
 import lombok.Data;
 
 import java.util.Map;

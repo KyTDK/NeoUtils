@@ -1,5 +1,6 @@
 package com.neomechanical.neoutils.messages;
 
+
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -11,9 +12,10 @@ public class Logger {
      * @param plugin Plugin instance
      */
     public Logger(JavaPlugin plugin) {
-        prefix = "["+plugin.getName()+"] ";
+        prefix = "[" + plugin.getName() + "] ";
         this.plugin = plugin;
     }
+
     private String prefix;
     /**
      * Set the prefix for all the logs

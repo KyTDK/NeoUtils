@@ -1,5 +1,6 @@
 package com.neomechanical.neoutils.items;
 
+
 import com.neomechanical.neoutils.messages.MessageUtil;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -54,8 +55,7 @@ public class ItemBuilder {
      * @return the builder instance
      */
     public ItemBuilder lore(List<String> lore) {
-        this.lore.addAll(lore.stream()
-                .map(MessageUtil::color).collect(Collectors.toList()));
+        this.lore.addAll(lore.stream().map(MessageUtil::color).collect(Collectors.toList()));
         return this;
     }
 

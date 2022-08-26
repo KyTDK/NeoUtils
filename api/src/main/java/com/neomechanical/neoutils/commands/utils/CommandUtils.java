@@ -1,5 +1,6 @@
 package com.neomechanical.neoutils.commands.utils;
 
+
 import lombok.experimental.UtilityClass;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -29,10 +30,11 @@ public final class CommandUtils {
      * @param permission Required permission or null
      * @param aliases    Aliases of the command. First element is the "real" command name.
      */
-    public static void registerCommand(JavaPlugin plugin, @Nullable final String permission, String mainCommand, final String... aliases) {
+    public static void registerCommand(
+            JavaPlugin plugin, @Nullable final String permission, String mainCommand, final String... aliases) {
 
         final PluginCommand command = getCommand(plugin, mainCommand);
-        if (aliases!=null) {
+        if (aliases != null) {
             command.setAliases(Arrays.asList(aliases));
         }
         command.setPermission(permission);
@@ -47,12 +49,17 @@ public final class CommandUtils {
         PluginCommand command = null;
 
         try {
-            final Constructor<PluginCommand> constructor = PluginCommand.class.getDeclaredConstructor(String.class, Plugin.class);
+            final Constructor<PluginCommand> constructor =
+                    PluginCommand.class.getDeclaredConstructor(String.class, Plugin.class);
             constructor.setAccessible(true);
 
             command = constructor.newInstance(name, plugin);
-        } catch (final SecurityException | NoSuchMethodException | InvocationTargetException | InstantiationException |
-                       IllegalAccessException | IllegalArgumentException e) {
+        } catch (final SecurityException
+                | NoSuchMethodException
+                | InvocationTargetException
+                | InstantiationException
+                | IllegalAccessException
+                | IllegalArgumentException e) {
             e.printStackTrace();
         }
 
@@ -116,7 +123,8 @@ public final class CommandUtils {
         }
     }
 
-    private static void sendHelpMessageSameLine(final CommandSender sender, final boolean newLine, final String... args) {
+    private static void sendHelpMessageSameLine(
+            final CommandSender sender, final boolean newLine, final String... args) {
         final Iterator<String> iterator = Arrays.stream(args).iterator();
         while (iterator.hasNext()) {
             final String command = iterator.next();

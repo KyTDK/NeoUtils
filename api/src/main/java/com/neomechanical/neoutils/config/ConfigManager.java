@@ -1,5 +1,6 @@
 package com.neomechanical.neoutils.config;
 
+
 import com.neomechanical.neoutils.NeoUtils;
 import com.neomechanical.neoutils.manager.ManagerHandler;
 import org.apache.commons.io.IOUtils;
@@ -20,6 +21,7 @@ public class ConfigManager {
     private FileConfiguration config;
     private final NeoUtils plugin;
     private static final ManagerHandler managers = NeoUtils.getManagers();
+
     public void reloadConfig() {
         loadConfiguration();
     }
@@ -43,15 +45,14 @@ public class ConfigManager {
         }
         config = YamlConfiguration.loadConfiguration(configFile);
         if (!configFile.exists()) {
-            //Does not work yet, since comments are overridden if something is saved
-            //saveDefaultConfig();
+            // Does not work yet, since comments are overridden if something is saved
+            // saveDefaultConfig();
             try {
-                //Try to create the language.yml config file, and throw an error if it fails.
+                // Try to create the language.yml config file, and throw an error if it fails.
 
                 if (!configFile.createNewFile()) {
                     plugin.getFancyLogger().warn("There was an error creating the " + configFilePath + " config file.");
                     return;
-
                 }
             } catch (IOException ioException) {
                 plugin.getFancyLogger().warn("There was an error creating the " + configFilePath + " config file.");
@@ -73,6 +74,7 @@ public class ConfigManager {
         }
         return config;
     }
+
     public boolean saveConfig(FileConfiguration config) {
         if (config == null || configFile == null) {
             return false;
@@ -85,6 +87,7 @@ public class ConfigManager {
         }
         return true;
     }
+
     private void saveDefaultConfig() {
         try {
             if (configFile == null) {
@@ -93,12 +96,14 @@ public class ConfigManager {
             if (!configFile.exists()) {
                 plugin.saveResource(configFilePath, false);
                 InputStream inputStream = plugin.getResource(configFilePath);
-                //Instead of creating a new language file, we will copy the one from inside the plugin jar into the plugin folder:
+                // Instead of creating a new language file, we will copy the one from inside the plugin jar into the
+                // plugin folder:
                 if (inputStream != null) {
                     try (OutputStream outputStream = Files.newOutputStream(configFile.toPath())) {
                         IOUtils.copy(inputStream, outputStream);
                     } catch (Exception e) {
-                        plugin.getFancyLogger().fatal("There was an error creating the " + configFilePath + " config file. (4)");
+                        plugin.getFancyLogger()
+                                .fatal("There was an error creating the " + configFilePath + " config file. (4)");
                     }
                 }
             }
@@ -107,6 +112,7 @@ public class ConfigManager {
             plugin.getFancyLogger().fatal("There was an error creating the " + configFilePath + " config file. (3)");
         }
     }
+
     public static void reloadAllConfigs() {
         managers.getConfigs().forEach((configFileName, configManager) -> configManager.reloadConfig());
     }

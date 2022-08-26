@@ -1,5 +1,6 @@
 package com.neomechanical.neoutils.inventory.utils;
 
+
 import org.bukkit.inventory.Inventory;
 
 public class Size {

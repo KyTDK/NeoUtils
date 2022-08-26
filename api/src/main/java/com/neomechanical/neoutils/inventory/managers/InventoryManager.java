@@ -1,5 +1,6 @@
 package com.neomechanical.neoutils.inventory.managers;
 
+
 import com.neomechanical.neoutils.inventory.managers.data.InventoryGUI;
 import com.neomechanical.neoutils.inventory.managers.data.InventoryItem;
 import org.bukkit.inventory.Inventory;
@@ -29,10 +30,12 @@ public class InventoryManager {
         }
         return null;
     }
+
     @Nullable
     public InventoryItem getMenuItem(InventoryGUI inventoryGUI, int index) {
         return inventoryGUI.getInventoryItems().get(index);
     }
+
     public boolean isGUI(Inventory inventory) {
         return inventoryGuiMap.containsKey(inventory);
     }
@@ -42,7 +45,6 @@ public class InventoryManager {
      * @param inventory the inventory
      * @return the shop GUI
      */
-
     @Nullable
     public InventoryGUI getInventoryGUI(@NotNull Inventory inventory) {
         return inventoryGuiMap.get(inventory);
@@ -51,9 +53,11 @@ public class InventoryManager {
     public void put(@NotNull InventoryGUI gui) {
         inventoryGuiMap.put(gui.getInventory(), gui);
     }
+
     public void remove(@NotNull InventoryGUI gui) {
         inventoryGuiMap.remove(gui.getInventory(), gui);
     }
+
     public boolean contains(@NotNull InventoryGUI gui) {
         return inventoryGuiMap.containsKey(gui.getInventory());
     }

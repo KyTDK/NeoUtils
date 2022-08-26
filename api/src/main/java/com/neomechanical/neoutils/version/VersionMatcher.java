@@ -1,4 +1,4 @@
-package com.neomechanical.neoutils.versions;
+package com.neomechanical.neoutils.version;
 
 import com.neomechanical.neoutils.version.items.ItemVersionWrapper;
 import org.bukkit.Bukkit;
@@ -32,7 +32,10 @@ public class VersionMatcher {
     public ItemVersionWrapper matchItems() {
         try {
             try {
-                return (ItemVersionWrapper) Class.forName(getClass().getPackage().getName() + ".Wrapper" + serverVersion).getDeclaredConstructor().newInstance();
+                return (ItemVersionWrapper)
+                        Class.forName(getClass().getPackage().getName() + ".items.Wrapper" + serverVersion)
+                                .getDeclaredConstructor()
+                                .newInstance();
             } catch (InvocationTargetException | NoSuchMethodException e) {
                 throw new RuntimeException(e);
             }
