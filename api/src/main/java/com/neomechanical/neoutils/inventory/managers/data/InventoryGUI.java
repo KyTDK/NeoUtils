@@ -182,6 +182,7 @@ public class InventoryGUI implements NInventory {
         InventoryUtil.openInventory(player, this);
     }
 
+    @NotNull
     public List<InventoryGUI> getPages() {
         return pages;
     }
