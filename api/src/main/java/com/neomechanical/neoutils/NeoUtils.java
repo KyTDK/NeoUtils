@@ -8,6 +8,7 @@ import com.neomechanical.neoutils.messages.Logger;
 import com.neomechanical.neoutils.version.VersionMatcher;
 import com.neomechanical.neoutils.version.VersionWrapper;
 import com.neomechanical.neoutils.version.Versioning;
+import com.neomechanical.neoutils.version.items.WrapperLEGACY;
 import com.neomechanical.neoutils.version.items.WrapperNONLEGACY;
 import com.neomechanical.neoutils.version.versions.Versions;
 import lombok.NonNull;
@@ -15,6 +16,8 @@ import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Map;
+
+import static com.neomechanical.neoutils.updates.IsUpToDate.isUpToDate;
 
 public abstract class NeoUtils extends JavaPlugin implements Api {
     private static BukkitAudiences adventure;
@@ -58,8 +61,9 @@ public abstract class NeoUtils extends JavaPlugin implements Api {
         adventure = BukkitAudiences.create(this);
         managerHandler = new ManagerHandler(this);
         new Versioning.VersioningBuilder("items")
-                .addClass(Versions.vLEGACY.toString(), new WrapperNONLEGACY())
+                .addClass(Versions.vLEGACY.toString(), new WrapperLEGACY())
                 .addClass(Versions.vNONLEGACY.toString(), new WrapperNONLEGACY())
+                .setLegacyFunction((ver) -> !isUpToDate(ver, "1_13_R1"))
                 .build()
                 .register();
         internalVersions = new VersionMatcher(getManagers().getVersionManager()).matchAll();

@@ -5,16 +5,19 @@ import com.neomechanical.neoutils.version.versions.Versions;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Predicate;
 
 public class Versioning {
     //Required
     private final String versioningName;
     //Optional
     private final Map<String, VersionWrapper> classMap;
+    private final Predicate<String> legacyFunction;
 
     public Versioning(VersioningBuilder versioningBuilder) {
         this.classMap = versioningBuilder.classMap;
         this.versioningName = versioningBuilder.versioningName;
+        this.legacyFunction = versioningBuilder.legacyFunction;
     }
 
     public static VersionManager getManager() {
@@ -29,6 +32,10 @@ public class Versioning {
         return classMap;
     }
 
+    public Predicate<String> getLegacyFunction() {
+        return legacyFunction;
+    }
+
     public void register() {
         NeoUtils.getManagers().getVersionManager().addVersioningClass(versioningName, this);
     }
@@ -38,6 +45,7 @@ public class Versioning {
         private final String versioningName;
         //Optional
         private final Map<String, VersionWrapper> classMap = new HashMap<>();
+        private Predicate<String> legacyFunction;
 
         public VersioningBuilder(String versioningName) {
             this.versioningName = versioningName;
@@ -48,6 +56,17 @@ public class Versioning {
                 throw new IllegalStateException(versioningName + " is not a valid or supported version");
             }
             classMap.put(version, versionWrapper);
+            return this;
+        }
+
+        /**
+         * Get the inventory GUI from an id.
+         *
+         * @param legacyFunction the predicate
+         * @return the {@link #Versioning} instance
+         */
+        public VersioningBuilder setLegacyFunction(Predicate<String> legacyFunction) {
+            this.legacyFunction = legacyFunction;
             return this;
         }
 

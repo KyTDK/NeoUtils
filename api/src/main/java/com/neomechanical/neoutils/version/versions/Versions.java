@@ -3,7 +3,7 @@ package com.neomechanical.neoutils.version.versions;
 public enum Versions {
     //Special versions
     vLEGACY("LEGACY"),
-    vNONLEGACY("NOLEGACY"),
+    vNONLEGACY("NONLEGACY"),
     v1_7_R4("1_7_R4"),
     v1_8_R1("1_8_R1"),
     v1_8_R2("1_8_R2"),
@@ -25,8 +25,8 @@ public enum Versions {
     v1_17_R1("1_17_R1"),
     v1_18_R1("1_18_R1"),
     v1_18_R2("1_18_R2"),
-    v1_19_1_R1("1_19_1_R1"),
-    v1_19_R1("1_19_R1");
+    v1_19_R1("1_19_R1"),
+    v1_19_1_R1("1_19_1_R1");
     private final String text;
 
     Versions(final String text) {

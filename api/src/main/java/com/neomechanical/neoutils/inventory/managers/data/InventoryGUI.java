@@ -98,7 +98,7 @@ public class InventoryGUI implements NInventory {
                     }
                 }
                 // Add buttons
-                Material button = ((ItemVersionWrapper) NeoUtils.getInternalVersions().get("items")).oakButton();
+                 Material button = ((ItemVersionWrapper) NeoUtils.getInternalVersions().get("items")).oakButton();
                 newPage.setItem(
                         getSize() - 9,
                         new InventoryItem(
