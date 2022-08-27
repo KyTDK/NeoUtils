@@ -9,10 +9,13 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 @Data
 public class InventoryItem {
-    private @NotNull final ItemStack item;
-    private @Nullable final Consumer<InventoryClickEvent> action;
+    private @NotNull
+    final Supplier<ItemStack> item;
+    private @Nullable
+    final Consumer<InventoryClickEvent> action;
     private @Nullable final InventoryItemType type;
 }

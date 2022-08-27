@@ -56,7 +56,7 @@ public class InventoryGUI implements NInventory {
                 removeItem(item);
             }
             inventoryItems.put(index, item);
-            inventory.setItem(index, item.getItem());
+            inventory.setItem(index, item.getItem().get());
         }
         return this;
     }
@@ -102,14 +102,14 @@ public class InventoryGUI implements NInventory {
                 newPage.setItem(
                         getSize() - 9,
                         new InventoryItem(
-                                ItemUtil.createItem(button, ChatColor.GREEN + "Left"),
+                                () -> ItemUtil.createItem(button, ChatColor.GREEN + "Left"),
                                 (event) -> new OpenInventory(this).action(event),
                                 InventoryItemType.NAVIGATION));
                 if (pages.contains(this)) {
                     setItem(
                             getSize() - 9,
                             new InventoryItem(
-                                    ItemUtil.createItem(
+                                    () -> ItemUtil.createItem(
                                             button, ChatColor.GREEN + "Left"),
                                     (event) -> new OpenInventory(pages.get(pages.size() - 2)).action(event),
                                     InventoryItemType.NAVIGATION));
@@ -117,7 +117,7 @@ public class InventoryGUI implements NInventory {
                 setItem(
                         getSize() - 1,
                         new InventoryItem(
-                                ItemUtil.createItem(button, ChatColor.GREEN + "Right"),
+                                () -> ItemUtil.createItem(button, ChatColor.GREEN + "Right"),
                                 (event) -> new OpenInventory(newPage).action(event),
                                 InventoryItemType.NAVIGATION));
                 // Add overflown items to new page
@@ -129,7 +129,7 @@ public class InventoryGUI implements NInventory {
                 pages.add(newPage);
                 continue;
             }
-            inventoryItems.put(InventoryOperations.addItem(inventory, item.getItem()), item);
+            inventoryItems.put(InventoryOperations.addItem(inventory, item.getItem().get()), item);
         }
         return this;
     }
@@ -138,7 +138,7 @@ public class InventoryGUI implements NInventory {
     public InventoryGUI removeItem(@NotNull InventoryItem... items) throws IllegalArgumentException {
         for (InventoryItem item : items) {
             inventoryItems.values().remove(item);
-            inventory.removeItem(item.getItem());
+            inventory.removeItem(item.getItem().get());
         }
         return this;
     }
@@ -152,9 +152,9 @@ public class InventoryGUI implements NInventory {
     @Override
     public InventoryGUI setContents(@NotNull InventoryItem[] items) throws IllegalArgumentException {
         for (InventoryItem item : items) {
-            int index = InventoryOperations.addItem(inventory, item.getItem());
+            int index = InventoryOperations.addItem(inventory, item.getItem().get());
             inventoryItems.put(index, item);
-            inventory.setItem(index, item.getItem());
+            inventory.setItem(index, item.getItem().get());
             // get item index
         }
         return this;
@@ -185,5 +185,16 @@ public class InventoryGUI implements NInventory {
     @NotNull
     public List<InventoryGUI> getPages() {
         return pages;
+    }
+
+    public InventoryGUI update() {
+        for (InventoryGUI gui : pages) {
+            gui.update();
+        }
+        for (int slot : inventoryItems.keySet()) {
+            InventoryItem item = inventoryItems.get(slot);
+            inventory.setItem(slot, item.getItem().get());
+        }
+        return this;
     }
 }

@@ -43,6 +43,7 @@ public class InventoryFunctionality implements Listener {
                 if (!inventoryManager.isGUI(player.getOpenInventory().getTopInventory())
                         && player.getOpenInventory().getTopInventory().getType() == InventoryType.CRAFTING) {
                     if (gui.getOpenOnClose() != null) {
+                        gui.update();
                         InventoryUtil.openInventory(player, gui.getOpenOnClose());
                         return;
                     }
