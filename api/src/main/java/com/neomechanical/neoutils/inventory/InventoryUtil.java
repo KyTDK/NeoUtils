@@ -37,6 +37,7 @@ public class InventoryUtil {
 
     public static void openInventory(Player player, InventoryGUI inventoryGUI) {
         registerGUI(inventoryGUI);
+        inventoryGUI.update();
         player.openInventory(inventoryGUI.getInventory());
     }
 }
