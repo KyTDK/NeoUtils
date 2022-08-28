@@ -12,6 +12,7 @@
     <url>https://neomechanical.com</url>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>1.8</java.version>
     </properties>
 
     <modules>
@@ -44,6 +45,9 @@
         <module>1_19_2_R1</module>
     </modules>
     <build>
+        <!-- Considering this project is purely used as a library, it makes sense for the default goal
+        to install -->
+        <defaultGoal>clean install</defaultGoal>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
