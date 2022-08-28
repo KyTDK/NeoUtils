@@ -26,7 +26,9 @@ public enum Versions {
     v1_18_R1("1_18_R1"),
     v1_18_R2("1_18_R2"),
     v1_19_R1("1_19_R1"),
-    v1_19_1_R1("1_19_1_R1");
+    v1_19_1_R1("1_19_1_R1"),
+    v1_19_2_R1("1_19_2_R1");
+
     private final String text;
 
     Versions(final String text) {

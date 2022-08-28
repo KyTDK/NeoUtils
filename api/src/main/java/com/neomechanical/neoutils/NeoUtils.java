@@ -10,6 +10,28 @@ import com.neomechanical.neoutils.version.VersionWrapper;
 import com.neomechanical.neoutils.version.Versioning;
 import com.neomechanical.neoutils.version.items.WrapperLEGACY;
 import com.neomechanical.neoutils.version.items.WrapperNONLEGACY;
+import com.neomechanical.neoutils.version.v1_10_R1.worlds.WorldWrapper1_10_R1;
+import com.neomechanical.neoutils.version.v1_11_R1.worlds.WorldWrapper1_11_R1;
+import com.neomechanical.neoutils.version.v1_12_R1.worlds.WorldWrapper1_12_R1;
+import com.neomechanical.neoutils.version.v1_13_R1.worlds.WorldWrapper1_13_R1;
+import com.neomechanical.neoutils.version.v1_14_4_R1.worlds.WorldWrapper1_14_4_R1;
+import com.neomechanical.neoutils.version.v1_14_R1.worlds.WorldWrapper1_14_R1;
+import com.neomechanical.neoutils.version.v1_15_R1.worlds.WorldWrapper1_15_R1;
+import com.neomechanical.neoutils.version.v1_16_R1.worlds.WorldWrapper1_16_R1;
+import com.neomechanical.neoutils.version.v1_16_R2.worlds.WorldWrapper1_16_R2;
+import com.neomechanical.neoutils.version.v1_16_R3.worlds.WorldWrapper1_16_R3;
+import com.neomechanical.neoutils.version.v1_17_1_R1.worlds.WorldWrapper1_17_1_R1;
+import com.neomechanical.neoutils.version.v1_17_R1.worlds.WorldWrapper1_17_R1;
+import com.neomechanical.neoutils.version.v1_18_R1.worlds.WorldWrapper1_18_R1;
+import com.neomechanical.neoutils.version.v1_18_R2.worlds.WorldWrapper1_18_R2;
+import com.neomechanical.neoutils.version.v1_19_1_R1.worlds.WorldWrapper1_19_1_R1;
+import com.neomechanical.neoutils.version.v1_19_R1.worlds.WorldWrapper1_19_2_R1;
+import com.neomechanical.neoutils.version.v1_19_R1.worlds.WorldWrapper1_19_R1;
+import com.neomechanical.neoutils.version.v1_8_R1.worlds.WorldWrapper1_8_R1;
+import com.neomechanical.neoutils.version.v1_8_R2.worlds.WorldWrapper1_8_R2;
+import com.neomechanical.neoutils.version.v1_8_R3.worlds.WorldWrapper1_8_R3;
+import com.neomechanical.neoutils.version.v1_9_R1.worlds.WorldWrapper1_9_R1;
+import com.neomechanical.neoutils.version.v1_9_R2.worlds.WorldWrapper1_9_R2;
 import com.neomechanical.neoutils.version.versions.Versions;
 import lombok.NonNull;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
@@ -64,6 +86,31 @@ public abstract class NeoUtils extends JavaPlugin implements Api {
                 .addClass(Versions.vLEGACY.toString(), new WrapperLEGACY())
                 .addClass(Versions.vNONLEGACY.toString(), new WrapperNONLEGACY())
                 .setLegacyFunction((ver) -> !isUpToDate(ver, "1_13_R1"))
+                .build()
+                .register();
+        new Versioning.VersioningBuilder("worlds")
+                .addClass(Versions.v1_8_R1.toString(), new WorldWrapper1_8_R1())
+                .addClass(Versions.v1_8_R2.toString(), new WorldWrapper1_8_R2())
+                .addClass(Versions.v1_8_R3.toString(), new WorldWrapper1_8_R3())
+                .addClass(Versions.v1_9_R1.toString(), new WorldWrapper1_9_R1())
+                .addClass(Versions.v1_9_R2.toString(), new WorldWrapper1_9_R2())
+                .addClass(Versions.v1_10_R1.toString(), new WorldWrapper1_10_R1())
+                .addClass(Versions.v1_11_R1.toString(), new WorldWrapper1_11_R1())
+                .addClass(Versions.v1_12_R1.toString(), new WorldWrapper1_12_R1())
+                .addClass(Versions.v1_13_R1.toString(), new WorldWrapper1_13_R1())
+                .addClass(Versions.v1_14_R1.toString(), new WorldWrapper1_14_R1())
+                .addClass(Versions.v1_14_4_R1.toString(), new WorldWrapper1_14_4_R1())
+                .addClass(Versions.v1_15_R1.toString(), new WorldWrapper1_15_R1())
+                .addClass(Versions.v1_16_R1.toString(), new WorldWrapper1_16_R1())
+                .addClass(Versions.v1_16_R2.toString(), new WorldWrapper1_16_R2())
+                .addClass(Versions.v1_16_R3.toString(), new WorldWrapper1_16_R3())
+                .addClass(Versions.v1_17_R1.toString(), new WorldWrapper1_17_R1())
+                .addClass(Versions.v1_17_1_R1.toString(), new WorldWrapper1_17_1_R1())
+                .addClass(Versions.v1_18_R1.toString(), new WorldWrapper1_18_R1())
+                .addClass(Versions.v1_18_R2.toString(), new WorldWrapper1_18_R2())
+                .addClass(Versions.v1_19_R1.toString(), new WorldWrapper1_19_R1())
+                .addClass(Versions.v1_19_1_R1.toString(), new WorldWrapper1_19_1_R1())
+                .addClass(Versions.v1_19_2_R1.toString(), new WorldWrapper1_19_2_R1())
                 .build()
                 .register();
         internalVersions = new VersionMatcher(getManagers().getVersionManager()).matchAll();

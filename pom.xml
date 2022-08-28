@@ -11,7 +11,6 @@
     <description>Tools for developers and server owners</description>
     <url>https://neomechanical.com</url>
     <properties>
-        <java.version>8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -20,6 +19,29 @@
         <module>LEGACY</module>
         <module>NONLEGACY</module>
         <module>abstraction</module>
+        <module>1_8_R1</module>
+        <module>1_8_R2</module>
+        <module>1_8_R3</module>
+        <module>1_9_R1</module>
+        <module>1_9_R2</module>
+        <module>1_10_R1</module>
+        <module>1_11_R1</module>
+        <module>1_12_R1</module>
+        <module>1_13_R1</module>
+        <module>1_13_R2</module>
+        <module>1_14_R1</module>
+        <module>1_14_4_R1</module>
+        <module>1_15_R1</module>
+        <module>1_16_R1</module>
+        <module>1_16_R2</module>
+        <module>1_16_R3</module>
+        <module>1_17_R1</module>
+        <module>1_17_1_R1</module>
+        <module>1_18_R1</module>
+        <module>1_18_R2</module>
+        <module>1_19_R1</module>
+        <module>1_19_1_R1</module>
+        <module>1_19_2_R1</module>
     </modules>
     <build>
         <plugins>
@@ -28,8 +50,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <source>8</source>
-                    <target>8</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
             <plugin>
