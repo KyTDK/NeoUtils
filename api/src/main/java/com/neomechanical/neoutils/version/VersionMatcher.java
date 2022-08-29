@@ -53,7 +53,7 @@ public class VersionMatcher {
             }
         } catch (IllegalAccessException | InstantiationException exception) {
             throw new IllegalStateException(
-                    "Failed to instantiate version wrapper for version " + serverVersion + " of " + versioningName + "versioning instance", exception);
+                    "Failed to instantiate version wrapper for version " + serverVersion + " of " + versioningName + " versioning instance", exception);
         }
     }
 }
