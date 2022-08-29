@@ -11,7 +11,7 @@ public class Versioning {
     //Required
     private final String versioningName;
     //Optional
-    private final Map<String, VersionWrapper> classMap;
+    private final Map<String, Class<? extends VersionWrapper>> classMap;
     private final Predicate<String> legacyFunction;
 
     public Versioning(VersioningBuilder versioningBuilder) {
@@ -28,7 +28,7 @@ public class Versioning {
         return versioningName;
     }
 
-    public Map<String, VersionWrapper> getClassMap() {
+    public Map<String, Class<? extends VersionWrapper>> getClassMap() {
         return classMap;
     }
 
@@ -44,14 +44,14 @@ public class Versioning {
         //Required
         private final String versioningName;
         //Optional
-        private final Map<String, VersionWrapper> classMap = new HashMap<>();
+        private final Map<String, Class<? extends VersionWrapper>> classMap = new HashMap<>();
         private Predicate<String> legacyFunction;
 
         public VersioningBuilder(String versioningName) {
             this.versioningName = versioningName;
         }
 
-        public VersioningBuilder addClass(String version, VersionWrapper versionWrapper) {
+        public VersioningBuilder addClass(String version, Class<? extends VersionWrapper> versionWrapper) {
             if (Versions.fromString(version) == null) {
                 throw new IllegalStateException(versioningName + " is not a valid or supported version");
             }

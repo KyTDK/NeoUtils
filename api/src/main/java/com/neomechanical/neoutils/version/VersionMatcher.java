@@ -47,7 +47,7 @@ public class VersionMatcher {
                         finalVersion = Versions.vNONLEGACY.toString();
                     }
                 }
-                return versioning.getClassMap().get(finalVersion).getClass().getDeclaredConstructor().newInstance();
+                return versioning.getClassMap().get(finalVersion).getDeclaredConstructor().newInstance();
             } catch (InvocationTargetException | NoSuchMethodException e) {
                 throw new RuntimeException(e);
             }
