@@ -21,8 +21,6 @@ import java.util.function.Supplier;
 
 /**
  * Create a new LanguageManager for the given plugin.
- *
- * @param main the main class
  */
 public class LanguageManager {
     private @NotNull static final ArrayList<String> languageFiles = new ArrayList<>();
@@ -30,7 +28,7 @@ public class LanguageManager {
     private static String languageCode = "en-US";
     private static Supplier<String> languageChangeConsumer;
     final Map<String, String> internalPlaceholderReplacements;
-    private final NeoUtils main;
+    private final JavaPlugin main;
     private final Map<String, Function<Player, String>> internalPlaceholders = new HashMap<>();
     File languageFolder = null;
     private File languageConfigFile = null;
@@ -38,7 +36,7 @@ public class LanguageManager {
     private FileConfiguration defaultLanguageConfig = null;
 
     public LanguageManager(final JavaPlugin main) {
-        this.main = (NeoUtils) main;
+        this.main = main;
         internalPlaceholderReplacements = new HashMap<>();
     }
 
@@ -80,7 +78,7 @@ public class LanguageManager {
 
         if (!languageFolder.exists()) {
             if (!languageFolder.mkdirs()) {
-                main.getFancyLogger().fatal("There was an error creating the languages folder.");
+                NeoUtils.getInstance().getFancyLogger().fatal("There was an error creating the languages folder.");
                 return;
             }
         }
@@ -91,7 +89,7 @@ public class LanguageManager {
 
                 if (!file.exists()) {
                     if (!file.createNewFile()) {
-                        main.getFancyLogger()
+                        NeoUtils.getInstance().getFancyLogger()
                                 .fatal("There was an error creating the " + fileName + " language file. (3)");
                         return;
                     }
@@ -103,7 +101,7 @@ public class LanguageManager {
                         try (OutputStream outputStream = new FileOutputStream(file)) {
                             IOUtils.copy(inputStream, outputStream);
                         } catch (Exception e) {
-                            main.getFancyLogger()
+                            NeoUtils.getInstance().getFancyLogger()
                                     .fatal("There was an error creating the " + fileName + " language file. (4)");
                             return;
                         }
@@ -125,7 +123,7 @@ public class LanguageManager {
                             // Put into fileConfiguration
 
                             if (!defaultFile.exists()) {
-                                main.getFancyLogger()
+                                NeoUtils.getInstance().getFancyLogger()
                                         .fatal("There was an error reading the default.yml language file. (5)");
                                 return;
                             }
@@ -133,18 +131,18 @@ public class LanguageManager {
                             defaultLanguageConfig.load(defaultFile);
 
                         } catch (Exception e) {
-                            main.getFancyLogger()
+                            NeoUtils.getInstance().getFancyLogger()
                                     .fatal("There was an error creating the default.yml language file. (6)");
                             return;
                         }
                     } else {
-                        main.getFancyLogger().fatal("There was an error creating the default.yml language file. (7)");
+                        NeoUtils.getInstance().getFancyLogger().fatal("There was an error creating the default.yml language file. (7)");
                         return;
                     }
                 }
                 ConfigUpdater.update(main, "translations/" + fileName, file, Collections.singletonList(""));
             } catch (IOException ioException) {
-                main.getFancyLogger().fatal("There was an error creating the " + fileName + " language file. (3)");
+                NeoUtils.getInstance().getFancyLogger().fatal("There was an error creating the " + fileName + " language file. (3)");
                 return;
             }
         }
@@ -173,13 +171,13 @@ public class LanguageManager {
 
             if (!languageFolder.exists()) {
                 if (!languageFolder.mkdirs()) {
-                    main.getFancyLogger().warn("There was an error creating the NeoPerformance languages folder.");
+                    NeoUtils.getInstance().getFancyLogger().warn("There was an error creating the NeoPerformance languages folder.");
                     return;
                 }
             }
 
             if (!languageFiles.contains(languageCode + ".yml")) {
-                main.getFancyLogger()
+                NeoUtils.getInstance().getFancyLogger()
                         .warn(
                                 "The language file " + languageCode + ".yml does not exist or is not supported."
                                         + " Please look at the languages folder for a list of supported languages. Using the primary language file instead.");
@@ -193,12 +191,12 @@ public class LanguageManager {
                     // Try to create the language.yml config file, and throw an error if it fails.
 
                     if (!languageConfigFile.createNewFile()) {
-                        main.getFancyLogger()
+                        NeoUtils.getInstance().getFancyLogger()
                                 .warn("There was an error creating the " + languageCode + ".yml language file.");
                         return;
                     }
                 } catch (IOException ioException) {
-                    main.getFancyLogger()
+                    NeoUtils.getInstance().getFancyLogger()
                             .warn("There was an error creating the " + languageCode + ".yml language file.");
                     return;
                 }
@@ -282,7 +280,7 @@ public class LanguageManager {
 
         } catch (IOException ioException) {
             ioException.printStackTrace();
-            main.getFancyLogger().severe("Language Config file could not be saved.");
+            NeoUtils.getInstance().getFancyLogger().severe("Language Config file could not be saved.");
         }
     }
 }

@@ -1,12 +1,11 @@
 package com.neomechanical.neoutils.manager;
 
-
-import com.neomechanical.neoutils.NeoUtils;
 import com.neomechanical.neoutils.commands.CommandManager;
 import com.neomechanical.neoutils.config.ConfigManager;
 import com.neomechanical.neoutils.inventory.managers.InventoryManager;
 import com.neomechanical.neoutils.languages.LanguageManager;
 import com.neomechanical.neoutils.version.VersionManager;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,7 +15,7 @@ import java.util.Map;
  */
 public class ManagerHandler {
 
-    private final NeoUtils plugin;
+    private final JavaPlugin plugin;
     private final VersionManager versionManager;
     private final Map<String, ConfigManager> configManager = new HashMap<>();
     private final CommandManager commandManager = new CommandManager();
@@ -62,7 +61,7 @@ public class ManagerHandler {
         return inventoryManager;
     }
 
-    public ManagerHandler(NeoUtils plugin) {
+    public ManagerHandler(JavaPlugin plugin) {
         this.plugin = plugin;
         this.languageManager = new LanguageManager(plugin);
         this.versionManager = new VersionManager();

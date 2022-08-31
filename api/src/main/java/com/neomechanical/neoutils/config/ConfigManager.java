@@ -7,6 +7,7 @@ import org.apache.commons.io.IOUtils;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,7 +20,7 @@ public class ConfigManager {
 
     private File configFile = null;
     private FileConfiguration config;
-    private final NeoUtils plugin;
+    private final JavaPlugin plugin;
     private static final ManagerHandler managers = NeoUtils.getManagers();
 
     public void reloadConfig() {
@@ -28,7 +29,7 @@ public class ConfigManager {
 
     String configFilePath;
 
-    public ConfigManager(NeoUtils plugin, String configFilePath) {
+    public ConfigManager(JavaPlugin plugin, String configFilePath) {
         this.plugin = plugin;
         this.configFilePath = configFilePath;
         loadConfiguration();
@@ -51,11 +52,11 @@ public class ConfigManager {
                 // Try to create the language.yml config file, and throw an error if it fails.
 
                 if (!configFile.createNewFile()) {
-                    plugin.getFancyLogger().warn("There was an error creating the " + configFilePath + " config file.");
+                    NeoUtils.getInstance().getFancyLogger().warn("There was an error creating the " + configFilePath + " config file.");
                     return;
                 }
             } catch (IOException ioException) {
-                plugin.getFancyLogger().warn("There was an error creating the " + configFilePath + " config file.");
+                NeoUtils.getInstance().getFancyLogger().warn("There was an error creating the " + configFilePath + " config file.");
                 return;
             }
         }
@@ -82,7 +83,7 @@ public class ConfigManager {
         try {
             config.save(configFile);
         } catch (IOException e) {
-            plugin.getFancyLogger().fatal("Could not save config to " + configFile.getPath());
+            NeoUtils.getInstance().getFancyLogger().fatal("Could not save config to " + configFile.getPath());
             return false;
         }
         return true;
@@ -102,14 +103,14 @@ public class ConfigManager {
                     try (OutputStream outputStream = Files.newOutputStream(configFile.toPath())) {
                         IOUtils.copy(inputStream, outputStream);
                     } catch (Exception e) {
-                        plugin.getFancyLogger()
+                        NeoUtils.getInstance().getFancyLogger()
                                 .fatal("There was an error creating the " + configFilePath + " config file. (4)");
                     }
                 }
             }
             ConfigUpdater.update(plugin, configFilePath, configFile, Collections.singletonList(""));
         } catch (IOException ioException) {
-            plugin.getFancyLogger().fatal("There was an error creating the " + configFilePath + " config file. (3)");
+            NeoUtils.getInstance().getFancyLogger().fatal("There was an error creating the " + configFilePath + " config file. (3)");
         }
     }
 

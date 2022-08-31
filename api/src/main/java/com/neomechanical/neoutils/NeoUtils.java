@@ -53,7 +53,7 @@ public abstract class NeoUtils extends JavaPlugin implements Api {
         return adventure;
     }
 
-    private Logger logger;
+    private static Logger logger;
 
     public static ManagerHandler getManagers() {
         if (managerHandler == null) {
@@ -76,12 +76,10 @@ public abstract class NeoUtils extends JavaPlugin implements Api {
         return internalVersions;
     }
 
-    @Override
-    public void onEnable() {
-        plugin = this;
-        logger = new Logger(this);
-        adventure = BukkitAudiences.create(this);
-        managerHandler = new ManagerHandler(this);
+    public static void initializeAll(JavaPlugin plugin) {
+        logger = new Logger(plugin);
+        adventure = BukkitAudiences.create(plugin);
+        managerHandler = new ManagerHandler(plugin);
         new Versioning.VersioningBuilder("items")
                 .addClass(Versions.vLEGACY.toString(), WrapperLEGACY.class)
                 .addClass(Versions.vNONLEGACY.toString(), WrapperNONLEGACY.class)
@@ -114,7 +112,13 @@ public abstract class NeoUtils extends JavaPlugin implements Api {
                 .build()
                 .register();
         internalVersions = new VersionMatcher(getManagers().getVersionManager()).matchAll();
-        getServer().getPluginManager().registerEvents(new InventoryFunctionality(this), this);
+        plugin.getServer().getPluginManager().registerEvents(new InventoryFunctionality(plugin), plugin);
+    }
+
+    @Override
+    public void onEnable() {
+        plugin = this;
+        initializeAll(this);
         this.onPluginEnable();
     }
 
