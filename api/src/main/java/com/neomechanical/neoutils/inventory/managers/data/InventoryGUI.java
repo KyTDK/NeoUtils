@@ -178,14 +178,12 @@ public class InventoryGUI implements NInventory {
     public InventoryGUI getPage(InventoryGUI inventoryGUI) {
         return pages.get(pages.indexOf(inventoryGUI));
     }
-
     @NotNull
     public InventoryGUI addPage(InventoryGUI newPage) {
         applyParentTraits(newPage);
         pages.add(newPage);
         return this;
     }
-
     @NotNull
     public InventoryGUI removePage(InventoryGUI inventoryGUI) {
         pages.remove(inventoryGUI);
@@ -202,7 +200,6 @@ public class InventoryGUI implements NInventory {
         }
         return this;
     }
-
     private void applyParentTraits(InventoryGUI newPage) {
         if (pagesInheritParentSettings) {
             newPage.setPagesInheritParentSettings(true);
