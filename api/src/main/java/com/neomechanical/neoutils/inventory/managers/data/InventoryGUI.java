@@ -88,15 +88,7 @@ public class InventoryGUI implements NInventory {
                     }
                 }
                 InventoryGUI newPage = InventoryUtil.createInventoryGUI(null, getSize(), title);
-                if (pagesInheritParentSettings) {
-                    newPage.setPagesInheritParentSettings(true);
-                    if (openOnClose != null) {
-                        newPage.setOpenOnClose(openOnClose);
-                    }
-                    if (unregisterOnClose) {
-                        newPage.setUnregisterOnClose(true);
-                    }
-                }
+                applyParentTraits(newPage);
                 // Add buttons
                 Material button = ((ItemVersionWrapper) NeoUtils.getInternalVersions().get("items")).oakButton();
                 newPage.setItem(
@@ -183,8 +175,21 @@ public class InventoryGUI implements NInventory {
     }
 
     @NotNull
-    public List<InventoryGUI> getPages() {
-        return pages;
+    public InventoryGUI getPage(InventoryGUI inventoryGUI) {
+        return pages.get(pages.indexOf(inventoryGUI));
+    }
+
+    @NotNull
+    public InventoryGUI addPage(InventoryGUI newPage) {
+        applyParentTraits(newPage);
+        pages.add(newPage);
+        return this;
+    }
+
+    @NotNull
+    public InventoryGUI removePage(InventoryGUI inventoryGUI) {
+        pages.remove(inventoryGUI);
+        return this;
     }
 
     public InventoryGUI update() {
@@ -196,5 +201,17 @@ public class InventoryGUI implements NInventory {
             inventory.setItem(slot, item.getItem().get());
         }
         return this;
+    }
+
+    private void applyParentTraits(InventoryGUI newPage) {
+        if (pagesInheritParentSettings) {
+            newPage.setPagesInheritParentSettings(true);
+            if (openOnClose != null) {
+                newPage.setOpenOnClose(openOnClose);
+            }
+            if (unregisterOnClose) {
+                newPage.setUnregisterOnClose(true);
+            }
+        }
     }
 }
