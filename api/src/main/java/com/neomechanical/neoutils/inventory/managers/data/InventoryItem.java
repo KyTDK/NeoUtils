@@ -9,6 +9,7 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -16,16 +17,14 @@ import java.util.function.Supplier;
 public class InventoryItem {
     private @NotNull
     final Supplier<ItemStack> item;
-    private @Nullable
-    final Consumer<InventoryClickEvent> action;
+    private
+    final Map<ClickType[], Consumer<InventoryClickEvent>> action;
     private @Nullable
     final InventoryItemType type;
-    private final ClickType[] clickType;
 
     public InventoryItem(InventoryItemBuilder inventoryItemBuilder) {
         this.item = inventoryItemBuilder.item;
         this.action = inventoryItemBuilder.action;
-        this.clickType = inventoryItemBuilder.clickType;
         this.type = inventoryItemBuilder.type;
     }
 
@@ -35,8 +34,8 @@ public class InventoryItem {
     }
 
     @Nullable
-    public Consumer<InventoryClickEvent> getAction() {
-        return action;
+    public Consumer<InventoryClickEvent> getAction(ClickType clickType) {
+        return action.get(clickType);
     }
 
     @Nullable
@@ -48,9 +47,8 @@ public class InventoryItem {
         //Required
         private @NotNull Supplier<ItemStack> item;
         //Optional
-        private @Nullable Consumer<InventoryClickEvent> action;
+        private Map<ClickType[], Consumer<InventoryClickEvent>> action;
         private @Nullable InventoryItemType type;
-        private @Nullable ClickType[] clickType;
 
         public InventoryItemBuilder(@NotNull Supplier<ItemStack> item) {
             this.item = item;
@@ -61,18 +59,13 @@ public class InventoryItem {
             return this;
         }
 
-        public InventoryItemBuilder setAction(Consumer<InventoryClickEvent> action) {
-            this.action = action;
+        public InventoryItemBuilder setAction(Consumer<InventoryClickEvent> action, @Nullable ClickType... clickType) {
+            this.action.put(clickType, action);
             return this;
         }
 
         public InventoryItemBuilder setType(InventoryItemType type) {
             this.type = type;
-            return this;
-        }
-
-        public InventoryItemBuilder setClickType(ClickType... clickType) {
-            this.clickType = clickType;
             return this;
         }
 

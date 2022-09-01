@@ -8,7 +8,6 @@ import com.neomechanical.neoutils.inventory.managers.data.InventoryItem;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryType;
@@ -75,11 +74,6 @@ public class InventoryFunctionality implements Listener {
         if (menuItem == null) {
             return;
         }
-        for (ClickType clickType : menuItem.getClickType()) {
-            if (menuItem.getAction() != null && ((clickType == event.getClick()) || clickType == null)) {
-                menuItem.getAction().accept(event);
-                break;
-            }
-        }
+        menuItem.getAction().get(event.getClick()).accept(event);
     }
 }
