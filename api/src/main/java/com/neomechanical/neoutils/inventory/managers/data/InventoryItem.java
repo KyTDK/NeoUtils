@@ -3,6 +3,7 @@ package com.neomechanical.neoutils.inventory.managers.data;
 
 import com.neomechanical.neoutils.inventory.items.InventoryItemType;
 import lombok.Data;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -19,10 +20,12 @@ public class InventoryItem {
     final Consumer<InventoryClickEvent> action;
     private @Nullable
     final InventoryItemType type;
+    private final ClickType[] clickType;
 
     public InventoryItem(InventoryItemBuilder inventoryItemBuilder) {
         this.item = inventoryItemBuilder.item;
         this.action = inventoryItemBuilder.action;
+        this.clickType = inventoryItemBuilder.clickType;
         this.type = inventoryItemBuilder.type;
     }
 
@@ -47,6 +50,7 @@ public class InventoryItem {
         //Optional
         private @Nullable Consumer<InventoryClickEvent> action;
         private @Nullable InventoryItemType type;
+        private @Nullable ClickType[] clickType;
 
         public InventoryItemBuilder(@NotNull Supplier<ItemStack> item) {
             this.item = item;
@@ -64,6 +68,11 @@ public class InventoryItem {
 
         public InventoryItemBuilder setType(InventoryItemType type) {
             this.type = type;
+            return this;
+        }
+
+        public InventoryItemBuilder setClickType(ClickType... clickType) {
+            this.clickType = clickType;
             return this;
         }
 
