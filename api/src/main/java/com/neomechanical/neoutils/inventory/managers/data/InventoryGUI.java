@@ -93,25 +93,27 @@ public class InventoryGUI implements NInventory {
                 Material button = ((ItemVersionWrapper) NeoUtils.getInternalVersions().get("items")).oakButton();
                 newPage.setItem(
                         getSize() - 9,
-                        new InventoryItem(
-                                () -> ItemUtil.createItem(button, ChatColor.GREEN + "Left"),
-                                (event) -> new OpenInventory(this).action(event),
-                                InventoryItemType.NAVIGATION));
+                        new InventoryItem.InventoryItemBuilder(
+                                () -> ItemUtil.createItem(button, ChatColor.GREEN + "Left"))
+                                .setAction((event) -> new OpenInventory(pages.get(pages.size() - 2)).action(event))
+                                .setType(InventoryItemType.NAVIGATION)
+                                .build());
                 if (pages.contains(this)) {
                     setItem(
                             getSize() - 9,
-                            new InventoryItem(
-                                    () -> ItemUtil.createItem(
-                                            button, ChatColor.GREEN + "Left"),
-                                    (event) -> new OpenInventory(pages.get(pages.size() - 2)).action(event),
-                                    InventoryItemType.NAVIGATION));
+                            new InventoryItem.InventoryItemBuilder(
+                                    () -> ItemUtil.createItem(button, ChatColor.GREEN + "Left"))
+                                    .setAction((event) -> new OpenInventory(pages.get(pages.size() - 2)).action(event))
+                                    .setType(InventoryItemType.NAVIGATION)
+                                    .build());
                 }
                 setItem(
                         getSize() - 1,
-                        new InventoryItem(
-                                () -> ItemUtil.createItem(button, ChatColor.GREEN + "Right"),
-                                (event) -> new OpenInventory(newPage).action(event),
-                                InventoryItemType.NAVIGATION));
+                        new InventoryItem.InventoryItemBuilder(
+                                () -> ItemUtil.createItem(button, ChatColor.GREEN + "Right"))
+                                .setAction((event) -> new OpenInventory(newPage).action(event))
+                                .setType(InventoryItemType.NAVIGATION)
+                                .build());
                 // Add overflown items to new page
                 for (InventoryItem itemCO : carryOver) {
                     if (itemCO != null) {
