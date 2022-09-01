@@ -70,7 +70,7 @@
                     <relocations>
                         <relocation>
                             <pattern>net.kyori</pattern>
-                            <shadedPattern>com.neomechanical.kyori
+                            <shadedPattern>com.neomechanical.neoutils.kyori
                             </shadedPattern> <!-- Replace [YOUR_PLUGIN_PACKAGE] with your namespace -->
                         </relocation>
                         <relocation>
