@@ -17,7 +17,7 @@ import java.util.function.Supplier;
 public class InventoryItem {
     private @NotNull
     final Supplier<ItemStack> item;
-    private final Map<ClickType[], Consumer<InventoryClickEvent>> action;
+    private final Map<Consumer<InventoryClickEvent>, ClickType[]> action;
     private @Nullable
     final InventoryItemType type;
 
@@ -34,13 +34,14 @@ public class InventoryItem {
 
     @Nullable
     public List<Consumer<InventoryClickEvent>> getAction(ClickType clickType) {
-        List<Consumer<InventoryClickEvent>> actionConsumer = new ArrayList<>();
-        for (ClickType[] clickTypes : action.keySet()) {
-            if (clickTypes == null || Arrays.stream(clickTypes).anyMatch((clickTypeTrigger -> clickType == clickTypeTrigger))) {
-                actionConsumer.add(action.get(clickTypes));
+        List<Consumer<InventoryClickEvent>> actionConsumers = new ArrayList<>();
+        for (Consumer<InventoryClickEvent> actionConsumer : action.keySet()) {
+            ClickType[] clickTypes = action.get(actionConsumer);
+            if (clickTypes == null || clickTypes.length < 1 || Arrays.stream(clickTypes).anyMatch((clickTypeTrigger -> clickType == clickTypeTrigger))) {
+                actionConsumers.add(actionConsumer);
             }
         }
-        return actionConsumer;
+        return actionConsumers;
     }
 
     @Nullable
@@ -52,7 +53,7 @@ public class InventoryItem {
         //Required
         private @NotNull Supplier<ItemStack> item;
         //Optional
-        private final Map<ClickType[], Consumer<InventoryClickEvent>> action = new HashMap<>();
+        private final Map<Consumer<InventoryClickEvent>, ClickType[]> action = new HashMap<>();
         private @Nullable InventoryItemType type;
 
         public InventoryItemBuilder(@NotNull Supplier<ItemStack> item) {
@@ -71,7 +72,7 @@ public class InventoryItem {
          * @param clickType set the click type that will trigger the action, use null for all
          */
         public InventoryItemBuilder setAction(Consumer<InventoryClickEvent> action, @Nullable ClickType... clickType) {
-            this.action.put(clickType, action);
+            this.action.put(action, clickType);
             return this;
         }
 
