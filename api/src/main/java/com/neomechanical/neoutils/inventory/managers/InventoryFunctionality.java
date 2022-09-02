@@ -16,6 +16,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.Objects;
+import java.util.function.Consumer;
+
 public class InventoryFunctionality implements Listener {
     JavaPlugin plugin;
 
@@ -74,6 +77,8 @@ public class InventoryFunctionality implements Listener {
         if (menuItem == null) {
             return;
         }
-        menuItem.getAction().get(event.getClick()).accept(event);
+        for (Consumer<InventoryClickEvent> action : Objects.requireNonNull(menuItem.getAction(event.getClick()))) {
+            action.accept(event);
+        }
     }
 }

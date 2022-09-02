@@ -9,7 +9,7 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Map;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -17,8 +17,7 @@ import java.util.function.Supplier;
 public class InventoryItem {
     private @NotNull
     final Supplier<ItemStack> item;
-    private
-    final Map<ClickType[], Consumer<InventoryClickEvent>> action;
+    private final Map<ClickType[], Consumer<InventoryClickEvent>> action;
     private @Nullable
     final InventoryItemType type;
 
@@ -34,8 +33,14 @@ public class InventoryItem {
     }
 
     @Nullable
-    public Consumer<InventoryClickEvent> getAction(ClickType clickType) {
-        return action.get(clickType);
+    public List<Consumer<InventoryClickEvent>> getAction(ClickType clickType) {
+        List<Consumer<InventoryClickEvent>> actionConsumer = new ArrayList<>();
+        for (ClickType[] clickTypes : action.keySet()) {
+            if (clickTypes == null || Arrays.stream(clickTypes).anyMatch((clickTypeTrigger -> clickType == clickTypeTrigger))) {
+                actionConsumer.add(action.get(clickTypes));
+            }
+        }
+        return actionConsumer;
     }
 
     @Nullable
@@ -47,7 +52,7 @@ public class InventoryItem {
         //Required
         private @NotNull Supplier<ItemStack> item;
         //Optional
-        private Map<ClickType[], Consumer<InventoryClickEvent>> action;
+        private final Map<ClickType[], Consumer<InventoryClickEvent>> action = new HashMap<>();
         private @Nullable InventoryItemType type;
 
         public InventoryItemBuilder(@NotNull Supplier<ItemStack> item) {
@@ -59,6 +64,12 @@ public class InventoryItem {
             return this;
         }
 
+        /**
+         * Set an action
+         *
+         * @param action    the code that runs.
+         * @param clickType set the click type that will trigger the action, use null for all
+         */
         public InventoryItemBuilder setAction(Consumer<InventoryClickEvent> action, @Nullable ClickType... clickType) {
             this.action.put(clickType, action);
             return this;
