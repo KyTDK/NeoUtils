@@ -1,8 +1,9 @@
 package com.neomechanical.neoutils;
 
-
 import com.neomechanical.neoutils.api.Api;
+import com.neomechanical.neoutils.bungeecord.PluginMessageReceiver;
 import com.neomechanical.neoutils.inventory.managers.InventoryFunctionality;
+import com.neomechanical.neoutils.manager.DataHandler;
 import com.neomechanical.neoutils.manager.ManagerHandler;
 import com.neomechanical.neoutils.messages.Logger;
 import com.neomechanical.neoutils.version.VersionMatcher;
@@ -45,6 +46,7 @@ public abstract class NeoUtils extends JavaPlugin implements Api {
     private static BukkitAudiences adventure;
     private static ManagerHandler managerHandler;
     private static NeoUtils plugin;
+    public static DataHandler dataHandler;
 
     public static @NonNull BukkitAudiences getAdventure() {
         if (adventure == null) {
@@ -76,10 +78,22 @@ public abstract class NeoUtils extends JavaPlugin implements Api {
         return internalVersions;
     }
 
+    private static PluginMessageReceiver pluginMessageReceiver;
+
+    public static DataHandler getDataHandler() {
+        return dataHandler;
+    }
+
     public static void initializeAll(JavaPlugin plugin) {
         logger = new Logger(plugin);
         adventure = BukkitAudiences.create(plugin);
         managerHandler = new ManagerHandler(plugin);
+        dataHandler = new DataHandler(plugin);
+        //Register plugin channels
+        pluginMessageReceiver = new PluginMessageReceiver();
+        plugin.getServer().getMessenger().registerOutgoingPluginChannel(plugin, "BungeeCord");
+        plugin.getServer().getMessenger().registerIncomingPluginChannel(plugin, "BungeeCord", pluginMessageReceiver);
+        //Versions
         new Versioning.VersioningBuilder("items")
                 .addClass(Versions.vLEGACY.toString(), WrapperLEGACY.class)
                 .addClass(Versions.vNONLEGACY.toString(), WrapperNONLEGACY.class)
@@ -115,6 +129,10 @@ public abstract class NeoUtils extends JavaPlugin implements Api {
         plugin.getServer().getPluginManager().registerEvents(new InventoryFunctionality(plugin), plugin);
     }
 
+    public PluginMessageReceiver getPluginMessageReceiver() {
+        return pluginMessageReceiver;
+    }
+
     @Override
     public void onEnable() {
         plugin = this;
@@ -128,6 +146,10 @@ public abstract class NeoUtils extends JavaPlugin implements Api {
             adventure.close();
             adventure = null;
         }
+        //make sure to unregister the registered channels in case of a reload
+        this.getServer().getMessenger().unregisterOutgoingPluginChannel(this);
+        this.getServer().getMessenger().unregisterIncomingPluginChannel(this);
+
         this.onPluginDisable();
     }
 }
