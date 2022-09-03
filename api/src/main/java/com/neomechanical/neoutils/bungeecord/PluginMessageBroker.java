@@ -13,7 +13,7 @@ import java.util.function.BiConsumer;
 
 /**
  * Thanks to 7smile7 for this code
- * Go check out their github: https://github.com/Flo0
+ * Go check out their github: <a href="https://github.com/Flo0">...</a>
  */
 public class PluginMessageBroker {
 

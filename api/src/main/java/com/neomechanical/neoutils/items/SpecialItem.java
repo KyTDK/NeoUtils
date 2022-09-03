@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 public class SpecialItem {
     private final ItemStack item;
     private final ItemMeta meta;
-    private final List<String> lore = new ArrayList<>();
+    private List<String> lore = new ArrayList<>();
     private final List<Supplier<String>> animatedLore = new ArrayList<>();
     private final Map<Consumer<PlayerInteractEvent>, Action[]> actionMap = new HashMap<>();
     private int animatedLoreUpdateInterval = 5;
@@ -65,6 +65,12 @@ public class SpecialItem {
      * @return the builder instance
      */
     public SpecialItem setLore(String string) {
+        lore.clear();
+        lore.add(MessageUtil.color(string));
+        return this;
+    }
+
+    public SpecialItem addLore(String string) {
         lore.add(MessageUtil.color(string));
         return this;
     }
@@ -75,8 +81,13 @@ public class SpecialItem {
      * @param lore the lore
      * @return the builder instance
      */
-    public SpecialItem setLore(List<String> lore) {
+    public SpecialItem addLore(List<String> lore) {
         this.lore.addAll(lore.stream().map(MessageUtil::color).collect(Collectors.toList()));
+        return this;
+    }
+
+    public SpecialItem setLore(List<String> lore) {
+        this.lore = lore;
         return this;
     }
 
@@ -91,6 +102,7 @@ public class SpecialItem {
      * @return the builder instance
      */
     public SpecialItem setAnimatedLore(Supplier<String> string) {
+        this.animatedLore.clear();
         animatedLore.add(string);
         return this;
     }
@@ -102,6 +114,23 @@ public class SpecialItem {
      * @return the builder instance
      */
     public SpecialItem setAnimatedLore(List<Supplier<String>> lore) {
+        this.animatedLore.clear();
+        this.animatedLore.addAll(lore);
+        return this;
+    }
+
+    public SpecialItem addAnimatedLore(Supplier<String> string) {
+        animatedLore.add(string);
+        return this;
+    }
+
+    /**
+     * Set lore. (updates every said amount of ticks)
+     *
+     * @param lore the lore
+     * @return the builder instance
+     */
+    public SpecialItem addAnimatedLore(List<Supplier<String>> lore) {
         this.animatedLore.addAll(lore);
         return this;
     }
@@ -109,6 +138,7 @@ public class SpecialItem {
     public int getAnimatedLoreUpdateInterval() {
         return animatedLoreUpdateInterval;
     }
+
     /**
      * Set the animated lore update interval, default is 5 ticks
      *
