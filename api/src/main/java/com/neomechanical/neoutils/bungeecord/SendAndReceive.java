@@ -9,10 +9,9 @@ import org.bukkit.entity.Player;
 
 import javax.annotation.Nullable;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Future;
 
 public class SendAndReceive {
-    public static Future<byte[]> send(@Nullable Player player, String channel, String message) {
+    public static CompletableFuture<byte[]> send(@Nullable Player player, String channel, String message) {
         //If the player is null then just pick a random one
         if (player == null) {
             player = Iterables.getFirst(Bukkit.getOnlinePlayers(), null);

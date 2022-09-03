@@ -2,7 +2,7 @@ package com.neomechanical.neoutils.bungeecord;
 
 import org.bukkit.entity.Player;
 
-import java.util.concurrent.Future;
+import java.util.concurrent.CompletableFuture;
 
 public class BungeeCordUtils {
     private BungeeCordUtils() {
@@ -12,7 +12,7 @@ public class BungeeCordUtils {
         SendAndReceive.send(player, "Connect", server);
     }
 
-    public static Future<byte[]> playerCount(String server) {
+    public static CompletableFuture<byte[]> playerCount(String server) {
         return SendAndReceive.send(null, "PlayerCount", server);
     }
 }
