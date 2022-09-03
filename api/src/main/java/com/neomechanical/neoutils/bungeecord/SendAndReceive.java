@@ -1,8 +1,6 @@
 package com.neomechanical.neoutils.bungeecord;
 
 import com.google.common.collect.Iterables;
-import com.google.common.io.ByteArrayDataOutput;
-import com.google.common.io.ByteStreams;
 import com.neomechanical.neoutils.NeoUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -16,10 +14,6 @@ public class SendAndReceive {
         if (player == null) {
             player = Iterables.getFirst(Bukkit.getOnlinePlayers(), null);
         }
-        ByteArrayDataOutput out = ByteStreams.newDataOutput();
-        out.writeUTF(channel);
-        out.writeUTF(message);
-        player.sendPluginMessage(NeoUtils.getInstance(), "BungeeCord", out.toByteArray());
         CompletableFuture<byte[]> future = new CompletableFuture<>();
         NeoUtils.getInstance().getBungeeCord().getPluginMessageBroker().request(player, channel, (rec, msg) ->
                 future.complete(msg));
