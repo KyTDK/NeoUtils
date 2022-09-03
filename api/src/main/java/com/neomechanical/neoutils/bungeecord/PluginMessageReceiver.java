@@ -10,9 +10,14 @@ import java.util.concurrent.CompletableFuture;
 
 public class PluginMessageReceiver implements PluginMessageListener {
     private final CompletableFuture<ByteArrayDataInput> result = new CompletableFuture<>();
+    private final PluginMessageBroker broker;
 
     public CompletableFuture<ByteArrayDataInput> getResult() {
         return result;
+    }
+
+    public PluginMessageReceiver(PluginMessageBroker broker) {
+        this.broker = broker;
     }
 
     @Override
@@ -21,6 +26,7 @@ public class PluginMessageReceiver implements PluginMessageListener {
             return;
         }
         ByteArrayDataInput in = ByteStreams.newDataInput(message);
-        result.complete(in);
+        String subChannel = in.readUTF();
+        broker.consume(subChannel, player, message);
     }
 }

@@ -1,7 +1,7 @@
 package com.neomechanical.neoutils;
 
 import com.neomechanical.neoutils.api.Api;
-import com.neomechanical.neoutils.bungeecord.PluginMessageReceiver;
+import com.neomechanical.neoutils.bungeecord.BungeeCord;
 import com.neomechanical.neoutils.inventory.managers.InventoryFunctionality;
 import com.neomechanical.neoutils.items.ItemInteractionListener;
 import com.neomechanical.neoutils.manager.DataHandler;
@@ -48,6 +48,7 @@ public abstract class NeoUtils extends JavaPlugin implements Api {
     private static ManagerHandler managerHandler;
     private static NeoUtils plugin;
     public static DataHandler dataHandler;
+    private static BungeeCord bungeeCord;
 
     public static @NonNull BukkitAudiences getAdventure() {
         if (adventure == null) {
@@ -79,8 +80,6 @@ public abstract class NeoUtils extends JavaPlugin implements Api {
         return internalVersions;
     }
 
-    private static PluginMessageReceiver pluginMessageReceiver;
-
     public static DataHandler getDataHandler() {
         return dataHandler;
     }
@@ -91,9 +90,8 @@ public abstract class NeoUtils extends JavaPlugin implements Api {
         managerHandler = new ManagerHandler(plugin);
         dataHandler = new DataHandler(plugin);
         //Register plugin channels
-        pluginMessageReceiver = new PluginMessageReceiver();
-        plugin.getServer().getMessenger().registerOutgoingPluginChannel(plugin, "BungeeCord");
-        plugin.getServer().getMessenger().registerIncomingPluginChannel(plugin, "BungeeCord", pluginMessageReceiver);
+        bungeeCord = new BungeeCord(plugin);
+        bungeeCord.initialize();
         //Versions
         new Versioning.VersioningBuilder("items")
                 .addClass(Versions.vLEGACY.toString(), WrapperLEGACY.class)
@@ -131,8 +129,8 @@ public abstract class NeoUtils extends JavaPlugin implements Api {
         plugin.getServer().getPluginManager().registerEvents(new ItemInteractionListener(), plugin);
     }
 
-    public PluginMessageReceiver getPluginMessageReceiver() {
-        return pluginMessageReceiver;
+    public BungeeCord getBungeeCord() {
+        return bungeeCord;
     }
 
     @Override
