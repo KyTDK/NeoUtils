@@ -3,6 +3,7 @@ package com.neomechanical.neoutils;
 import com.neomechanical.neoutils.api.Api;
 import com.neomechanical.neoutils.bungeecord.PluginMessageReceiver;
 import com.neomechanical.neoutils.inventory.managers.InventoryFunctionality;
+import com.neomechanical.neoutils.items.ItemInteractionListener;
 import com.neomechanical.neoutils.manager.DataHandler;
 import com.neomechanical.neoutils.manager.ManagerHandler;
 import com.neomechanical.neoutils.messages.Logger;
@@ -127,6 +128,7 @@ public abstract class NeoUtils extends JavaPlugin implements Api {
                 .register();
         internalVersions = new VersionMatcher(getManagers().getVersionManager()).matchAll();
         plugin.getServer().getPluginManager().registerEvents(new InventoryFunctionality(plugin), plugin);
+        plugin.getServer().getPluginManager().registerEvents(new ItemInteractionListener(), plugin);
     }
 
     public PluginMessageReceiver getPluginMessageReceiver() {

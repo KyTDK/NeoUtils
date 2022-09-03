@@ -109,12 +109,6 @@ public class SpecialItem {
     public int getAnimatedLoreUpdateInterval() {
         return animatedLoreUpdateInterval;
     }
-
-    public SpecialItem clearItemLore() {
-        item.getItemMeta().getLore().clear();
-        return this;
-    }
-
     /**
      * Set the animated lore update interval, default is 5 ticks
      *

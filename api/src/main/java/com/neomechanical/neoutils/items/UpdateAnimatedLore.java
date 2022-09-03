@@ -1,9 +1,11 @@
 package com.neomechanical.neoutils.items;
 
 import com.neomechanical.neoutils.NeoUtils;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -23,9 +25,13 @@ public class UpdateAnimatedLore {
         new BukkitRunnable() {
             @Override
             public void run() {
-                specialItem.clearItemLore();
+                List<String> toSetNewMeta = new ArrayList<>();
                 for (Supplier<String> stringSupplier : animatedLore) {
-                    specialItem.setLore(stringSupplier.get());
+                    toSetNewMeta.add(stringSupplier.get());
+                }
+                ItemMeta itemMeta = specialItem.get().getItemMeta();
+                if (itemMeta != null) {
+                    itemMeta.setLore(toSetNewMeta);
                 }
             }
         }.runTaskTimer(plugin, 0, interval);
