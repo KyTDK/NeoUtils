@@ -15,6 +15,6 @@ For maven
 <dependency>
     <groupId>com.neomechanical</groupId>
     <artifactId>NeoUtils</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.1-SNAPSHOT</version>
 </dependency>
 ```
