@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class MessageUtil {
-
+    //TODO reformat code, its ugly and confusing
     private static final BukkitAudiences adventure = NeoUtils.getAdventure();
 
     /**
