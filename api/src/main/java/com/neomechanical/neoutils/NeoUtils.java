@@ -35,6 +35,7 @@ import com.neomechanical.neoutils.version.v1_8_R3.worlds.WorldWrapper1_8_R3;
 import com.neomechanical.neoutils.version.v1_9_R1.worlds.WorldWrapper1_9_R1;
 import com.neomechanical.neoutils.version.v1_9_R2.worlds.WorldWrapper1_9_R2;
 import com.neomechanical.neoutils.version.versions.Versions;
+import io.netty.util.internal.UnstableApi;
 import lombok.NonNull;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -84,6 +85,8 @@ public abstract class NeoUtils extends JavaPlugin implements Api {
         return dataHandler;
     }
 
+    private static ServerMetrics serverMetrics;
+
     public static void initializeAll(JavaPlugin plugin) {
         logger = new Logger(plugin);
         adventure = BukkitAudiences.create(plugin);
@@ -92,6 +95,8 @@ public abstract class NeoUtils extends JavaPlugin implements Api {
         //Register plugin channels
         bungeeCord = new BungeeCord(plugin);
         bungeeCord.initialize();
+        //Set metrics
+        serverMetrics = new ServerMetrics();
         //Versions
         new Versioning.VersioningBuilder("items")
                 .addClass(Versions.vLEGACY.toString(), WrapperLEGACY.class)
@@ -127,6 +132,11 @@ public abstract class NeoUtils extends JavaPlugin implements Api {
         internalVersions = new VersionMatcher(getManagers().getVersionManager()).matchAll();
         plugin.getServer().getPluginManager().registerEvents(new InventoryFunctionality(plugin), plugin);
         plugin.getServer().getPluginManager().registerEvents(new ItemInteractionListener(), plugin);
+    }
+
+    @UnstableApi
+    public ServerMetrics getServerMetrics() {
+        return serverMetrics;
     }
 
     public BungeeCord getBungeeCord() {
