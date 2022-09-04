@@ -47,9 +47,6 @@
         <module>1_19_2_R1</module>
     </modules>
     <build>
-        <!-- Considering this project is purely used as a library, it makes sense for the default goal
-        to install -->
-        <defaultGoal>clean install</defaultGoal>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
