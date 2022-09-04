@@ -8,7 +8,7 @@ HOW TO INSTALL
 For maven
 ```xml
 <repository>
-    <id>neomechanical-repo</id>
+    <id>neomechanical-snapshots</id>
     <url>https://hub.neomechanical.com/repository/maven-snapshots/</url>
 </repository>
 <!-- NeoUtils -->
