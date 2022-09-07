@@ -10,8 +10,7 @@ import com.neomechanical.neoutils.messages.Logger;
 import com.neomechanical.neoutils.version.VersionMatcher;
 import com.neomechanical.neoutils.version.VersionWrapper;
 import com.neomechanical.neoutils.version.Versioning;
-import com.neomechanical.neoutils.version.items.WrapperLEGACY;
-import com.neomechanical.neoutils.version.items.WrapperNONLEGACY;
+import com.neomechanical.neoutils.version.items.*;
 import com.neomechanical.neoutils.version.v1_10_R1.worlds.WorldWrapper1_10_R1;
 import com.neomechanical.neoutils.version.v1_11_R1.worlds.WorldWrapper1_11_R1;
 import com.neomechanical.neoutils.version.v1_12_R1.worlds.WorldWrapper1_12_R1;
@@ -100,7 +99,7 @@ public abstract class NeoUtils extends JavaPlugin implements Api {
         new Versioning.VersioningBuilder("items")
                 .addClass(Versions.vLEGACY.toString(), WrapperLEGACY.class)
                 .addClass(Versions.vNONLEGACY.toString(), WrapperNONLEGACY.class)
-                .setLegacyFunction((ver) -> !isUpToDate(ver, "1_13_R1"))
+                .setLegacyFunction((ver) -> !isUpToDate(ver, Versions.v1_13_R1.toString()))
                 .build()
                 .register();
         new Versioning.VersioningBuilder("worlds")
@@ -128,9 +127,15 @@ public abstract class NeoUtils extends JavaPlugin implements Api {
                 .addClass(Versions.v1_19_2_R1.toString(), WorldWrapper1_19_2_R1.class)
                 .build()
                 .register();
+        new Versioning.VersioningBuilder("specialItemInteractions")
+                .addClass(Versions.vLEGACY.toString(), ItemEventHandlerLEGACY.class)
+                .addClass(Versions.vNONLEGACY.toString(), ItemEventHandlerNONLEGACY.class)
+                .setLegacyFunction((ver) -> !isUpToDate(ver, Versions.v1_9_R1.toString()))
+                .build()
+                .register();
         internalVersions = new VersionMatcher(getManagers().getVersionManager()).matchAll();
         plugin.getServer().getPluginManager().registerEvents(new InventoryFunctionality(plugin), plugin);
-        plugin.getServer().getPluginManager().registerEvents(new ItemInteractionListener(), plugin);
+        plugin.getServer().getPluginManager().registerEvents(new ItemInteractionListener((IItemEventHandlerWrapper) internalVersions.get("specialItemInteractions")), plugin);
     }
 
     public ServerMetrics getServerMetrics() {
