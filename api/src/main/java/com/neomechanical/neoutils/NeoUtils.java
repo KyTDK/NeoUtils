@@ -35,7 +35,6 @@ import com.neomechanical.neoutils.version.v1_8_R3.worlds.WorldWrapper1_8_R3;
 import com.neomechanical.neoutils.version.v1_9_R1.worlds.WorldWrapper1_9_R1;
 import com.neomechanical.neoutils.version.v1_9_R2.worlds.WorldWrapper1_9_R2;
 import com.neomechanical.neoutils.version.versions.Versions;
-import io.netty.util.internal.UnstableApi;
 import lombok.NonNull;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -134,7 +133,6 @@ public abstract class NeoUtils extends JavaPlugin implements Api {
         plugin.getServer().getPluginManager().registerEvents(new ItemInteractionListener(), plugin);
     }
 
-    @UnstableApi
     public ServerMetrics getServerMetrics() {
         return serverMetrics;
     }
