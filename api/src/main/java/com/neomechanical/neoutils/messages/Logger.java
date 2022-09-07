@@ -26,7 +26,7 @@ public class Logger {
         this.prefix = prefix;
     }
     /**
-     * Print an warn message,
+     * Print a warning message,
      *
      * @param message The message that will be logged
      */
