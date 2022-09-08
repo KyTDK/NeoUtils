@@ -18,3 +18,10 @@ For maven
     <version>1.1-SNAPSHOT</version>
 </dependency>
 ```
+NeoUtils REQUIRES adventure, please include it like so and make sure it is shaded in your plugin, relocate as well
+```xml
+<dependency>
+    <artifactId>adventure-text-minimessage</artifactId>
+    <version>4.11.0</version>
+</dependency>
+```
