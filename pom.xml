@@ -23,6 +23,7 @@
         <module>LEGACY</module>
         <module>NONLEGACY</module>
         <module>abstraction</module>
+        <module>implementation</module>
         <module>1_8_R1</module>
         <module>1_8_R2</module>
         <module>1_8_R3</module>
@@ -137,20 +138,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>net.kyori</groupId>
-            <artifactId>adventure-platform-bukkit</artifactId>
-            <version>4.1.2</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-artifact</artifactId>
             <version>3.8.5</version>
-        </dependency>
-        <dependency>
-            <groupId>net.kyori</groupId>
-            <artifactId>adventure-text-minimessage</artifactId>
-            <version>4.11.0</version>
         </dependency>
     </dependencies>
 </project>
