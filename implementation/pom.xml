@@ -43,13 +43,6 @@
                         </goals>
                         <configuration>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
-                            <relocations>
-                                <relocation>
-                                    <pattern>net.kyori</pattern>
-                                    <shadedPattern>com.neomechanical.neoutils.kyori</shadedPattern>
-                                </relocation>
-                            </relocations>
-                            <minimizeJar>true</minimizeJar>
                         </configuration>
                     </execution>
                 </executions>
