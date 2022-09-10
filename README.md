@@ -25,7 +25,7 @@ RELOCATION
     <artifactId>maven-shade-plugin</artifactId>
     <version>3.3.0</version>
     <configuration>
-    <minimizeJar>true</minimizeJar>
+    <minimizeJar>true</minimizeJar> <!--If you do minimize the jar, you must apply the filter otherwise essential classes will excluded from the final jar-->
         <relocations>
             <relocation>
                 <pattern>com.neomechanical.neoutils</pattern>
@@ -37,7 +37,6 @@ RELOCATION
                 <artifact>*:*</artifact>
                 <excludeDefaults>false</excludeDefaults>
                 <includes>
-                    <include>net/wesjd/anvilgui/**</include>
                     <include>com/neomechanical/neoutils/**</include>
                 </includes>
             </filter>
