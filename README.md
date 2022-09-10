@@ -18,3 +18,37 @@ For maven
     <version>1.1-SNAPSHOT</version>
 </dependency>
 ```
+RELOCATION
+```xml
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-shade-plugin</artifactId>
+    <version>3.3.0</version>
+    <configuration>
+    <minimizeJar>true</minimizeJar> <!--If you do minimize the jar, you must apply the filter otherwise essential classes will excluded from the final jar-->
+        <relocations>
+            <relocation>
+                <pattern>com.neomechanical.neoutils</pattern>
+                <shadedPattern>YOUR.PACKAGE.neoutils</shadedPattern>
+                </relocation>
+        </relocations>
+        <filters>
+            <filter>
+                <artifact>*:*</artifact>
+                <excludeDefaults>false</excludeDefaults>
+                <includes>
+                    <include>com/neomechanical/neoutils/**</include>
+                </includes>
+            </filter>
+        </filters>
+    </configuration>
+    <executions>
+        <execution>
+            <phase>package</phase>
+             <goals>
+                 <goal>shade</goal>
+              </goals>
+        </execution>
+    </executions>
+</plugin>
+```
