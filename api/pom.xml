@@ -185,9 +185,14 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>com.neomechanical</groupId>
-            <artifactId>NeoUtils-implementation</artifactId>
-            <version>${project.parent.version}</version>
+            <groupId>net.kyori</groupId>
+            <artifactId>adventure-text-minimessage</artifactId>
+            <version>4.11.0</version>
+        </dependency>
+        <dependency>
+            <groupId>net.kyori</groupId>
+            <artifactId>adventure-platform-bukkit</artifactId>
+            <version>4.1.2</version>
         </dependency>
     </dependencies>
     <build>
@@ -207,6 +212,9 @@
                         </configuration>
                     </execution>
                 </executions>
+                <configuration>
+                    <minimizeJar>true</minimizeJar>
+                </configuration>
             </plugin>
         </plugins>
         <resources>

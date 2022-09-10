@@ -23,7 +23,6 @@
         <module>LEGACY</module>
         <module>NONLEGACY</module>
         <module>abstraction</module>
-        <module>implementation</module>
         <module>1_8_R1</module>
         <module>1_8_R2</module>
         <module>1_8_R3</module>
@@ -62,6 +61,7 @@
                         </goals>
                         <configuration>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <minimizeJar>true</minimizeJar>
                             <relocations>
                                 <relocation>
                                     <pattern>net.kyori</pattern>
