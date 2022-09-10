@@ -32,6 +32,16 @@ RELOCATION
                 <shadedPattern>com.neomechanical.neoconfig.neoutils</shadedPattern>
                 </relocation>
         </relocations>
+        <filters>
+            <filter>
+                <artifact>*:*</artifact>
+                <excludeDefaults>false</excludeDefaults>
+                <includes>
+                    <include>net/wesjd/anvilgui/**</include>
+                    <include>com/neomechanical/neoutils/**</include>
+                </includes>
+            </filter>
+        </filters>
     </configuration>
     <executions>
         <execution>
