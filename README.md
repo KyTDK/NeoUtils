@@ -18,3 +18,28 @@ For maven
     <version>1.1-SNAPSHOT</version>
 </dependency>
 ```
+RELOCATION
+```xml
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-shade-plugin</artifactId>
+    <version>3.3.0</version>
+    <configuration>
+    <minimizeJar>true</minimizeJar>
+        <relocations>
+            <relocation>
+                <pattern>com.neomechanical.neoutils</pattern>
+                <shadedPattern>com.neomechanical.neoconfig.neoutils</shadedPattern>
+                </relocation>
+        </relocations>
+    </configuration>
+    <executions>
+        <execution>
+            <phase>package</phase>
+             <goals>
+                 <goal>shade</goal>
+              </goals>
+        </execution>
+    </executions>
+</plugin>
+            ```
