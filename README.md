@@ -29,7 +29,7 @@ RELOCATION
         <relocations>
             <relocation>
                 <pattern>com.neomechanical.neoutils</pattern>
-                <shadedPattern>com.neomechanical.neoconfig.neoutils</shadedPattern>
+                <shadedPattern>YOUR.PACKAGE.neoutils</shadedPattern>
                 </relocation>
         </relocations>
         <filters>
