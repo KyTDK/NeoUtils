@@ -5,35 +5,35 @@ public enum DataUnit {
     /**
      * Bytes, represented by suffix {@code B}.
      */
-    BYTES("B", Memory.ofBytes(1)),
+    BYTES("B", DataSize.ofBytes(1)),
 
     /**
      * Kilobytes, represented by suffix {@code KB}.
      */
-    KILOBYTES("KB", Memory.ofKilobytes(1)),
+    KILOBYTES("KB", DataSize.ofKilobytes(1)),
 
     /**
      * Megabytes, represented by suffix {@code MB}.
      */
-    MEGABYTES("MB", Memory.ofMegabytes(1)),
+    MEGABYTES("MB", DataSize.ofMegabytes(1)),
 
     /**
      * Gigabytes, represented by suffix {@code GB}.
      */
-    GIGABYTES("GB", Memory.ofGigabytes(1)),
+    GIGABYTES("GB", DataSize.ofGigabytes(1)),
 
     /**
      * Terabytes, represented by suffix {@code TB}.
      */
-    TERABYTES("TB", Memory.ofTerabytes(1));
+    TERABYTES("TB", DataSize.ofTerabytes(1));
 
 
     private final String suffix;
 
-    private final Memory size;
+    private final DataSize size;
 
 
-    DataUnit(String suffix, Memory size) {
+    DataUnit(String suffix, DataSize size) {
         this.suffix = suffix;
         this.size = size;
     }
@@ -55,7 +55,7 @@ public enum DataUnit {
         throw new IllegalArgumentException("Unknown data unit suffix '" + suffix + "'");
     }
 
-    Memory size() {
+    DataSize size() {
         return this.size;
     }
 

@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public final class Memory implements Comparable<Memory>, Serializable {
+public final class DataSize implements Comparable<DataSize>, Serializable {
 
     /**
      * Bytes per Kilobyte.
@@ -31,75 +31,75 @@ public final class Memory implements Comparable<Memory>, Serializable {
     private final long bytes;
 
 
-    private Memory(long bytes) {
+    private DataSize(long bytes) {
         this.bytes = bytes;
     }
 
 
     /**
-     * Obtain a {@link Memory} representing the specified number of bytes.
+     * Obtain a {@link DataSize} representing the specified number of bytes.
      *
      * @param bytes the number of bytes, positive or negative
-     * @return a {@link Memory}
+     * @return a {@link DataSize}
      */
-    public static Memory ofBytes(long bytes) {
-        return new Memory(bytes);
+    public static DataSize ofBytes(long bytes) {
+        return new DataSize(bytes);
     }
 
     /**
-     * Obtain a {@link Memory} representing the specified number of kilobytes.
+     * Obtain a {@link DataSize} representing the specified number of kilobytes.
      *
      * @param kilobytes the number of kilobytes, positive or negative
-     * @return a {@link Memory}
+     * @return a {@link DataSize}
      */
-    public static Memory ofKilobytes(long kilobytes) {
-        return new Memory(Math.multiplyExact(kilobytes, BYTES_PER_KB));
+    public static DataSize ofKilobytes(long kilobytes) {
+        return new DataSize(Math.multiplyExact(kilobytes, BYTES_PER_KB));
     }
 
     /**
-     * Obtain a {@link Memory} representing the specified number of megabytes.
+     * Obtain a {@link DataSize} representing the specified number of megabytes.
      *
      * @param megabytes the number of megabytes, positive or negative
-     * @return a {@link Memory}
+     * @return a {@link DataSize}
      */
-    public static Memory ofMegabytes(long megabytes) {
-        return new Memory(Math.multiplyExact(megabytes, BYTES_PER_MB));
+    public static DataSize ofMegabytes(long megabytes) {
+        return new DataSize(Math.multiplyExact(megabytes, BYTES_PER_MB));
     }
 
     /**
-     * Obtain a {@link Memory} representing the specified number of gigabytes.
+     * Obtain a {@link DataSize} representing the specified number of gigabytes.
      *
      * @param gigabytes the number of gigabytes, positive or negative
-     * @return a {@link Memory}
+     * @return a {@link DataSize}
      */
-    public static Memory ofGigabytes(long gigabytes) {
-        return new Memory(Math.multiplyExact(gigabytes, BYTES_PER_GB));
+    public static DataSize ofGigabytes(long gigabytes) {
+        return new DataSize(Math.multiplyExact(gigabytes, BYTES_PER_GB));
     }
 
     /**
-     * Obtain a {@link Memory} representing the specified number of terabytes.
+     * Obtain a {@link DataSize} representing the specified number of terabytes.
      *
      * @param terabytes the number of terabytes, positive or negative
-     * @return a {@link Memory}
+     * @return a {@link DataSize}
      */
-    public static Memory ofTerabytes(long terabytes) {
-        return new Memory(Math.multiplyExact(terabytes, BYTES_PER_TB));
+    public static DataSize ofTerabytes(long terabytes) {
+        return new DataSize(Math.multiplyExact(terabytes, BYTES_PER_TB));
     }
 
     /**
-     * Obtain a {@link Memory} representing an amount in the specified {@link DataUnit}.
+     * Obtain a {@link DataSize} representing an amount in the specified {@link DataUnit}.
      *
      * @param amount the amount of the size, measured in terms of the unit,
      *               positive or negative
-     * @return a corresponding {@link Memory}
+     * @return a corresponding {@link DataSize}
      */
-    public static Memory of(long amount, DataUnit unit) {
+    public static DataSize of(long amount, DataUnit unit) {
         assert unit != null;
-        return new Memory(Math.multiplyExact(amount, unit.size().toBytes()));
+        return new DataSize(Math.multiplyExact(amount, unit.size().toBytes()));
     }
 
     /**
-     * Obtain a {@link Memory} from a text string such as {@code 12MB} using
+     * Obtain a {@link DataSize} from a text string such as {@code 12MB} using
      * {@link DataUnit#BYTES} if no unit is specified.
      * <p>
      * Examples:
@@ -110,15 +110,15 @@ public final class Memory implements Comparable<Memory>, Serializable {
      * </pre>
      *
      * @param text the text to parse
-     * @return the parsed {@link Memory}
+     * @return the parsed {@link DataSize}
      * @see #parse(CharSequence, DataUnit)
      */
-    public static Memory parse(CharSequence text) {
+    public static DataSize parse(CharSequence text) {
         return parse(text, null);
     }
 
     /**
-     * Obtain a {@link Memory} from a text string such as {@code 12MB} using
+     * Obtain a {@link DataSize} from a text string such as {@code 12MB} using
      * the specified default {@link DataUnit} if no unit is specified.
      * <p>
      * The string starts with a number followed optionally by a unit matching one of the
@@ -132,15 +132,15 @@ public final class Memory implements Comparable<Memory>, Serializable {
      * </pre>
      *
      * @param text the text to parse
-     * @return the parsed {@link Memory}
+     * @return the parsed {@link DataSize}
      */
-    public static Memory parse(CharSequence text, @Nullable DataUnit defaultUnit) {
+    public static DataSize parse(CharSequence text, @Nullable DataUnit defaultUnit) {
         assert text != null;
         try {
             Matcher matcher = DataSizeUtils.PATTERN.matcher(trimAllWhitespace(text));
             DataUnit unit = DataSizeUtils.determineDataUnit(matcher.group(2), defaultUnit);
             long amount = Long.parseLong(matcher.group(1));
-            return Memory.of(amount, unit);
+            return DataSize.of(amount, unit);
         } catch (Exception ex) {
             throw new IllegalArgumentException("'" + text + "' is not a valid data size", ex);
         }
@@ -221,7 +221,7 @@ public final class Memory implements Comparable<Memory>, Serializable {
     }
 
     @Override
-    public int compareTo(Memory other) {
+    public int compareTo(DataSize other) {
         return Long.compare(this.bytes, other.bytes);
     }
 
@@ -238,7 +238,7 @@ public final class Memory implements Comparable<Memory>, Serializable {
         if (other == null || getClass() != other.getClass()) {
             return false;
         }
-        Memory otherSize = (Memory) other;
+        DataSize otherSize = (DataSize) other;
         return (this.bytes == otherSize.bytes);
     }
 
