@@ -18,4 +18,10 @@ public class SendAndReceive {
         NeoUtils.getInstance().getBungeeCord().getPluginMessageBroker().request(player, channel, (rec, msg) -> future.complete(msg), message);
         return future;
     }
+
+    public static CompletableFuture<byte[]> send(String channel, String... message) {
+        CompletableFuture<byte[]> future = new CompletableFuture<>();
+        NeoUtils.getInstance().getBungeeCord().getPluginMessageBroker().request(Bukkit.getServer(), channel, (rec, msg) -> future.complete(msg), message);
+        return future;
+    }
 }

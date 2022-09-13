@@ -13,6 +13,6 @@ public class BungeeCordUtils {
     }
 
     public static CompletableFuture<byte[]> playerCount(String server) {
-        return SendAndReceive.send(null, "PlayerCount", server);
+        return SendAndReceive.send("PlayerCount", server);
     }
 }
