@@ -34,7 +34,6 @@ public class PluginMessageBroker {
         }
         target.sendPluginMessage(plugin, "BungeeCord", out.toByteArray());
     }
-
     public void request(Server target, String bungeeSubChannel, BiConsumer<Player, byte[]> callback, String... arguments) {
         callbacks.computeIfAbsent(bungeeSubChannel, key -> new ArrayDeque<>()).add(callback);
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
@@ -44,7 +43,6 @@ public class PluginMessageBroker {
         }
         target.sendPluginMessage(plugin, "BungeeCord", out.toByteArray());
     }
-
     protected void consume(String bungeeSubChannel, Player receiver, byte[] message) {
         Deque<BiConsumer<Player, byte[]>> callbackQueue = callbacks.computeIfAbsent(bungeeSubChannel, key -> new ArrayDeque<>());
         if (!callbackQueue.isEmpty()) {

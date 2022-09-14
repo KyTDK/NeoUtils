@@ -13,7 +13,7 @@ public class PluginMessageReceiver implements PluginMessageListener {
     }
 
     @Override
-    public void onPluginMessageReceived(String channel, @NotNull Player player, @NotNull byte[] message) {
+    public void onPluginMessageReceived(String channel, @NotNull Player player, byte[] message) {
         if (!channel.equals("BungeeCord")) {
             return;
         }
