@@ -2,7 +2,6 @@ package com.neomechanical.neoutils.bungeecord;
 
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
-import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -26,15 +25,6 @@ public class PluginMessageBroker {
     }
 
     public void request(Player target, String bungeeSubChannel, BiConsumer<Player, byte[]> callback, String... arguments) {
-        callbacks.computeIfAbsent(bungeeSubChannel, key -> new ArrayDeque<>()).add(callback);
-        ByteArrayDataOutput out = ByteStreams.newDataOutput();
-        out.writeUTF(bungeeSubChannel);
-        for (String arg : arguments) {
-            out.writeUTF(arg);
-        }
-        target.sendPluginMessage(plugin, "BungeeCord", out.toByteArray());
-    }
-    public void request(Server target, String bungeeSubChannel, BiConsumer<Player, byte[]> callback, String... arguments) {
         callbacks.computeIfAbsent(bungeeSubChannel, key -> new ArrayDeque<>()).add(callback);
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
         out.writeUTF(bungeeSubChannel);
