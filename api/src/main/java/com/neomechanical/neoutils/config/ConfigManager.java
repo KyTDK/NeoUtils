@@ -117,4 +117,8 @@ public class ConfigManager {
     public static void reloadAllConfigs() {
         managers.getConfigs().forEach((configFileName, configManager) -> configManager.reloadConfig());
     }
+
+    public static ConfigManager getConfigManager(String config) {
+        return NeoUtils.getManagers().getConfigManager(config);
+    }
 }
