@@ -62,7 +62,7 @@ public class Versioning {
         /**
          * Set the function
          * If the function returns true, then it will match the legacy class
-         * If the functions returns false, the it will match the non-legacy class.
+         * If the functions returns false, it will match the non-legacy class.
          *
          * @param legacyFunction the predicate
          * @return the {@link #Versioning} instance

@@ -91,9 +91,9 @@ public class CommandFunctionality implements CommandExecutor, TabCompleter {
                             commandBuilder.getCommands().get(i).mapSuggestions();
                     List<String> listArgs = new ArrayList<>(Arrays.asList(args));
                     String currentArg = listArgs.get(listArgs.size() - 2);
-                    Class<? extends Command>[] annotatedSubcommands = CommandUtils.getSubcommands(neoCommand.getClass());
+                    List<Command> annotatedSubcommands = CommandUtils.getSubcommands(neoCommand.getClass());
                     if (annotatedSubcommands != null) {
-                        for (Class<? extends Command> subcommand : annotatedSubcommands) {
+                        for (Command subcommand : annotatedSubcommands) {
                             list.add(subcommand.getName());
                         }
                     }

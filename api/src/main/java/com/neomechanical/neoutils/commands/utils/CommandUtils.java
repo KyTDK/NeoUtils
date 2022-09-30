@@ -4,18 +4,25 @@ import com.neomechanical.neoutils.commands.Command;
 import com.neomechanical.neoutils.commands.annotations.SubCommands;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayDeque;
-import java.util.Arrays;
-import java.util.Iterator;
+import java.util.*;
 
 public class CommandUtils {
     private CommandUtils() {
     }
 
-    public static Class<? extends Command>[] getSubcommands(Class<? extends Command> command) {
+    public static List<Command> getSubcommands(Class<? extends Command> command) {
         if (command.isAnnotationPresent(SubCommands.class)) {
             SubCommands subCommands = command.getAnnotation(SubCommands.class);
-            return subCommands.subcommands();
+            List<Command> commandList = new ArrayList<>();
+            for (Class<? extends Command> commandClass : subCommands.subcommands()) {
+                try {
+                    commandList.add(commandClass.getDeclaredConstructor().newInstance());
+                } catch (InstantiationException | IllegalAccessException | NoSuchMethodException |
+                         InvocationTargetException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return commandList;
         }
         return null;
     }
@@ -27,16 +34,11 @@ public class CommandUtils {
             Command previousCommand = root;
             while (value.hasNext()) {
                 String currentArg = value.next();
-                Class<? extends Command>[] annotatedSubcommands = CommandUtils.getSubcommands(previousCommand.getClass());
+                List<Command> annotatedSubcommands = CommandUtils.getSubcommands(previousCommand.getClass());
                 if (annotatedSubcommands != null) {
-                    for (Class<? extends Command> subcommand : annotatedSubcommands) {
+                    for (Command subcommand : annotatedSubcommands) {
                         if (subcommand.getName().equalsIgnoreCase(currentArg)) {
-                            try {
-                                previousCommand = subcommand.getDeclaredConstructor().newInstance();
-                            } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
-                                     NoSuchMethodException e) {
-                                throw new RuntimeException(e);
-                            }
+                            previousCommand = subcommand;
                         }
                     }
                 }
