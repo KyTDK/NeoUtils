@@ -11,7 +11,6 @@ import org.bukkit.command.CommandSender;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
-
 public class EasyHelpCommand extends Command {
     private final String parentCommandName;
     private final String syntax;

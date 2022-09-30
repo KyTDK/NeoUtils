@@ -1,6 +1,7 @@
 package com.neomechanical.neoutils.commands;
 
 
+import com.neomechanical.neoutils.commands.utils.CommandUtils;
 import com.neomechanical.neoutils.messages.MessageUtil;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -26,16 +27,24 @@ public class CommandFunctionality implements CommandExecutor, TabCompleter {
             @NotNull String label,
             @NotNull String[] args) {
         if (args.length > 0) {
-            for (int i = 0; i < commandBuilder.getSubcommands().size(); i++) {
+            ArrayList<Command> commands = commandBuilder.getCommands();
+            for (Command neoCommand : commands) {
                 if (args[0].equalsIgnoreCase(
-                        commandBuilder.getSubcommands().get(i).getName())) {
-                    if (commandBuilder.getSubcommands().get(i).playerOnly() && !(sender instanceof Player)) {
+                        neoCommand.getName())) {
+                    if (neoCommand.playerOnly() && !(sender instanceof Player)) {
                         MessageUtil.sendMM(sender, commandBuilder.errorNotPlayer.get());
                         return true;
                     }
                     if (sender.hasPermission(
-                            commandBuilder.getSubcommands().get(i).getPermission())) {
-                        commandBuilder.getSubcommands().get(i).perform(sender, args);
+                            neoCommand.getPermission())) {
+                        if (args.length > 1) {
+                            Command subcommand = CommandUtils.getSubcommand(neoCommand, args);
+                            if (subcommand != null && sender.hasPermission(subcommand.getPermission())) {
+                                subcommand.perform(sender, args);
+                                return true;
+                            }
+                        }
+                        neoCommand.perform(sender, args);
                     } else {
                         MessageUtil.sendMM(sender, commandBuilder.errorNoPermission.get());
                     }
@@ -66,8 +75,8 @@ public class CommandFunctionality implements CommandExecutor, TabCompleter {
             @NotNull String alias,
             @NotNull String[] args) {
         List<String> list = new ArrayList<>();
-        for (int i = 0; i < commandBuilder.getSubcommands().size(); i++) {
-            Command neoCommand = commandBuilder.getSubcommands().get(i);
+        for (int i = 0; i < commandBuilder.getCommands().size(); i++) {
+            Command neoCommand = commandBuilder.getCommands().get(i);
             if (!sender.hasPermission(neoCommand.getPermission())) {
                 return null;
             }
@@ -75,13 +84,19 @@ public class CommandFunctionality implements CommandExecutor, TabCompleter {
                 list.add(neoCommand.getName());
             } else if (args.length >= 2) {
                 if (args[0].equalsIgnoreCase(
-                        commandBuilder.getSubcommands().get(i).getName())) {
+                        commandBuilder.getCommands().get(i).getName())) {
                     List<String> suggestions =
-                            commandBuilder.getSubcommands().get(i).tabSuggestions();
+                            commandBuilder.getCommands().get(i).tabSuggestions();
                     Map<String, List<String>> mapSuggestions =
-                            commandBuilder.getSubcommands().get(i).mapSuggestions();
+                            commandBuilder.getCommands().get(i).mapSuggestions();
                     List<String> listArgs = new ArrayList<>(Arrays.asList(args));
                     String currentArg = listArgs.get(listArgs.size() - 2);
+                    Class<? extends Command>[] annotatedSubcommands = CommandUtils.getSubcommands(neoCommand.getClass());
+                    if (annotatedSubcommands != null) {
+                        for (Class<? extends Command> subcommand : annotatedSubcommands) {
+                            list.add(subcommand.getName());
+                        }
+                    }
                     if (mapSuggestions != null && mapSuggestions.containsKey(currentArg)) {
                         list.addAll(mapSuggestions.get(currentArg));
                     } else if (suggestions != null) {

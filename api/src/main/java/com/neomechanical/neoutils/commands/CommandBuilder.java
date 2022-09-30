@@ -2,7 +2,7 @@ package com.neomechanical.neoutils.commands;
 
 
 import com.neomechanical.neoutils.NeoUtils;
-import com.neomechanical.neoutils.commands.utils.CommandUtils;
+import com.neomechanical.neoutils.commands.utils.NativeCommandUtils;
 import com.neomechanical.neoutils.manager.ManagerHandler;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -60,7 +60,7 @@ public class CommandBuilder {
 
     public void register() {
         manager.getCommandManager().addCommand(mainCommand);
-        CommandUtils.registerCommand(plugin, mainCommand.getPermission(), mainCommand.getName(), aliases);
+        NativeCommandUtils.registerCommand(plugin, mainCommand.getPermission(), mainCommand.getName(), aliases);
         Objects.requireNonNull(plugin.getCommand(mainCommand.getName())).setExecutor(functionality);
     }
 
@@ -70,7 +70,7 @@ public class CommandBuilder {
         manager.getCommandManager().removeCommand(parentCommand);
     }
 
-    public ArrayList<Command> getSubcommands() {
+    public ArrayList<Command> getCommands() {
         return new ArrayList<>(mainCommand.getSubcommands());
     }
 }
