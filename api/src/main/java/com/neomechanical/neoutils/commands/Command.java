@@ -9,7 +9,13 @@ import java.util.List;
 import java.util.Map;
 
 public abstract class Command {
-    ArrayList<Command> subcommands = new ArrayList<>();
+    private final ArrayList<Command> subcommands = new ArrayList<>();
+    boolean tabComplete = true;
+
+    public Command tabCompleteName(boolean value) {
+        tabComplete = value;
+        return this;
+    }
 
     public List<Command> getSubcommands() {
         return subcommands;

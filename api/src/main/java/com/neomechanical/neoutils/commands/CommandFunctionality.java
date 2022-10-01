@@ -39,7 +39,8 @@ public class CommandFunctionality implements CommandExecutor, TabCompleter {
                             neoCommand.getPermission())) {
                         if (args.length > 1) {
                             Command subcommand = CommandUtils.getSubcommand(neoCommand, args);
-                            if (subcommand != null && sender.hasPermission(subcommand.getPermission())) {
+                            if (subcommand != null && (subcommand.getPermission() == null ||
+                                    sender.hasPermission(subcommand.getPermission()))) {
                                 subcommand.perform(sender, args);
                                 return true;
                             }
@@ -83,26 +84,28 @@ public class CommandFunctionality implements CommandExecutor, TabCompleter {
             if (args.length == 1) {
                 list.add(neoCommand.getName());
             } else if (args.length >= 2) {
-                if (args[0].equalsIgnoreCase(
-                        commandBuilder.getCommands().get(i).getName())) {
-                    List<String> suggestions =
-                            commandBuilder.getCommands().get(i).tabSuggestions();
-                    Map<String, List<String>> mapSuggestions =
-                            commandBuilder.getCommands().get(i).mapSuggestions();
+                if (args[0].equalsIgnoreCase(neoCommand.getName())) {
+                    List<String> suggestions = neoCommand.tabSuggestions();
+                    Map<String, List<String>> mapSuggestions = neoCommand.mapSuggestions();
                     List<String> listArgs = new ArrayList<>(Arrays.asList(args));
                     String currentArg = listArgs.get(listArgs.size() - 2);
-                    List<Command> annotatedSubcommands = CommandUtils.getSubcommands(neoCommand.getClass());
-                    if (annotatedSubcommands != null) {
-                        for (Command subcommand : annotatedSubcommands) {
-                            list.add(subcommand.getName());
+                    //Add subcommands to tab completion list
+                    Command subcommand = CommandUtils.getSubcommand(neoCommand, args);
+                    if (subcommand != null) {
+                        List<Command> subcommands = subcommand.getSubcommands();
+                        if (subcommands != null) {
+                            for (Command subSubcommand : subcommands) {
+                                if (subSubcommand.getName() != null && subSubcommand.tabComplete) {
+                                    list.add(subSubcommand.getName());
+                                }
+                            }
                         }
                     }
                     if (mapSuggestions != null && mapSuggestions.containsKey(currentArg)) {
                         list.addAll(mapSuggestions.get(currentArg));
-                    } else if (suggestions != null) {
+                    }
+                    if (suggestions != null) {
                         list.addAll(suggestions);
-                    } else {
-                        return null;
                     }
                 }
             }
