@@ -1,6 +1,9 @@
 package com.neomechanical.neoutils.commands;
 
 
+import com.neomechanical.neoutils.NeoUtils;
+
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +25,13 @@ public class CommandManager {
         stringCommandBuilderMap.remove(command);
     }
 
-    public List<Command> getSubcommands(String command) {
-        return stringCommandBuilderMap.get(command).getSubcommands();
+    public List<Command> getSubcommands(String commandName) {
+        Command command = stringCommandBuilderMap.get(commandName);
+        if (command == null) {
+            NeoUtils.getInstance().getFancyLogger().warn("Command " + commandName + " does not exist");
+            return Collections.emptyList();
+        } else {
+            return command.getSubcommands();
+        }
     }
 }
