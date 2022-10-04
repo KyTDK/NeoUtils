@@ -1,10 +1,8 @@
 package com.neomechanical.neoutils.inventory.managers.data;
 
-
 import com.neomechanical.neoutils.NeoUtils;
 import com.neomechanical.neoutils.inventory.InventoryUtil;
 import com.neomechanical.neoutils.inventory.NInventory;
-import com.neomechanical.neoutils.inventory.actions.OpenInventory;
 import com.neomechanical.neoutils.inventory.items.InventoryItemType;
 import com.neomechanical.neoutils.inventory.utils.InventoryOperations;
 import com.neomechanical.neoutils.inventory.utils.Size;
@@ -62,70 +60,64 @@ public class InventoryGUI implements NInventory {
     }
 
     @Override
-    public InventoryGUI addItem(@NotNull InventoryItem... items) throws IllegalArgumentException {
+    public InventoryGUI addItem(@NotNull InventoryItem... items) {
         for (InventoryItem item : items) {
+            InventoryGUI currentPage = this;
             if (!pages.isEmpty()) {
-                pages.get(pages.size() - 1).addItem(item);
-                continue;
+                currentPage = pages.get(pages.size() - 1);
             }
-            // If overflow occurs
-            if (Size.amountOfFilledSlots(inventory) + 1 > getSize()) {
-                List<InventoryItem> carryOver = new ArrayList<>();
-                carryOver.add(item);
-                for (int i = getSize() - 9; i < getSize(); i++) {
-                    ItemStack itemCO = inventory.getItem(i);
-                    if (itemCO != null) {
-                        InventoryItem itemCOI =
-                                NeoUtils.getManagers().getInventoryManager().getMenuItem(this, i);
-                        if (itemCOI != null
-                                && itemCOI.getType() != null
-                                && itemCOI.getType().equals(InventoryItemType.NAVIGATION)) {
-                            continue;
-                        }
-                        carryOver.add(itemCOI);
-                        inventory.remove(itemCO);
-                        inventoryItems.remove(i);
-                    }
-                }
-                InventoryGUI newPage = InventoryUtil.createInventoryGUI(null, getSize(), title);
-                applyParentTraits(newPage);
-                // Add buttons
-                Material button = ((ItemVersionWrapper) NeoUtils.getInternalVersions().get("items")).oakButton();
-                newPage.setItem(
-                        getSize() - 9,
-                        new InventoryItem.InventoryItemBuilder(
-                                () -> ItemUtil.createItem(button, ChatColor.GREEN + "Left"))
-                                .setAction((event) -> new OpenInventory(pages.get(pages.size() - 2)).action(event))
-                                .setType(InventoryItemType.NAVIGATION)
-                                .build());
-                if (pages.contains(this)) {
-                    setItem(
-                            getSize() - 9,
-                            new InventoryItem.InventoryItemBuilder(
-                                    () -> ItemUtil.createItem(button, ChatColor.GREEN + "Left"))
-                                    .setAction((event) -> new OpenInventory(pages.get(pages.size() - 2)).action(event))
-                                    .setType(InventoryItemType.NAVIGATION)
-                                    .build());
-                }
-                setItem(
-                        getSize() - 1,
-                        new InventoryItem.InventoryItemBuilder(
-                                () -> ItemUtil.createItem(button, ChatColor.GREEN + "Right"))
-                                .setAction((event) -> new OpenInventory(newPage).action(event))
-                                .setType(InventoryItemType.NAVIGATION)
-                                .build());
-                // Add overflown items to new page
-                for (InventoryItem itemCO : carryOver) {
-                    if (itemCO != null) {
-                        newPage.addItem(itemCO);
-                    }
-                }
-                pages.add(newPage);
-                continue;
+            // If overflow occurs and its not a page
+            if (Size.amountOfFilledSlots(currentPage.inventory) + 1 > currentPage.getSize()) {
+                overflowGUI(currentPage, item);
+            } else {
+                currentPage.inventoryItems.put(InventoryOperations.addItem(currentPage, item.getItem().get()), item);
             }
-            inventoryItems.put(InventoryOperations.addItem(inventory, item.getItem().get()), item);
         }
         return this;
+    }
+
+    private void overflowGUI(InventoryGUI currentPage, InventoryItem item) {
+        List<InventoryItem> carryOvers = new ArrayList<>();
+        for (int i = currentPage.getSize() - 9; i < currentPage.getSize(); i++) {
+            ItemStack itemCO = currentPage.inventory.getItem(i);
+            if (itemCO != null) {
+                InventoryItem itemCOI = NeoUtils.getManagers().getInventoryManager().getMenuItem(currentPage, i);
+                if (itemCOI != null && itemCOI.getType() != null && itemCOI.getType().equals(InventoryItemType.NAVIGATION)) {
+                    continue;
+                }
+                carryOvers.add(itemCOI);
+                currentPage.inventory.remove(itemCO);
+                currentPage.inventoryItems.remove(i);
+            }
+        }
+        carryOvers.add(item);
+        InventoryGUI newPage = InventoryUtil.createInventoryGUI(null, currentPage.getSize(), currentPage.title);
+        applyParentTraits(newPage);
+        setNavigationButtons(currentPage, newPage);
+        // Add overflown items to new page
+        for (InventoryItem itemCarryOver : carryOvers) {
+            if (itemCarryOver != null) {
+                newPage.getInventoryItems().put(InventoryOperations.addItem(newPage, itemCarryOver.getItem().get()), itemCarryOver);
+            }
+        }
+        pages.add(newPage);
+    }
+
+    private void setNavigationButtons(InventoryGUI currentPage, InventoryGUI newPage) {
+        // Add buttons
+        Material button = ((ItemVersionWrapper) NeoUtils.getInternalVersions().get("items")).oakButton();
+        InventoryItem leftButton = new InventoryItem.InventoryItemBuilder(
+                () -> ItemUtil.createItem(button, ChatColor.GREEN + "Left"))
+                .setAction(event -> currentPage.open((Player) event.getWhoClicked()))
+                .setType(InventoryItemType.NAVIGATION)
+                .build();
+        InventoryItem rightButton = new InventoryItem.InventoryItemBuilder(
+                () -> ItemUtil.createItem(button, ChatColor.GREEN + "Right"))
+                .setAction(event -> newPage.open((Player) event.getWhoClicked()))
+                .setType(InventoryItemType.NAVIGATION)
+                .build();
+        newPage.setItem(newPage.getSize() - 9, leftButton);
+        currentPage.setItem(currentPage.getSize() - 1, rightButton);
     }
 
     @Override

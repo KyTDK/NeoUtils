@@ -47,7 +47,7 @@ public class CommandFunctionality implements CommandExecutor, TabCompleter {
             MessageUtil.sendMM(sender, commandBuilder.errorCommandNotFound.get());
             return true;
         } else if (commandCanRun(sender, commandBuilder.mainCommand)) {
-            MessageUtil.sendMM(sender, commandBuilder.errorNoPermission.get());
+            commandBuilder.mainCommand.perform(sender, args);
         }
         return true;
     }
