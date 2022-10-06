@@ -111,7 +111,7 @@ public class CommandFunctionality implements CommandExecutor, TabCompleter {
     private boolean commandCanRun(CommandSender sender, Command command) {
         if (command.playerOnly() && !(sender instanceof Player)) {
             MessageUtil.sendMM(sender, commandBuilder.errorNotPlayer.get());
-            return true;
+            return false;
         }
         if (hasPermission(sender, command)) {
             return true;
