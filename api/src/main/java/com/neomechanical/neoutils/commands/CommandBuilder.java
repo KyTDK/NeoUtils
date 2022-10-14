@@ -73,4 +73,8 @@ public class CommandBuilder {
     public ArrayList<Command> getCommands() {
         return new ArrayList<>(mainCommand.getSubcommands());
     }
+
+    public CommandManager getCommandManager() {
+        return NeoUtils.getManagers().getCommandManager();
+    }
 }

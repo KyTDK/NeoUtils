@@ -6,11 +6,13 @@ import com.neomechanical.neoutils.messages.MessageUtil;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
-import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
+
+import static com.neomechanical.neoutils.commands.utils.CommandUtils.commandCanRun;
+import static com.neomechanical.neoutils.commands.utils.CommandUtils.hasPermission;
 
 public class CommandFunctionality implements CommandExecutor, TabCompleter {
     private final CommandBuilder commandBuilder;
@@ -30,10 +32,10 @@ public class CommandFunctionality implements CommandExecutor, TabCompleter {
             ArrayList<Command> commands = commandBuilder.getCommands();
             for (Command neoCommand : commands) {
                 if (args[0].equalsIgnoreCase(neoCommand.getName())) {
-                    if (commandCanRun(sender, neoCommand)) {
+                    if (commandCanRun(sender, neoCommand, commandBuilder)) {
                         if (args.length > 1) {
                             Command subcommand = CommandUtils.getSubcommand(neoCommand, args);
-                            if (subcommand != null && commandCanRun(sender, subcommand)) {
+                            if (subcommand != null && commandCanRun(sender, subcommand, commandBuilder)) {
                                 subcommand.perform(sender, args);
                             }
                         } else {
@@ -46,50 +48,26 @@ public class CommandFunctionality implements CommandExecutor, TabCompleter {
             // If the command is not found, send a message to the player
             MessageUtil.sendMM(sender, commandBuilder.errorCommandNotFound.get());
             return true;
-        } else if (commandCanRun(sender, commandBuilder.mainCommand)) {
+        } else if (commandCanRun(sender, commandBuilder.mainCommand, commandBuilder)) {
             commandBuilder.mainCommand.perform(sender, args);
         }
         return true;
     }
 
-    public List<String> onTabComplete(
-            @NotNull CommandSender sender,
-            @NotNull org.bukkit.command.Command command,
-            @NotNull String alias,
-            @NotNull String[] args) {
+    @Override
+    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String alias, @NotNull String[] args) {
         List<String> list = new ArrayList<>();
-        for (int i = 0; i < commandBuilder.getCommands().size(); i++) {
-            Command neoCommand = commandBuilder.getCommands().get(i);
-            if (!hasPermission(sender, neoCommand)) {
-                return null;
-            }
-            if (args.length == 1) {
-                list.add(neoCommand.getName());
-            } else if (args.length >= 2) {
-                if (args[0].equalsIgnoreCase(neoCommand.getName())) {
-                    List<String> listArgs = new ArrayList<>(Arrays.asList(args));
-                    String currentArg = listArgs.get(listArgs.size() - 2);
-                    //Add subcommands to tab completion list
-                    Command subcommand = CommandUtils.getSubcommand(neoCommand, args);
-                    if (subcommand != null) {
-                        List<Command> subcommands = subcommand.getSubcommands();
-                        if (subcommands != null) {
-                            for (Command subSubcommand : subcommands) {
-                                if (subSubcommand.getName() != null && subSubcommand.tabComplete) {
-                                    list.add(subSubcommand.getName());
-                                }
-                            }
-                        }
-                    }
-                    Map<String, List<String>> mapSuggestions = neoCommand.mapSuggestions();
-                    if (mapSuggestions != null && mapSuggestions.containsKey(currentArg)) {
-                        list.addAll(mapSuggestions.get(currentArg));
-                    }
-                    List<String> suggestions = neoCommand.tabSuggestions();
-                    if (suggestions != null) {
-                        list.addAll(suggestions);
-                    }
-                }
+        List<String> listArgs = new ArrayList<>(Arrays.asList(args));
+        String currentArg = args.length > 1 ?
+                listArgs.get(listArgs.size() - 2) : alias;
+        if (args.length == 1) {
+            Command neoCommand = commandBuilder.mainCommand;
+            list.addAll(getCompletions(neoCommand, sender, currentArg, args));
+        }
+        if (args.length >= 2) {
+            Command subcommand = CommandUtils.getSubcommand(commandBuilder.mainCommand, args);
+            if (subcommand != null) {
+                list.addAll(getCompletions(subcommand, sender, currentArg, args));
             }
         }
         if (list.isEmpty()) {
@@ -102,22 +80,44 @@ public class CommandFunctionality implements CommandExecutor, TabCompleter {
         return completions;
     }
 
-    private boolean hasPermission(CommandSender sender, Command command) {
-        if (command.getPermission() == null) {
-            return true;
-        } else return sender.hasPermission(command.getPermission());
-    }
-
-    private boolean commandCanRun(CommandSender sender, Command command) {
-        if (command.playerOnly() && !(sender instanceof Player)) {
-            MessageUtil.sendMM(sender, commandBuilder.errorNotPlayer.get());
-            return false;
+    public List<String> getCompletions(Command command, CommandSender sender, String currentArg, String[] args) {
+        List<String> list = new ArrayList<>();
+        if (!hasPermission(sender, command)) {
+            return null;
         }
-        if (hasPermission(sender, command)) {
-            return true;
-        } else {
-            MessageUtil.sendMM(sender, commandBuilder.errorNoPermission.get());
-            return false;
+        //Map suggestions isolated all other suggestions
+        Map<String, List<String>> mapSuggestions = command.mapSuggestions();
+        if (mapSuggestions != null && mapSuggestions.containsKey(currentArg)) {
+            return mapSuggestions.get(currentArg);
         }
+        if (mapSuggestions != null) {
+            list.addAll(mapSuggestions.keySet());
+        }
+        List<String> suggestions = command.tabSuggestions();
+        if (suggestions != null) {
+            list.addAll(suggestions);
+        }
+        //Add immediate subcommands
+        {
+            List<Command> subcommands = command.getSubcommands();
+            if (subcommands != null) {
+                for (Command commandFromBuilder : subcommands) {
+                    list.add(commandFromBuilder.getName());
+                }
+            }
+        }
+        //Add subcommands to tab completion list
+        Command subcommand = CommandUtils.getSubcommand(command, args);
+        if (subcommand != null) {
+            List<Command> subcommands = subcommand.getSubcommands();
+            if (subcommands != null) {
+                for (Command subSubcommand : subcommands) {
+                    if (subSubcommand.getName() != null && subSubcommand.tabComplete) {
+                        list.add(subSubcommand.getName());
+                    }
+                }
+            }
+        }
+        return list;
     }
 }

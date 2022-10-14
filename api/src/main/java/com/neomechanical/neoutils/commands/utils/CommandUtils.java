@@ -1,6 +1,10 @@
 package com.neomechanical.neoutils.commands.utils;
 
 import com.neomechanical.neoutils.commands.Command;
+import com.neomechanical.neoutils.commands.CommandBuilder;
+import com.neomechanical.neoutils.messages.MessageUtil;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayDeque;
 import java.util.Arrays;
@@ -29,5 +33,24 @@ public class CommandUtils {
             return previousCommand;
         }
         return null;
+    }
+
+    public static boolean hasPermission(CommandSender sender, Command command) {
+        if (command.getPermission() == null) {
+            return true;
+        } else return sender.hasPermission(command.getPermission());
+    }
+
+    public static boolean commandCanRun(CommandSender sender, Command command, CommandBuilder commandBuilder) {
+        if (command.playerOnly() && !(sender instanceof Player)) {
+            MessageUtil.sendMM(sender, commandBuilder.errorNotPlayer.get());
+            return false;
+        }
+        if (hasPermission(sender, command)) {
+            return true;
+        } else {
+            MessageUtil.sendMM(sender, commandBuilder.errorNoPermission.get());
+            return false;
+        }
     }
 }
