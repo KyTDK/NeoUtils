@@ -25,7 +25,7 @@ RELOCATION
     <artifactId>maven-shade-plugin</artifactId>
     <version>3.3.0</version>
     <configuration>
-    <minimizeJar>true</minimizeJar> <!--If you do minimize the jar, you must apply the filter otherwise essential classes will excluded from the final jar-->
+    <minimizeJar>true</minimizeJar> <!--If you do minimize the jar, you must apply the filter otherwise essential classes will be excluded from the final jar-->
         <relocations>
             <relocation>
                 <pattern>com.neomechanical.neoutils</pattern>
