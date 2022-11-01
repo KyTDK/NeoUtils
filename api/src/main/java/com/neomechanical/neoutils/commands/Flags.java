@@ -27,13 +27,14 @@ public class Flags {
         commandStack.addAll(Arrays.asList(args));
         List<String> flagArgs = new ArrayList<>();
         Map<String, List<String>> accumulatedFlagArgs = new HashMap<>();
-        boolean flagProcessed = false;
         while (!commandStack.isEmpty()) {
             String element = commandStack.pop();
             if (PROCESSORS.containsKey(element)) {
-                PROCESSORS.get(element).andThen((acc, list) -> list.clear()).accept(sender, flagArgs);
+                PROCESSORS.get(element)
+                        //.andThen((acc, list) -> list.clear())
+                        .accept(sender, flagArgs);
+                flagArgs.clear();
                 accumulatedFlagArgs.put(element, flagArgs);
-                flagProcessed = true;
             } else {
                 flagArgs.add(element);
             }
