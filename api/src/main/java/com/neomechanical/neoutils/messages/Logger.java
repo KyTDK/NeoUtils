@@ -2,16 +2,17 @@ package com.neomechanical.neoutils.messages;
 
 
 import org.bukkit.Bukkit;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.Plugin;
 
 public class Logger {
-    private final JavaPlugin plugin;
+    private final Plugin plugin;
+
     /**
      * Fancy logs with prefix and mild functionality
      *
      * @param plugin Plugin instance
      */
-    public Logger(JavaPlugin plugin) {
+    public Logger(Plugin plugin) {
         prefix = "[" + plugin.getName() + "] ";
         this.plugin = plugin;
     }

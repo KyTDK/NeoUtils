@@ -3,7 +3,7 @@ package com.neomechanical.neoutils.bungeecord;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -18,9 +18,9 @@ import java.util.function.BiConsumer;
 public class PluginMessageBroker {
 
     private final Map<String, Deque<BiConsumer<Player, byte[]>>> callbacks = new HashMap<>();
-    private final JavaPlugin plugin;
+    private final Plugin plugin;
 
-    public PluginMessageBroker(JavaPlugin plugin) {
+    public PluginMessageBroker(Plugin plugin) {
         this.plugin = plugin;
     }
 

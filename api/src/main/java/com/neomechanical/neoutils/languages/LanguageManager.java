@@ -10,7 +10,7 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -28,14 +28,14 @@ public class LanguageManager {
     private static String languageCode = "en-US";
     private static Supplier<String> languageChangeConsumer;
     final Map<String, String> internalPlaceholderReplacements;
-    private final JavaPlugin main;
+    private final Plugin main;
     private final Map<String, Function<Player, String>> internalPlaceholders = new HashMap<>();
     File languageFolder = null;
     private File languageConfigFile = null;
     private FileConfiguration languageConfig;
     private FileConfiguration defaultLanguageConfig = null;
 
-    public LanguageManager(final JavaPlugin main) {
+    public LanguageManager(final Plugin main) {
         this.main = main;
         internalPlaceholderReplacements = new HashMap<>();
     }

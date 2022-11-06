@@ -1,13 +1,13 @@
 package com.neomechanical.neoutils.bungeecord;
 
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.Plugin;
 
 public class BungeeCord {
-    private final JavaPlugin plugin;
+    private final Plugin plugin;
     private PluginMessageReceiver pluginMessageReceiver;
     private PluginMessageBroker broker;
 
-    public BungeeCord(JavaPlugin plugin) {
+    public BungeeCord(Plugin plugin) {
         this.plugin = plugin;
     }
 

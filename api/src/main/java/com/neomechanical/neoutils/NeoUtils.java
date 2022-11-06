@@ -4,20 +4,24 @@ import com.neomechanical.neoutils.inventory.managers.InventoryFunctionality;
 import com.neomechanical.neoutils.items.ItemInteractionListener;
 import com.neomechanical.neoutils.version.items.IItemEventHandlerWrapper;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class NeoUtils extends JavaPlugin {
-    private static JavaPlugin plugin;
+    private static Plugin plugin;
     private static NeoUtilities neoUtilities;
 
-    public static JavaPlugin getInstance() {
+    public static Plugin getInstance() {
         if (plugin == null) {
             try {
-                plugin = JavaPlugin.getPlugin(NeoUtils.class);
-                init();
-            } catch (final IllegalArgumentException | IllegalStateException exception) {
-                throw new IllegalStateException();
+                plugin = JavaPlugin.getProvidingPlugin(Class.forName(Thread.currentThread().getStackTrace()[3].getClassName()));
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
             }
+            if (plugin == null) {
+                throw new IllegalStateException("Cannot find plugin instance");
+            }
+            init();
         }
 
         return plugin;

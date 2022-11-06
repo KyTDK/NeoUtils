@@ -13,16 +13,16 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Objects;
 import java.util.function.Consumer;
 
 public class InventoryFunctionality implements Listener {
-    JavaPlugin plugin;
+    Plugin plugin;
 
-    public InventoryFunctionality(JavaPlugin plugin) {
+    public InventoryFunctionality(Plugin plugin) {
         this.plugin = plugin;
     }
 

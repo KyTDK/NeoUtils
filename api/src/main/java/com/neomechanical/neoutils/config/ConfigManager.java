@@ -5,7 +5,7 @@ import com.neomechanical.neoutils.NeoUtils;
 import com.neomechanical.neoutils.manager.ManagerHandler;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.Plugin;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,12 +17,12 @@ public class ConfigManager {
     private File configFile = null;
     //The actual config
     private FileConfiguration config;
-    private final JavaPlugin plugin;
+    private final Plugin plugin;
     private boolean keepDefaults = true;
     private static final ManagerHandler managers = NeoUtils.getNeoUtilities().getManagers();
     private final String configFilePath;
 
-    public ConfigManager(JavaPlugin plugin, String configFilePath) {
+    public ConfigManager(Plugin plugin, String configFilePath) {
         this.plugin = plugin;
         this.configFilePath = configFilePath;
         reloadConfig();

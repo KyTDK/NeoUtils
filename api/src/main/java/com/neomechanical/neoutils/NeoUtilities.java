@@ -36,7 +36,7 @@ import com.neomechanical.neoutils.version.v1_9_R2.worlds.WorldWrapper1_9_R2;
 import com.neomechanical.neoutils.version.versions.Versions;
 import lombok.NonNull;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.Plugin;
 
 import java.util.Map;
 
@@ -52,11 +52,11 @@ public class NeoUtilities {
     private static Logger logger;
     private static ServerMetrics serverMetrics;
 
-    public NeoUtilities(JavaPlugin plugin) {
+    public NeoUtilities(Plugin plugin) {
         logger = new Logger(plugin);
         adventure = BukkitAudiences.create(plugin);
         managerHandler = new ManagerHandler(plugin);
-        dataHandler = new DataHandler(plugin);
+        dataHandler = new DataHandler();
         //Register plugin channels
         bungeeCord = new BungeeCord(plugin);
         bungeeCord.initialize();
