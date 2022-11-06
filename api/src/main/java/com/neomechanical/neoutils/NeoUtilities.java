@@ -40,7 +40,6 @@ import org.bukkit.plugin.Plugin;
 
 import java.util.Map;
 
-import static com.neomechanical.neoutils.NeoUtils.getInstance;
 import static com.neomechanical.neoutils.updates.IsUpToDate.isUpToDate;
 
 public class NeoUtilities {
@@ -51,8 +50,9 @@ public class NeoUtilities {
     private static Map<String, VersionWrapper> internalVersions;
     private static Logger logger;
     private static ServerMetrics serverMetrics;
-
+    private final Plugin plugin;
     public NeoUtilities(Plugin plugin) {
+        this.plugin = plugin;
         logger = new Logger(plugin);
         adventure = BukkitAudiences.create(plugin);
         managerHandler = new ManagerHandler(plugin);
@@ -105,7 +105,7 @@ public class NeoUtilities {
 
     public @NonNull BukkitAudiences getAdventure() {
         if (adventure == null) {
-            return BukkitAudiences.create(getInstance());
+            return BukkitAudiences.create(plugin);
         }
         return adventure;
     }
@@ -116,7 +116,7 @@ public class NeoUtilities {
 
     public ManagerHandler getManagers() {
         if (managerHandler == null) {
-            return new ManagerHandler(getInstance());
+            return new ManagerHandler(plugin);
         }
         return managerHandler;
     }
