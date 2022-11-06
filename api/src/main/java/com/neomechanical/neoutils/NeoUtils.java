@@ -103,7 +103,7 @@ public class NeoUtils extends JavaPlugin {
 
     public static NeoUtilities getNeoUtilities() {
         if (plugin == null) {
-            init(getInstance());
+            getInstance();
             if (neoUtilities == null) {
                 throw new RuntimeException("Failed to initialize NeoUtilities");
             }
