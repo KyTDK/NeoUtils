@@ -63,6 +63,10 @@ public class NeoUtilities {
         //Set metrics
         serverMetrics = new ServerMetrics();
         //Versions
+    }
+
+    //Run init after this is set so Versioning doesn't throw an error
+    public void init() {
         new Versioning.VersioningBuilder("items")
                 .addClass(Versions.vLEGACY.toString(), WrapperLEGACY.class)
                 .addClass(Versions.vNONLEGACY.toString(), WrapperNONLEGACY.class)

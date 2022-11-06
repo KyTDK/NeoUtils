@@ -102,7 +102,7 @@ public class NeoUtils extends JavaPlugin {
     }
 
     public static NeoUtilities getNeoUtilities() {
-        if (neoUtilities == null) {
+        if (plugin == null) {
             init(getInstance());
             if (neoUtilities == null) {
                 throw new RuntimeException("Failed to initialize NeoUtilities");
@@ -114,6 +114,7 @@ public class NeoUtils extends JavaPlugin {
     public static void init(Plugin plugin) {
         NeoUtils.plugin = plugin;
         neoUtilities = new NeoUtilities(plugin);
+        neoUtilities.init();
         plugin.getServer().getPluginManager().registerEvents(new InventoryFunctionality(plugin), plugin);
         plugin.getServer().getPluginManager().registerEvents(new ItemInteractionListener((IItemEventHandlerWrapper) neoUtilities.getInternalVersions().get("specialItemInteractions")), plugin);
     }
