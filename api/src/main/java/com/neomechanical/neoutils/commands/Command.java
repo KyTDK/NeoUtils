@@ -3,10 +3,7 @@ package com.neomechanical.neoutils.commands;
 
 import org.bukkit.command.CommandSender;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public abstract class Command {
     private final ArrayList<Command> subcommands = new ArrayList<>();
@@ -37,14 +34,20 @@ public abstract class Command {
 
     public abstract String getSyntax();
 
-    public abstract String getPermission();
+    public String getPermission() {
+        return null;
+    }
 
     public abstract boolean playerOnly();
 
     // code for the subcommand
     public abstract void perform(CommandSender player, String[] args);
 
-    public abstract List<String> tabSuggestions();
+    public List<String> tabSuggestions() {
+        return Collections.emptyList();
+    }
 
-    public abstract Map<String, List<String>> mapSuggestions();
+    public Map<String, List<String>> mapSuggestions() {
+        return Collections.emptyMap();
+    }
 }

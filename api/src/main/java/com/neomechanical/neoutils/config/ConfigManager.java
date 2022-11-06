@@ -20,8 +20,7 @@ public class ConfigManager {
     private final JavaPlugin plugin;
     private boolean keepDefaults = true;
     private static final ManagerHandler managers = NeoUtils.getManagers();
-
-    String configFilePath;
+    private final String configFilePath;
 
     public ConfigManager(JavaPlugin plugin, String configFilePath) {
         this.plugin = plugin;
@@ -73,12 +72,37 @@ public class ConfigManager {
         return true;
     }
 
+    public boolean saveConfig(FileConfiguration config) {
+        if (config == null || configFile == null) {
+            return false;
+        }
+        try {
+            config.save(configFile);
+        } catch (IOException e) {
+            NeoUtils.getInstance().getFancyLogger().fatal("Could not save config to " + configFile.getPath() + " (3)");
+            return false;
+        }
+        return true;
+    }
+
+    public ConfigManager setConfig(FileConfiguration config) {
+        this.config = config;
+        return this;
+    }
+
+    public File getConfigFile() {
+        return configFile;
+    }
+
     private void saveDefaultConfig() {
         //Save config file to directory
         if (configFile == null) {
             configFile = new File(plugin.getDataFolder(), configFilePath);
         }
         if (!configFile.exists()) {
+            if (!configFile.getParentFile().mkdirs()) {
+                NeoUtils.getInstance().getFancyLogger().warn("Error occurred creating config file.");
+            }
             plugin.saveResource(configFilePath, false);
         }
     }

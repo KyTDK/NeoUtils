@@ -48,7 +48,9 @@ public class InventoryFunctionality implements Listener {
                     if (gui.getOpenOnClose() != null) {
                         gui.update();
                         InventoryUtil.openInventory(player, gui.getOpenOnClose());
-                        return;
+                    }
+                    if (gui.getCloseEventConsumer() != null) {
+                        gui.getCloseEventConsumer().accept(event);
                     }
                 }
                 if (gui.isUnregisterOnClose()) {

@@ -12,6 +12,7 @@ import lombok.Data;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 /**
  * Auto-pagination, feature rich inventory GUI.
@@ -35,6 +37,7 @@ public class InventoryGUI implements NInventory {
     private @Nullable InventoryGUI openOnClose = null;
     private boolean unregisterOnClose = true;
     private boolean pagesInheritParentSettings = true;
+    private Consumer<InventoryCloseEvent> closeEventConsumer;
 
     @Override
     public int getSize() {
@@ -150,6 +153,15 @@ public class InventoryGUI implements NInventory {
     public InventoryGUI setOpenOnClose(@NotNull InventoryGUI inventory) {
         this.openOnClose = inventory;
         return this;
+    }
+
+    public InventoryGUI setRunOnClose(@NotNull Consumer<InventoryCloseEvent> closeEventConsumer) {
+        this.closeEventConsumer = closeEventConsumer;
+        return this;
+    }
+
+    public Consumer<InventoryCloseEvent> getCloseEventConsumer() {
+        return closeEventConsumer;
     }
 
     @Override

@@ -30,11 +30,11 @@ public class Flags {
         while (!commandStack.isEmpty()) {
             String element = commandStack.pop();
             if (PROCESSORS.containsKey(element)) {
+                accumulatedFlagArgs.put(element, new ArrayList<>(flagArgs));
                 PROCESSORS.get(element)
                         //.andThen((acc, list) -> list.clear())
                         .accept(sender, flagArgs);
                 flagArgs.clear();
-                accumulatedFlagArgs.put(element, flagArgs);
             } else {
                 flagArgs.add(element);
             }

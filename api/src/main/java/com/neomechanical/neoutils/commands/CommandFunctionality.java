@@ -2,7 +2,6 @@ package com.neomechanical.neoutils.commands;
 
 
 import com.neomechanical.neoutils.commands.utils.CommandUtils;
-import com.neomechanical.neoutils.messages.MessageUtil;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -28,8 +27,8 @@ public class CommandFunctionality implements CommandExecutor, TabCompleter {
             @NotNull org.bukkit.command.Command command,
             @NotNull String label,
             @NotNull String[] args) {
+        ArrayList<Command> commands = commandBuilder.getCommands();
         if (args.length > 0) {
-            ArrayList<Command> commands = commandBuilder.getCommands();
             for (Command neoCommand : commands) {
                 if (args[0].equalsIgnoreCase(neoCommand.getName())) {
                     if (commandCanRun(sender, neoCommand, commandBuilder)) {
@@ -37,6 +36,8 @@ public class CommandFunctionality implements CommandExecutor, TabCompleter {
                             Command subcommand = CommandUtils.getSubcommand(neoCommand, args);
                             if (subcommand != null && commandCanRun(sender, subcommand, commandBuilder)) {
                                 subcommand.perform(sender, args);
+                            } else {
+                                neoCommand.perform(sender, args);
                             }
                         } else {
                             neoCommand.perform(sender, args);
@@ -45,10 +46,8 @@ public class CommandFunctionality implements CommandExecutor, TabCompleter {
                     return true;
                 }
             }
-            // If the command is not found, send a message to the player
-            MessageUtil.sendMM(sender, commandBuilder.errorCommandNotFound.get());
-            return true;
-        } else if (commandCanRun(sender, commandBuilder.mainCommand, commandBuilder)) {
+        }
+        if (commandCanRun(sender, commandBuilder.mainCommand, commandBuilder)) {
             commandBuilder.mainCommand.perform(sender, args);
         }
         return true;
