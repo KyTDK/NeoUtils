@@ -67,7 +67,7 @@ public class EasyHelpCommand extends Command {
         return playerOnly;
     }
 
-    private final ManagerHandler managers = NeoUtils.getManagers();
+    private final ManagerHandler managers = NeoUtils.getNeoUtilities().getManagers();
 
     @Override
     public void perform(CommandSender player, String[] args) {

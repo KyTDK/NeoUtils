@@ -7,7 +7,7 @@ public class ServerInfo implements IServerInfo {
     private final ServerMetrics serverMetrics;
 
     public ServerInfo() {
-        serverMetrics = NeoUtils.getInstance().getServerMetrics();
+        serverMetrics = NeoUtils.getNeoUtilities().getServerMetrics();
     }
 
     public long getUptime(ServerMetrics.TimeDataType timeDataType) {

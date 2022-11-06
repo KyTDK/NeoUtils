@@ -196,8 +196,8 @@ public class SpecialItem {
         if (!animatedLore.isEmpty()) {
             new UpdateAnimatedLore(NeoUtils.getInstance(), this).run();
         }
-        if (!NeoUtils.getDataHandler().getItemData().getSpecialItems().containsKey(item)) {
-            NeoUtils.getDataHandler().getItemData().getSpecialItems().put(item, this);
+        if (!NeoUtils.getNeoUtilities().getDataHandler().getItemData().getSpecialItems().containsKey(item)) {
+            NeoUtils.getNeoUtilities().getDataHandler().getItemData().getSpecialItems().put(item, this);
         }
         return item;
     }

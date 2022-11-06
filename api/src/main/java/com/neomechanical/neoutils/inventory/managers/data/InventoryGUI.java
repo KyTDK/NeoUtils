@@ -84,7 +84,7 @@ public class InventoryGUI implements NInventory {
         for (int i = currentPage.getSize() - 9; i < currentPage.getSize(); i++) {
             ItemStack itemCO = currentPage.inventory.getItem(i);
             if (itemCO != null) {
-                InventoryItem itemCOI = NeoUtils.getManagers().getInventoryManager().getMenuItem(currentPage, i);
+                InventoryItem itemCOI = NeoUtils.getNeoUtilities().getManagers().getInventoryManager().getMenuItem(currentPage, i);
                 if (itemCOI != null && itemCOI.getType() != null && itemCOI.getType().equals(InventoryItemType.NAVIGATION)) {
                     continue;
                 }
@@ -108,7 +108,7 @@ public class InventoryGUI implements NInventory {
 
     private void setNavigationButtons(InventoryGUI currentPage, InventoryGUI newPage) {
         // Add buttons
-        Material button = ((ItemVersionWrapper) NeoUtils.getInternalVersions().get("items")).oakButton();
+        Material button = ((ItemVersionWrapper) NeoUtils.getNeoUtilities().getInternalVersions().get("items")).oakButton();
         InventoryItem leftButton = new InventoryItem.InventoryItemBuilder(
                 () -> ItemUtil.createItem(button, ChatColor.GREEN + "Left"))
                 .setAction(event -> currentPage.open((Player) event.getWhoClicked()))

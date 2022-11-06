@@ -28,7 +28,7 @@ public class CommandManager {
     public List<Command> getSubcommands(String commandName) {
         Command command = stringCommandBuilderMap.get(commandName);
         if (command == null) {
-            NeoUtils.getInstance().getFancyLogger().warn("Command " + commandName + " does not exist");
+            NeoUtils.getNeoUtilities().getFancyLogger().warn("Command " + commandName + " does not exist");
             return Collections.emptyList();
         } else {
             return command.getSubcommands();

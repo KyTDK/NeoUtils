@@ -21,7 +21,7 @@ public class Versioning {
     }
 
     public static VersionManager getManager() {
-        return NeoUtils.getManagers().getVersionManager();
+        return NeoUtils.getNeoUtilities().getManagers().getVersionManager();
     }
 
     public String getVersioningName() {
@@ -37,7 +37,7 @@ public class Versioning {
     }
 
     public void register() {
-        NeoUtils.getManagers().getVersionManager().addVersioningClass(versioningName, this);
+        NeoUtils.getNeoUtilities().getManagers().getVersionManager().addVersioningClass(versioningName, this);
     }
 
     public static class VersioningBuilder {

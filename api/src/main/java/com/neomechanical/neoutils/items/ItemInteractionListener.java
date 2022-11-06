@@ -13,7 +13,6 @@ import java.util.function.Consumer;
 
 public class ItemInteractionListener implements Listener {
     private final IItemEventHandlerWrapper eventHandlerWrapper;
-
     public ItemInteractionListener(IItemEventHandlerWrapper eventHandlerWrapper) {
         this.eventHandlerWrapper = eventHandlerWrapper;
     }
@@ -22,7 +21,7 @@ public class ItemInteractionListener implements Listener {
     public void playerInteractEvent(PlayerInteractEvent event) {
         if (eventHandlerWrapper.preventDoubleFire(event)) return;
         ItemStack itemStack = event.getItem();
-        Map<ItemStack, SpecialItem> specialItemMap = NeoUtils.getDataHandler().getItemData().getSpecialItems();
+        Map<ItemStack, SpecialItem> specialItemMap = NeoUtils.getNeoUtilities().getDataHandler().getItemData().getSpecialItems();
         if (specialItemMap.containsKey(itemStack)) {
             for (Consumer<PlayerInteractEvent> action : Objects.requireNonNull(specialItemMap.get(itemStack).getAction(event.getAction()))) {
                 action.accept(event);

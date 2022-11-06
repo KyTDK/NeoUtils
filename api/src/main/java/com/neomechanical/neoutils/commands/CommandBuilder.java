@@ -14,7 +14,7 @@ public class CommandBuilder {
     String parentCommand;
     public Command mainCommand;
     public JavaPlugin plugin;
-    private final ManagerHandler manager = NeoUtils.getManagers();
+    private final ManagerHandler manager = NeoUtils.getNeoUtilities().getManagers();
     public Supplier<String> errorNotPlayer = () -> "You must be a player to use this command";
     public Supplier<String> errorNoPermission = () -> "You do not have permission to use this command!";
     public Supplier<String> errorCommandNotFound = () -> "Command not found!";
@@ -75,6 +75,6 @@ public class CommandBuilder {
     }
 
     public CommandManager getCommandManager() {
-        return NeoUtils.getManagers().getCommandManager();
+        return NeoUtils.getNeoUtilities().getManagers().getCommandManager();
     }
 }

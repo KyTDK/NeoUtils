@@ -15,7 +15,7 @@ public class SendAndReceive {
             player = Iterables.getFirst(Bukkit.getOnlinePlayers(), null);
         }
         CompletableFuture<byte[]> future = new CompletableFuture<>();
-        NeoUtils.getInstance().getBungeeCord().getPluginMessageBroker().request(player, channel, (rec, msg) -> future.complete(msg), message);
+        NeoUtils.getNeoUtilities().getBungeeCord().getPluginMessageBroker().request(player, channel, (rec, msg) -> future.complete(msg), message);
         return future;
     }
 }

@@ -1,6 +1,5 @@
 package com.neomechanical.neoutils.items;
 
-import com.neomechanical.neoutils.NeoUtils;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -14,7 +13,7 @@ public class UpdateAnimatedLore {
     private final JavaPlugin plugin;
     private final SpecialItem specialItem;
 
-    public UpdateAnimatedLore(NeoUtils plugin, SpecialItem specialItem) {
+    public UpdateAnimatedLore(JavaPlugin plugin, SpecialItem specialItem) {
         this.interval = specialItem.getAnimatedLoreUpdateInterval();
         this.specialItem = specialItem;
         this.plugin = plugin;

@@ -26,7 +26,7 @@ public class InventoryFunctionality implements Listener {
         this.plugin = plugin;
     }
 
-    private final InventoryManager inventoryManager = NeoUtils.getManagers().getInventoryManager();
+    private final InventoryManager inventoryManager = NeoUtils.getNeoUtilities().getManagers().getInventoryManager();
 
     @EventHandler
     public void onInventoryClose(InventoryCloseEvent event) {

@@ -3,7 +3,6 @@ package com.neomechanical.neoutils.messages;
 
 import com.neomechanical.neoutils.NeoUtils;
 import net.kyori.adventure.audience.Audience;
-import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -18,8 +17,6 @@ import java.util.List;
 
 public final class MessageUtil {
     //TODO reformat code, its ugly and confusing
-    private static final BukkitAudiences adventure = NeoUtils.getAdventure();
-
     /**
      * A utility class for handling Bukkit messages.
      */
@@ -43,34 +40,34 @@ public final class MessageUtil {
     }
 
     public static void sendMM(CommandSender sendTo, Component parsed) {
-        Audience player = adventure.sender(sendTo);
+        Audience player = NeoUtils.getNeoUtilities().getAdventure().sender(sendTo);
         player.sendMessage(parsed);
     }
 
     public static void sendMM(Player sendTo, Component parsed) {
-        Audience player = adventure.player(sendTo);
+        Audience player = NeoUtils.getNeoUtilities().getAdventure().player(sendTo);
         player.sendMessage(parsed);
     }
 
     public static void sendMM(Player sendTo, TextComponent parsed) {
-        Audience player = adventure.player(sendTo);
+        Audience player = NeoUtils.getNeoUtilities().getAdventure().player(sendTo);
         player.sendMessage(parsed);
     }
 
     public static void sendMM(CommandSender sendTo, TextComponent parsed) {
-        Audience player = adventure.sender(sendTo);
+        Audience player = NeoUtils.getNeoUtilities().getAdventure().sender(sendTo);
         player.sendMessage(parsed);
     }
 
     public static void sendMM(CommandSender sendTo, String msg) {
         MiniMessage mm = MiniMessage.miniMessage();
         Component parsed = mm.deserialize(msg);
-        Audience player = adventure.sender(sendTo);
+        Audience player = NeoUtils.getNeoUtilities().getAdventure().sender(sendTo);
         player.sendMessage(parsed);
     }
 
     public static void sendMMAll(String string) {
-        Audience player = NeoUtils.getAdventure().all();
+        Audience player = NeoUtils.getNeoUtilities().getAdventure().all();
         MiniMessage mm = MiniMessage.miniMessage();
         Component parsed = mm.deserialize(string);
         player.sendMessage(parsed);
@@ -81,7 +78,7 @@ public final class MessageUtil {
         Component parsed = mm.deserialize(string);
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (player.isOp()) {
-                Audience audience = adventure.player(player);
+                Audience audience = NeoUtils.getNeoUtilities().getAdventure().player(player);
                 audience.sendMessage(parsed);
             }
         }

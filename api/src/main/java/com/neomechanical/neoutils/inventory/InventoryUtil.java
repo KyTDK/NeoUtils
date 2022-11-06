@@ -17,17 +17,17 @@ public class InventoryUtil {
 
     public static void registerGUI(InventoryGUI inventoryGUI) {
         if (!isRegistered(inventoryGUI)) {
-            NeoUtils.getManagers().getInventoryManager().put(inventoryGUI);
+            NeoUtils.getNeoUtilities().getManagers().getInventoryManager().put(inventoryGUI);
         }
     }
 
     private static boolean isRegistered(InventoryGUI inventoryGUI) {
-        return NeoUtils.getManagers().getInventoryManager().contains(inventoryGUI);
+        return NeoUtils.getNeoUtilities().getManagers().getInventoryManager().contains(inventoryGUI);
     }
 
     public static void unregisterGUI(InventoryGUI inventoryGUI) {
         if (isRegistered(inventoryGUI)) {
-            NeoUtils.getManagers().getInventoryManager().remove(inventoryGUI);
+            NeoUtils.getNeoUtilities().getManagers().getInventoryManager().remove(inventoryGUI);
         }
     }
 
