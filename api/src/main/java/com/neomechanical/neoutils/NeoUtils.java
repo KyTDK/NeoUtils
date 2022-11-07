@@ -55,7 +55,7 @@ public class NeoUtils extends JavaPlugin {
                 Logger logger = Bukkit.getLogger();
                 if (errorLocation.isEmpty()) {
                     logger.severe("Oh no! I couldn't find the instance of your plugin!");
-                    logger.severe("It seems like you're trying to use JeffLib before your plugin was enabled by the PluginManager.");
+                    logger.severe("It seems like you're trying to use NeoUtils before your plugin was enabled by the PluginManager.");
                     logger.severe("");
                     logger.severe("Please either wait until your plugin's onLoad() or onEnable() method was called, or call");
                     logger.severe("\"NeoUtils.init(this)\" in your plugin's constructor or init block.");
