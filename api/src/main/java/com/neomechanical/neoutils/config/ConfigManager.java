@@ -111,7 +111,17 @@ public class ConfigManager {
             if (!configFile.getParentFile().mkdirs()) {
                 NeoUtils.getNeoUtilities().getFancyLogger().warn("Error occurred creating config file.");
             }
-            plugin.saveResource(configFilePath, false);
+            if (plugin.getResource(configFilePath) != null) {
+                plugin.saveResource(configFilePath, false);
+            } else {
+                try {
+                    if (configFile.createNewFile()) {
+                        NeoUtils.getNeoUtilities().getFancyLogger().info("File already exists, config manager");
+                    }
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
     }
 }
