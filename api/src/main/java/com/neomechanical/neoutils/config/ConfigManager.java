@@ -35,19 +35,27 @@ public class ConfigManager {
 
     //Load the config file into memory
     public void reloadConfig() {
-        saveDefaultConfig();
-        if (configFile == null) {
-            configFile = new File(plugin.getDataFolder(), configFilePath);
-        }
-        config = YamlConfiguration.loadConfiguration(configFile);
-        if (keepDefaults) {
-            InputStream defaultStream = plugin.getResource(configFilePath);
-            //If default stream is not null, then there is a config file in the plugin resources
-            if (defaultStream != null) {
-                YamlConfiguration defaultConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(defaultStream));
-                config.setDefaults(defaultConfig);
-                config.options().copyDefaults(true);
-                saveConfig();
+        configFile = new File(plugin.getDataFolder(), configFilePath);
+        if (!configFile.exists()) {
+            try {
+                if (!configFile.createNewFile()) {
+                    NeoUtils.getNeoUtilities().getFancyLogger()
+                            .fatal("There was an error creating the config file.");
+                    return;
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            config = YamlConfiguration.loadConfiguration(configFile);
+            if (keepDefaults) {
+                InputStream defaultStream = plugin.getResource(configFilePath);
+                //If default stream is not null, then there is a config file in the plugin resources
+                if (defaultStream != null) {
+                    YamlConfiguration defaultConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(defaultStream));
+                    config.setDefaults(defaultConfig);
+                    config.options().copyDefaults(true);
+                    saveConfig();
+                }
             }
         }
     }
@@ -100,28 +108,5 @@ public class ConfigManager {
             return false;
         }
         return true;
-    }
-
-    private void saveDefaultConfig() {
-        //Save config file to directory
-        if (configFile == null) {
-            configFile = new File(plugin.getDataFolder(), configFilePath);
-        }
-        if (!configFile.exists()) {
-            if (!configFile.getParentFile().mkdirs()) {
-                NeoUtils.getNeoUtilities().getFancyLogger().warn("Error occurred creating config file.");
-            }
-            if (plugin.getResource(configFilePath) != null) {
-                plugin.saveResource(configFilePath, false);
-            } else {
-                try {
-                    if (configFile.createNewFile()) {
-                        NeoUtils.getNeoUtilities().getFancyLogger().info("File already exists, config manager");
-                    }
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }
     }
 }
