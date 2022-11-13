@@ -46,18 +46,18 @@ public class ConfigManager {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            config = YamlConfiguration.loadConfiguration(configFile);
-            if (keepDefaults) {
-                InputStream defaultStream = plugin.getResource(configFilePath);
-                //If default stream is not null, then there is a config file in the plugin resources
-                if (defaultStream != null) {
-                    YamlConfiguration defaultConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(defaultStream));
-                    config.setDefaults(defaultConfig);
-                    config.options().copyDefaults(true);
-                    saveConfig();
-                }
+        }
+        if (keepDefaults) {
+            InputStream defaultStream = plugin.getResource(configFilePath);
+            //If default stream is not null, then there is a config file in the plugin resources
+            if (defaultStream != null) {
+                YamlConfiguration defaultConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(defaultStream));
+                config.setDefaults(defaultConfig);
+                config.options().copyDefaults(true);
+                saveConfig();
             }
         }
+        config = YamlConfiguration.loadConfiguration(configFile);
     }
 
     public FileConfiguration getConfig() {
@@ -75,17 +75,15 @@ public class ConfigManager {
         managers.getConfigs().forEach((configFileName, configManager) -> configManager.reloadConfig());
     }
 
-    public boolean saveConfig() {
+    public void saveConfig() {
         if (config == null || configFile == null) {
-            return false;
+            return;
         }
         try {
             config.save(configFile);
         } catch (IOException e) {
             NeoUtils.getNeoUtilities().getFancyLogger().fatal("Could not save config to " + configFile.getPath() + " (3)");
-            return false;
         }
-        return true;
     }
 
     public ConfigManager setConfig(FileConfiguration config) {
