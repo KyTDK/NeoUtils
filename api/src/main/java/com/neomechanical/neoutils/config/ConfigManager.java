@@ -47,6 +47,7 @@ public class ConfigManager {
                 throw new RuntimeException(e);
             }
         }
+        config = YamlConfiguration.loadConfiguration(configFile);
         if (keepDefaults) {
             InputStream defaultStream = plugin.getResource(configFilePath);
             //If default stream is not null, then there is a config file in the plugin resources
@@ -57,7 +58,6 @@ public class ConfigManager {
                 saveConfig();
             }
         }
-        config = YamlConfiguration.loadConfiguration(configFile);
     }
 
     public FileConfiguration getConfig() {
