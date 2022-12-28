@@ -47,7 +47,11 @@ public class VersionMatcher {
                         finalVersion = Versions.vNONLEGACY.toString();
                     }
                 }
-                return versioning.getClassMap().get(finalVersion).getDeclaredConstructor().newInstance();
+                if (versioning.getClassMap().containsKey(finalVersion)) {
+                    return versioning.getClassMap().get(finalVersion).getDeclaredConstructor().newInstance();
+                } else {
+                    throw new RuntimeException("Cannot match \"" + versioningName + "\" for finalVersion: "+finalVersion + " | Versions available: "+versioning.getClassMap().keySet());
+                }
             } catch (InvocationTargetException | NoSuchMethodException e) {
                 throw new RuntimeException(e);
             }

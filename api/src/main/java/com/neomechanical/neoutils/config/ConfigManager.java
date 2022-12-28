@@ -38,6 +38,11 @@ public class ConfigManager {
         configFile = new File(plugin.getDataFolder(), configFilePath);
         if (!configFile.exists()) {
             try {
+                if (!configFile.getParentFile().mkdirs()) {
+                    NeoUtils.getNeoUtilities().getFancyLogger()
+                            .fatal("There was an error creating the config file directory.");
+                    return;
+                }
                 if (!configFile.createNewFile()) {
                     NeoUtils.getNeoUtilities().getFancyLogger()
                             .fatal("There was an error creating the config file.");
