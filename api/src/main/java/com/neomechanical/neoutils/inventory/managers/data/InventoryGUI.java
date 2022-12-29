@@ -150,7 +150,7 @@ public class InventoryGUI implements NInventory {
     }
 
     @Override
-    public InventoryGUI setOpenOnClose(@NotNull InventoryGUI inventory) {
+    public InventoryGUI setOpenOnClose(@Nullable InventoryGUI inventory) {
         this.openOnClose = inventory;
         return this;
     }
@@ -180,10 +180,18 @@ public class InventoryGUI implements NInventory {
         InventoryUtil.openInventory(player, this);
     }
 
+    public void close(Player player) {
+        InventoryGUI tempOpenOnClose = openOnClose;
+        openOnClose = null;
+        player.closeInventory();
+        openOnClose = tempOpenOnClose;
+    }
+
     @NotNull
     public InventoryGUI getPage(InventoryGUI inventoryGUI) {
         return pages.get(pages.indexOf(inventoryGUI));
     }
+
     @NotNull
     public InventoryGUI addPage(InventoryGUI newPage) {
         applyParentTraits(newPage);

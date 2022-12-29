@@ -92,12 +92,13 @@ public interface NInventory {
      *     inventory.
      */
     NInventory setContents(@NotNull InventoryItem[] items) throws IllegalArgumentException;
+
     /**
      * Set the inventory to open the given inventory when closed
      *
      * @param inventory the inventory to open when closed
      */
-    NInventory setOpenOnClose(@NotNull InventoryGUI inventory);
+    NInventory setOpenOnClose(@Nullable InventoryGUI inventory);
 
     NInventory setUnregisterOnClose(boolean unregister);
 

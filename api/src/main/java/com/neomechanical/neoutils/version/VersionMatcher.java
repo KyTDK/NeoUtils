@@ -1,5 +1,6 @@
 package com.neomechanical.neoutils.version;
 
+import com.neomechanical.neoutils.NeoUtils;
 import com.neomechanical.neoutils.version.versions.Versions;
 import org.bukkit.Bukkit;
 
@@ -50,7 +51,8 @@ public class VersionMatcher {
                 if (versioning.getClassMap().containsKey(finalVersion)) {
                     return versioning.getClassMap().get(finalVersion).getDeclaredConstructor().newInstance();
                 } else {
-                    throw new RuntimeException("Cannot match \"" + versioningName + "\" for finalVersion: "+finalVersion + " | Versions available: "+versioning.getClassMap().keySet());
+                    NeoUtils.getNeoUtilities().getFancyLogger().severe("Cannot match \"" + versioningName + "\" for finalVersion: " + finalVersion + " | Versions available: " + versioning.getClassMap().keySet());
+                    return null;
                 }
             } catch (InvocationTargetException | NoSuchMethodException e) {
                 throw new RuntimeException(e);
