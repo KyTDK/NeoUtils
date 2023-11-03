@@ -36,26 +36,29 @@ public class ConfigManager {
     //Load the config file into memory
     public void reloadConfig() {
         configFile = new File(plugin.getDataFolder(), configFilePath);
+
         if (!configFile.exists()) {
-            try {
+            // Create the directory and the config file if they don't exist
+            if (!configFile.getParentFile().exists()) {
                 if (!configFile.getParentFile().mkdirs()) {
-                    NeoUtils.getNeoUtilities().getFancyLogger()
-                            .fatal("There was an error creating the config file directory.");
+                    NeoUtils.getNeoUtilities().getFancyLogger().fatal("Error creating directory");
                     return;
                 }
+            }
+
+            try {
                 if (!configFile.createNewFile()) {
-                    NeoUtils.getNeoUtilities().getFancyLogger()
-                            .fatal("There was an error creating the config file.");
                     return;
                 }
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                throw new RuntimeException("Error creating the config file: " + e.getMessage(), e);
             }
         }
+
         config = YamlConfiguration.loadConfiguration(configFile);
+
         if (keepDefaults) {
             InputStream defaultStream = plugin.getResource(configFilePath);
-            //If default stream is not null, then there is a config file in the plugin resources
             if (defaultStream != null) {
                 YamlConfiguration defaultConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(defaultStream));
                 config.setDefaults(defaultConfig);
