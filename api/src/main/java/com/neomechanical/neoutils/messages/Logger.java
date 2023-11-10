@@ -32,7 +32,7 @@ public class Logger {
      * @param message The message that will be logged
      */
     public void warn(String message) {
-        Bukkit.getLogger().warning(prefix + MessageUtil.parse(message));
+        Bukkit.getLogger().warning(prefix + message);
     }
     /**
      * Print an info message,
@@ -40,7 +40,7 @@ public class Logger {
      * @param message The message that will be logged
      */
     public void info(String message) {
-        Bukkit.getLogger().info(prefix + MessageUtil.parse(message));
+        Bukkit.getLogger().info(prefix + message);
     }
     /**
      * Print an severe message,
@@ -48,7 +48,7 @@ public class Logger {
      * @param message The message that will be logged
      */
     public void severe(String message) {
-        Bukkit.getLogger().severe(prefix + MessageUtil.parse(message));
+        Bukkit.getLogger().severe(prefix + message);
     }
     /**
      * Print a fatal message and disable the plugin.
@@ -56,7 +56,19 @@ public class Logger {
      * @param message The message that will be logged
      */
     public void fatal(String message) {
-        Bukkit.getLogger().severe(prefix + MessageUtil.parse(message));
+        Bukkit.getLogger().severe(prefix + message);
         Bukkit.getPluginManager().disablePlugin(plugin);
+    }
+
+
+    /**
+     * @param message   The message that will be logged
+     * @param usePrefix Whether to use the prefix or not
+     */
+    public void fancyLog(String message, boolean usePrefix) {
+        if (usePrefix) {
+            message = prefix + message;
+        }
+        MessageUtil.sendConsole(message);
     }
 }

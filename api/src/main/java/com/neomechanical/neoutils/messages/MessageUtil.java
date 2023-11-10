@@ -121,4 +121,9 @@ public final class MessageUtil {
         neoComponentArray.forEach(msg -> sendMM(player, msg));
         neoComponentArray.clear();
     }
+
+    public static void sendConsole(String message) {
+        Audience console = NeoUtils.getNeoUtilities().getAdventure().console();
+        console.sendMessage(parseComponent(message));
+    }
 }
