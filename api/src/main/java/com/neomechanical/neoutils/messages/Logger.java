@@ -32,7 +32,7 @@ public class Logger {
      * @param message The message that will be logged
      */
     public void warn(String message) {
-        Bukkit.getLogger().warning(prefix + message);
+        Bukkit.getLogger().warning(prefix + MessageUtil.parse(message));
     }
     /**
      * Print an info message,
@@ -40,7 +40,7 @@ public class Logger {
      * @param message The message that will be logged
      */
     public void info(String message) {
-        Bukkit.getLogger().info(prefix + message);
+        Bukkit.getLogger().info(prefix + MessageUtil.parse(message));
     }
     /**
      * Print an severe message,
@@ -48,7 +48,7 @@ public class Logger {
      * @param message The message that will be logged
      */
     public void severe(String message) {
-        Bukkit.getLogger().severe(prefix + message);
+        Bukkit.getLogger().severe(prefix + MessageUtil.parse(message));
     }
     /**
      * Print a fatal message and disable the plugin.
@@ -56,7 +56,7 @@ public class Logger {
      * @param message The message that will be logged
      */
     public void fatal(String message) {
-        Bukkit.getLogger().severe(prefix + message);
+        Bukkit.getLogger().severe(prefix + MessageUtil.parse(message));
         Bukkit.getPluginManager().disablePlugin(plugin);
     }
 }
