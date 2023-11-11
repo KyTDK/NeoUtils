@@ -3,17 +3,22 @@ package com.neomechanical.neoutils.config;
 
 import com.neomechanical.neoutils.NeoUtils;
 import com.neomechanical.neoutils.manager.ManagerHandler;
+import lombok.Getter;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
+import org.yaml.snakeyaml.Yaml;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ConfigManager {
     //File of the config
+    @Getter
     private File configFile = null;
     //The actual config
     private FileConfiguration config;
@@ -68,6 +73,35 @@ public class ConfigManager {
         }
     }
 
+    /**
+     * Get a HashMap representation of the loaded configuration.
+     *
+     * @return A HashMap containing the configuration key-value pairs.
+     */
+    public Map<String, Object> getConfigAsMap() {
+        try (InputStream inputStream = plugin.getResource(configFilePath)) {
+            if (inputStream != null) {
+                Yaml yaml = new Yaml();
+                Object object = yaml.load(inputStream);
+
+                // Check if the result is a map, and cast it accordingly
+                if (object instanceof Map) {
+                    //noinspection unchecked
+                    return (Map<String, Object>) object;
+                } else {
+                    NeoUtils.getNeoUtilities().getFancyLogger().warn("YAML file does not represent a map: " + configFilePath);
+                    return new HashMap<>();
+                }
+            } else {
+                NeoUtils.getNeoUtilities().getFancyLogger().warn("YAML file not found: " + configFilePath);
+                return new HashMap<>();
+            }
+        } catch (Exception e) {
+            NeoUtils.getNeoUtilities().getFancyLogger().warn("Error loading YAML file: " + e.getMessage());
+            return new HashMap<>();
+        }
+    }
+
     public FileConfiguration getConfig() {
         if (config == null) {
             reloadConfig();
@@ -97,10 +131,6 @@ public class ConfigManager {
     public ConfigManager setConfig(FileConfiguration config) {
         this.config = config;
         return this;
-    }
-
-    public File getConfigFile() {
-        return configFile;
     }
 
     public boolean saveConfig(FileConfiguration config) {
