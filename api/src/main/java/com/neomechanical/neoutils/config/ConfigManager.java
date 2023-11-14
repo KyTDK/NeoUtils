@@ -12,7 +12,7 @@ import org.yaml.snakeyaml.Yaml;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -63,12 +63,10 @@ public class ConfigManager {
         config = YamlConfiguration.loadConfiguration(configFile);
 
         if (keepDefaults) {
-            InputStream defaultStream = plugin.getResource(configFilePath);
-            if (defaultStream != null) {
-                YamlConfiguration defaultConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(defaultStream));
-                config.setDefaults(defaultConfig);
-                config.options().copyDefaults(true);
-                saveConfig();
+            try {
+                ConfigUpdater.update(plugin, configFilePath, configFile, Collections.singletonList(""));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
         }
     }
@@ -99,6 +97,36 @@ public class ConfigManager {
         } catch (Exception e) {
             NeoUtils.getNeoUtilities().getFancyLogger().warn("Error loading YAML file: " + e.getMessage());
             return new HashMap<>();
+        }
+    }
+
+    /**
+     * Load the configuration into a provided class instance.
+     *
+     * @param targetClass The class to be populated with configuration values.
+     * @param <T>         The type of the target class.
+     * @return An instance of the provided class populated with configuration values.
+     */
+    public <T> T loadConfigIntoClass(Class<T> targetClass) {
+        try (InputStream inputStream = plugin.getResource(configFilePath)) {
+            if (inputStream == null) {
+                NeoUtils.getNeoUtilities().getFancyLogger().warn("YAML file not found: " + configFilePath);
+                return null;
+            }
+
+            Yaml yaml = new Yaml();
+            T configObject = yaml.loadAs(inputStream, targetClass);
+
+            if (configObject != null) {
+                return configObject;
+            } else {
+                NeoUtils.getNeoUtilities().getFancyLogger().warn("YAML file does not represent the expected class: " + configFilePath);
+                return null;
+            }
+        } catch (Exception e) {
+            NeoUtils.getNeoUtilities().getFancyLogger().warn("Error loading configuration into class: " + e.getMessage());
+            e.printStackTrace();
+            return null;
         }
     }
 
