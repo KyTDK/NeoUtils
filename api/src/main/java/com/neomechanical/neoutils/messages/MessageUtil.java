@@ -47,6 +47,10 @@ public final class MessageUtil {
         player.sendMessage(color(message));
     }
 
+    public static void send(CommandSender commandSender, String message) {
+        commandSender.sendMessage(color(message));
+    }
+
     public static void sendMM(CommandSender sendTo, Component parsed) {
         Audience player = NeoUtils.getNeoUtilities().getAdventure().sender(sendTo);
         player.sendMessage(parsed);
