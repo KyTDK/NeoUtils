@@ -32,7 +32,7 @@ import java.util.function.Consumer;
 public class InventoryGUI implements NInventory {
     private @NotNull final Inventory inventory;
     private @NotNull final List<InventoryGUI> pages = new ArrayList<>();
-    private final Map<Integer, InventoryItem> inventoryItems = new HashMap<>();
+    private Map<Integer, InventoryItem> inventoryItems = new HashMap<>();
     private @NotNull final String title;
     private @Nullable InventoryGUI openOnClose = null;
     private boolean unregisterOnClose = true;
@@ -214,6 +214,16 @@ public class InventoryGUI implements NInventory {
         }
         return this;
     }
+
+    public InventoryGUI update(InventoryGUI gui) {
+        inventoryItems = gui.inventoryItems;
+        inventory.clear();
+        for (int slot : inventoryItems.keySet()) {
+            inventory.setItem(slot, inventoryItems.get(slot).getItem().get());
+        }
+        return this;
+    }
+
     private void applyParentTraits(InventoryGUI newPage) {
         if (pagesInheritParentSettings) {
             newPage.setPagesInheritParentSettings(true);
