@@ -38,7 +38,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-class LibraryLoader {
+public class LibraryLoader {
     private final RepositorySystem repository;
     private final DefaultRepositorySystemSession session;
     private final List<RemoteRepository> repositories;
