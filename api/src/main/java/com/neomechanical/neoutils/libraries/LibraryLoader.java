@@ -3,7 +3,6 @@ package com.neomechanical.neoutils.libraries;
 
 import com.neomechanical.neoutils.NeoUtils;
 import org.apache.maven.repository.internal.MavenRepositorySystemUtils;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -29,6 +28,7 @@ import org.eclipse.aether.transfer.TransferEvent;
 import org.eclipse.aether.transport.http.HttpTransporterFactory;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.yaml.snakeyaml.reader.UnicodeReader;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -62,16 +62,20 @@ public class LibraryLoader {
         });
         session.setReadOnly();
 
-        this.repositories = Arrays.asList(repositories);
+        this.repositories = repository.newResolutionRepositories(session, Arrays.asList(repositories));
     }
 
     @Nullable
     public ClassLoader createLoader(@NotNull JavaPlugin plugin) {
         PluginDescriptionFile desc = plugin.getDescription();
-        FileConfiguration config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "plugin.yml"));
-        List<String> libraries = config.getStringList("libraries");
+        YamlConfiguration description = YamlConfiguration.loadConfiguration(new UnicodeReader(plugin.getResource("plugin.yml")));
+        List<String> libraries = description.getStringList("dependencies");
 
+        for (String library : libraries) {
+            NeoUtils.getNeoUtilities().getFancyLogger().info(library);
+        }
         if (libraries.isEmpty()) {
+            NeoUtils.getNeoUtilities().getFancyLogger().info("empty");
             return null;
         }
         NeoUtils.getNeoUtilities().getFancyLogger().info("[" + desc.getName() + "] " + "Loading " + libraries.size() + " libraries... please wait");
