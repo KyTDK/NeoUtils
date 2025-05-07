@@ -69,7 +69,7 @@ public class InventoryGUI implements NInventory {
             if (!pages.isEmpty()) {
                 currentPage = pages.get(pages.size() - 1);
             }
-            // If overflow occurs and its not a page
+            // If overflow occurs and it's not a page
             if (Size.amountOfFilledSlots(currentPage.inventory) + 1 > currentPage.getSize()) {
                 overflowGUI(currentPage, item);
             } else {
@@ -77,6 +77,14 @@ public class InventoryGUI implements NInventory {
             }
         }
         return this;
+    }
+
+    public @NotNull Inventory getInventory() {
+        return inventory;
+    }
+
+    public Map<Integer, InventoryItem> getInventoryItems() {
+        return inventoryItems;
     }
 
     private void overflowGUI(InventoryGUI currentPage, InventoryItem item) {
