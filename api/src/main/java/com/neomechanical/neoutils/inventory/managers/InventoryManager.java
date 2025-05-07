@@ -16,8 +16,9 @@ public class InventoryManager {
 
     /**
      * Get the inventory GUI from an id.
+     *
      * @param inventoryGUI the inventory GUI
-     * @param item the item
+     * @param item         the item
      * @return the shop GUI
      */
     @Deprecated
@@ -39,6 +40,7 @@ public class InventoryManager {
     public boolean isGUI(Inventory inventory) {
         return inventoryGuiMap.containsKey(inventory);
     }
+
     /**
      * Get the inventory GUI from an id.
      *
