@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="NeoUtils-parent [clean,install]" type="MavenRunConfiguration" factoryName="Maven" nameIsGenerated="true">
+  <configuration default="false" name="NeoUtils-parent [clean,deploy]" type="MavenRunConfiguration" factoryName="Maven" nameIsGenerated="true">
     <MavenSettings>
       <option name="myGeneralSettings" />
       <option name="myRunnerSettings" />
@@ -12,7 +12,7 @@
           <option name="goals">
             <list>
               <option value="clean" />
-              <option value="install" />
+              <option value="deploy" />
             </list>
           </option>
           <option name="multimoduleDir" />

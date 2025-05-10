@@ -17,12 +17,17 @@ public class VersionMatcher {
      */
     public VersionMatcher(VersionManager versionManager) {
         this.versionManager = versionManager;
-        serverVersion = Bukkit.getServer()
+        String[] packageParts = Bukkit.getServer()
                 .getClass()
                 .getPackage()
                 .getName()
-                .split("\\.")[3]
-                .substring(1);
+                .split("\\.");
+
+        if (packageParts.length >= 4 && packageParts[3].startsWith("v")) {
+            serverVersion = packageParts[3].substring(1);  // strip leading 'v'
+        } else {
+            throw new IllegalStateException("Unexpected server package format: " + String.join(".", packageParts));
+        }
     }
 
     public Map<String, VersionWrapper> matchAll() {

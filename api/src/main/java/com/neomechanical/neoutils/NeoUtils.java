@@ -60,7 +60,7 @@ public class NeoUtils extends JavaPlugin {
                     logger.severe("Please either wait until your plugin's onLoad() or onEnable() method was called, or call");
                     logger.severe("\"NeoUtils.init(this)\" in your plugin's constructor or init block.");
                 } else {
-                    logger.severe("Oh no! You're trying to access one of JeffLib's methods before your plugin was enabled at the following location:");
+                    logger.severe("Oh no! You're trying to access one of the methods before your plugin was enabled at the following location:");
                     logger.severe("");
                     for (String element : errorLocation) {
                         logger.severe("   " + element);
