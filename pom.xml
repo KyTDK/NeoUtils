@@ -122,7 +122,7 @@
     <distributionManagement>
         <repository>
             <id>neomechanical-releases</id>
-            <url>https://hub.neomechanical.com/repository/mav en-releases/</url>
+            <url>https://hub.neomechanical.com/repository/maven-releases/</url>
         </repository>
         <snapshotRepository>
             <id>neomechanical-snapshots</id>
