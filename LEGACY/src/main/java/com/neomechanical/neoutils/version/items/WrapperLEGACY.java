@@ -11,6 +11,14 @@ public class WrapperLEGACY implements ItemVersionWrapper {
 
     @Override
     public Material oakButton() {
-        return Material.WOOD_BUTTON;
+        Material legacy = Material.matchMaterial("WOOD_BUTTON");
+        if (legacy != null) {
+            return legacy;
+        }
+        Material modern = Material.matchMaterial("OAK_BUTTON");
+        if (modern != null) {
+            return modern;
+        }
+        return Material.STONE_BUTTON;
     }
 }
