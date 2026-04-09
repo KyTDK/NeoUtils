@@ -10,13 +10,17 @@ import java.util.Map;
 
 public class VersionMatcher {
     private final VersionManager versionManager;
-    String serverVersion;
+    private final String serverVersion;
 
     /***
      * @throws IllegalStateException If the version wrapper failed to be instantiated or is unable to be found
      */
     public VersionMatcher(VersionManager versionManager) {
         this.versionManager = versionManager;
+        this.serverVersion = resolveServerVersion();
+    }
+
+    private String resolveServerVersion() {
         String[] packageParts = Bukkit.getServer()
                 .getClass()
                 .getPackage()
@@ -24,10 +28,18 @@ public class VersionMatcher {
                 .split("\\.");
 
         if (packageParts.length >= 4 && packageParts[3].startsWith("v")) {
-            serverVersion = packageParts[3].substring(1);  // strip leading 'v'
-        } else {
-            throw new IllegalStateException("Unexpected server package format: " + String.join(".", packageParts));
+            return packageParts[3].substring(1);  // strip leading 'v'
         }
+
+        // Modern Paper builds no longer include versioned craftbukkit packages.
+        // Fall back to Bukkit's semantic version and map it to matcher format.
+        String bukkitVersion = Bukkit.getBukkitVersion(); // e.g. 1.21.11-R0.1-SNAPSHOT
+        String[] versionParts = bukkitVersion.split("-")[0].split("\\.");
+        if (versionParts.length >= 2) {
+            return versionParts[0] + "_" + versionParts[1] + "_R1";
+        }
+
+        throw new IllegalStateException("Unexpected server package format: " + String.join(".", packageParts));
     }
 
     public Map<String, VersionWrapper> matchAll() {

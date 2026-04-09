@@ -19,6 +19,7 @@ public class NeoUtils extends JavaPlugin {
     private static Plugin plugin;
     private static NeoUtilities neoUtilities;
     private static boolean checkedRelocation;
+    private static boolean initialized;
 
     static {
         checkRelocation();
@@ -111,12 +112,18 @@ public class NeoUtils extends JavaPlugin {
         return neoUtilities;
     }
 
-    public static void init(Plugin plugin) {
+    public static synchronized void init(Plugin plugin) {
+        // Avoid duplicate init/listener registration when init is called multiple times.
+        if (initialized && NeoUtils.plugin == plugin && neoUtilities != null) {
+            return;
+        }
+
         NeoUtils.plugin = plugin;
         neoUtilities = new NeoUtilities(plugin);
         neoUtilities.init();
         plugin.getServer().getPluginManager().registerEvents(new InventoryFunctionality(plugin), plugin);
         plugin.getServer().getPluginManager().registerEvents(new ItemInteractionListener((IItemEventHandlerWrapper) neoUtilities.getInternalVersions().get("specialItemInteractions")), plugin);
+        initialized = true;
     }
 
     @Override
@@ -127,6 +134,7 @@ public class NeoUtils extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        initialized = false;
         BukkitAudiences adventure = getNeoUtilities().getAdventure();
         adventure.close();
         //make sure to unregister the registered channels in case of a reload
