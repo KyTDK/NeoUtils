@@ -26,7 +26,7 @@ jobs:
           cache: maven
 
       - name: Build core modules
-        run: mvn -B -ntp -pl abstraction,api -am clean verify -DskipTests
+        run: mvn -U -B -ntp -pl abstraction,api -am clean verify -DskipTests
 
       - name: Upload API artifact
         uses: actions/upload-artifact@v4
